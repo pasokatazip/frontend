@@ -1,0 +1,27 @@
+services:
+  front:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+
+    container_name: app-front
+
+    ports:
+      - "3000:3000"
+
+    environment:
+      # ブラウザからbackendAPIへアクセス
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8080
+
+    volumes:
+      # ローカルのコード変更をコンテナに反映
+      - .:/app
+
+      # node_modulesはコンテナ側volumeで保持
+      - front-node-modules:/app/node_modules
+
+    command: npm run dev -- -H 0.0.0.0
+
+volumes:
+  front-node-modules:
