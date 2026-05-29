@@ -21,7 +21,7 @@ services:
       # node_modulesはコンテナ側volumeで保持
       - front-node-modules:/app/node_modules
 
-    command: npm run dev -- -H 0.0.0.0
+    command: pnpm run dev -H 0.0.0.0
 
 volumes:
   front-node-modules:
