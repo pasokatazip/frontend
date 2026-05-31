@@ -28,6 +28,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # pnpmコマンドを使えるようにする
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.16.1
+
       # Node.js 24 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -35,9 +41,6 @@ jobs:
           node-version: 24
           cache: pnpm # キャッシュの設定
 
-      # pnpmをインストール
-      - name: Install pnpm
-        run: npm install -g pnpm@10.16.1
 
       # pnpm-lock.yaml から依存関係をインストール
       - name: Install dependencies
