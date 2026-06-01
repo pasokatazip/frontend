@@ -103,3 +103,38 @@ jobs:
           tags: |
             ghcr.io/pasokatazip/frontend:${{ github.ref_name }}
             ghcr.io/pasokatazip/frontend:${{ github.sha }}
+
+
+  update-k3s:
+    name: Update k3s frontend manifest
+    runs-on: ubuntu-latest
+    needs: docker
+
+    # push時だけk3s repoを更新する
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+
+    steps:
+      # k3s repoを取得する
+      - name: Checkout k3s repo
+        uses: actions/checkout@v4
+        with:
+          repository: pasokatazip/k3s
+          ref: develop
+          token: ${{ secrets.K3S_REPO_TOKEN }}
+          path: k3s
+
+      # frontend Deploymentのimage tagを今回のcommit SHAに変更する
+      - name: Update frontend image tag
+        run: |
+          cd k3s
+          sed -i "s|image: ghcr.io/pasokatazip/frontend:.*|image: ghcr.io/pasokatazip/frontend:${{ github.sha }}|" apps/frontend/deployment.yaml
+
+      # k3s repoのdevelopへcommit/pushする
+      - name: Commit and push
+        run: |
+          cd k3s
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add apps/frontend/deployment.yaml
+          git commit -m "deploy: update frontend image to ${{ github.sha }}" || exit 0
+          git push origin develop
