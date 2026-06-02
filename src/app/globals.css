@@ -3,6 +3,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --content-max-width: 56rem;
+  --page-padding-block: 2.5rem;
+  --page-padding-inline: 1.5rem;
+  --layout-gap: 2rem;
+  --grid-item-min-width: 18rem;
 }
 
 @theme inline {
@@ -19,8 +24,67 @@
   }
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
+  min-width: 0;
+  overflow-x: clip;
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+img,
+video,
+canvas {
+  max-width: 100%;
+}
+
+.page-shell {
+  min-height: 100svh;
+  padding: var(--page-padding-block) var(--page-padding-inline);
+}
+
+.page-container {
+  width: min(100%, var(--content-max-width));
+  margin-inline: auto;
+}
+
+.responsive-row {
+  display: flex;
+  gap: var(--layout-gap);
+}
+
+.responsive-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, var(--grid-item-min-width)), 1fr)
+  );
+  gap: var(--layout-gap);
+}
+
+@media (max-width: 47.999rem) {
+  :root {
+    --page-padding-block: 1.5rem;
+    --page-padding-inline: 1rem;
+    --layout-gap: 1.25rem;
+    --grid-item-min-width: 15rem;
+  }
+
+  html {
+    font-size: clamp(14px, 3.65vw, 16px);
+  }
+
+  .responsive-row {
+    flex-direction: column;
+  }
 }
