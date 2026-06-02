@@ -2,8 +2,8 @@ import { PixiStage } from "@/components/PixiStage";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-zinc-50 px-6 py-10 text-zinc-950 dark:bg-black dark:text-zinc-50">
-      <div className="mx-auto flex w-full max-w-4xl flex-col gap-8">
+    <main className="page-shell bg-zinc-50 text-zinc-950 dark:bg-black dark:text-zinc-50">
+      <div className="page-container flex flex-col gap-8">
         <header className="space-y-3">
           <p className="text-sm font-medium text-sky-600 dark:text-sky-400">
             Next.js App Router / Pixi.js / Tailwind CSS / Storybook / oxlint
