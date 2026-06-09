@@ -1,21 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { Button } from "./button";
+import { BlueButton } from "./BlueButton";
 
 const meta = {
   title: "UI/Button",
-  component: Button,
+  component: BlueButton,
   parameters: {
     layout: "centered",
   },
   args: {
     children: "テキスト",
-    variant: "green",
-  },
-  argTypes: {
-    variant: {
-      control: "select",
-      options: ["green"],
-    },
   },
   decorators: [
     (Story) => (
@@ -24,10 +17,10 @@ const meta = {
       </div>
     ),
   ],
-} satisfies Meta<typeof Button>;
+} satisfies Meta<typeof BlueButton>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Blue: Story = {};
