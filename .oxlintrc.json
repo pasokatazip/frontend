@@ -6,7 +6,6 @@
     "nextjs",
     "promise",
     "react",
-    "react-perf",
     "typescript",
     "unicorn"
   ],
@@ -39,9 +38,6 @@
     "react/no-danger": "warn",
     "react/rules-of-hooks": "error",
     "react/self-closing-comp": "warn",
-    "react-perf/jsx-no-new-array-as-prop": "warn",
-    "react-perf/jsx-no-new-function-as-prop": "warn",
-    "react-perf/jsx-no-new-object-as-prop": "warn",
     "unicorn/no-useless-undefined": "warn",
     "unicorn/prefer-string-replace-all": "warn"
   },
@@ -49,8 +45,7 @@
     {
       "files": ["*.stories.ts", "*.stories.tsx"],
       "rules": {
-        "import/no-default-export": "off",
-        "react-perf/jsx-no-new-array-as-prop": "off"
+        "import/no-default-export": "off"
       }
     }
   ]
