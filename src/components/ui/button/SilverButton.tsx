@@ -19,7 +19,7 @@ export function SilverButton({
   return (
     <button
       className={clsx(
-        "h-24 w-full max-w-5xl rounded-full border-2 border-transparent text-2xl font-bold text-white",
+        "inline-flex h-24 w-full max-w-5xl items-center justify-center rounded-full border-2 border-transparent font-[Inter] text-2xl leading-none font-normal tracking-normal text-black [text-shadow:0_0_2px_#FFFFFF]",
         className,
       )}
       style={{ ...silverButtonStyle, ...style }}
