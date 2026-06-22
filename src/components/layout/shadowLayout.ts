@@ -7,4 +7,6 @@ export const shadows = {
   black: "0 0 4px #525252",
   lightblue: "0 0 4px #5BD4EC",
   dropblue: "0 0 4px #0041FF",
+  white: "inset 0 4px 10px #FFFFFF",
+  dropwhite: "0 0 2px #FFFFFF",
 } satisfies Record<string, CSSProperties["boxShadow"]>;
