@@ -3,41 +3,41 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
-  loginErrorMessage,
-  loginSchema,
-  type LoginFormValues,
-} from "@/features/auth/schemas/loginSchema";
-import { LoginView } from "./LoginView";
+  signupErrorMessage,
+  signupSchema,
+  type SignupFormValues,
+} from "@/features/auth/schemas/signupSchema";
+import { SignupView } from "./SignupView";
 
-export function LoginContainer() {
+export function SignupContainer() {
   const {
     formState: { errors, isSubmitting },
     handleSubmit,
     register,
     setError,
-  } = useForm<LoginFormValues>({
+  } = useForm<SignupFormValues>({
     defaultValues: {
       email: "",
       password: "",
     },
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(signupSchema),
   });
 
   // APIの接続はauth/apiに切り出す
-  function onSubmit(values: LoginFormValues) {
+  function onSubmit(values: SignupFormValues) {
     void values;
     setError("root", {
-      message: loginErrorMessage,
+      message: signupErrorMessage,
     });
   }
 
   const formError =
     errors.root?.message ??
     errors.email?.message ??
-    (errors.password ? loginErrorMessage : undefined);
+    (errors.password ? signupErrorMessage : undefined);
 
   return (
-    <LoginView
+    <SignupView
       emailInvalid={Boolean(errors.email)}
       emailInputProps={register("email")}
       formError={formError}
