@@ -1,32 +1,28 @@
 import { clsx } from "clsx";
 import type { ButtonHTMLAttributes, CSSProperties } from "react";
 import { gradients } from "@/components/layout/gradientLayout";
-
-const buttonBaseClassName =
-  "h-24 w-full max-w-5xl rounded-full border-2 border-transparent text-2xl font-bold text-white";
-
-const silverButtonShadowClassName =
-  "shadow-[0_0_5px_#5BD4EC,inset_0_4px_10px_#FFFFFF]";
+import { shadows } from "@/components/layout/shadowLayout";
 
 const silverButtonStyle = {
   background: gradients.silver,
+  boxShadow: shadows.silver,
 } satisfies CSSProperties;
 
 type SilverButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
 export function SilverButton({
   className,
+  style,
   type = "button",
   ...props
 }: SilverButtonProps) {
   return (
     <button
       className={clsx(
-        buttonBaseClassName,
-        silverButtonShadowClassName,
+        "inline-flex h-24 w-full max-w-5xl items-center justify-center rounded-full border-2 border-transparent font-[Inter] text-2xl leading-none font-normal tracking-normal text-black [text-shadow:0_0_2px_#FFFFFF]",
         className,
       )}
-      style={silverButtonStyle}
+      style={{ ...silverButtonStyle, ...style }}
       type={type}
       {...props}
     />
