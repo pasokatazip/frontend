@@ -14,9 +14,6 @@ export function HomeView({ effectImage, title }: HomeViewProps) {
   return (
     <>
       <main className="min-h-svh bg-[url('/images/home/background.png')] bg-cover bg-center">
-        <div className="flex min-h-svh items-center justify-center">
-          <h1 className="text-5xl font-bold text-white">{title}</h1>
-        </div>
         <Image
           src={effectImage.src}
           alt=""
