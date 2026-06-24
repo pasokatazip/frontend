@@ -26,7 +26,7 @@ export function LoginForm({
 }: LoginFormProps) {
   return (
     <form
-      className="mt-12 w-full rounded-[0.9rem] border border-white/30 bg-white/40 px-7 py-12 backdrop-blur-[10px]"
+      className="auth-form mt-12 w-full rounded-[0.9rem] border border-white/30 bg-white/40 px-7 py-12 backdrop-blur-[10px]"
       onSubmit={onSubmit}
       style={{ boxShadow: shadows.black }}
     >
@@ -75,7 +75,7 @@ export function LoginForm({
       </div>
 
       <BlueButton
-        className="mt-16 max-w-full text-base"
+        className="auth-form-submit mt-16 max-w-full text-base"
         disabled={isSubmitting}
         style={{ height: "4rem" }}
         type="submit"

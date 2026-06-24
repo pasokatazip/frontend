@@ -8,6 +8,8 @@
   --page-padding-inline: 1.5rem;
   --layout-gap: 2rem;
   --grid-item-min-width: 18rem;
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 @theme inline {
@@ -35,6 +37,8 @@ html {
 }
 
 body {
+  min-height: 100svh;
+  min-height: 100dvh;
   min-width: 0;
   overflow-x: clip;
   background: var(--background);
@@ -50,7 +54,26 @@ canvas {
 
 .page-shell {
   min-height: 100svh;
+  min-height: 100dvh;
   padding: var(--page-padding-block) var(--page-padding-inline);
+}
+
+.mobile-screen {
+  min-height: 100svh;
+  min-height: 100dvh;
+}
+
+.mobile-scroll-screen {
+  min-height: 100svh;
+  min-height: 100dvh;
+  overflow-x: clip;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.auth-screen {
+  padding-top: calc(4rem + var(--safe-area-top));
+  padding-bottom: calc(4rem + var(--safe-area-bottom));
 }
 
 .page-container {
@@ -86,5 +109,31 @@ canvas {
 
   .responsive-row {
     flex-direction: column;
+  }
+}
+
+@media (max-height: 44rem) {
+  .auth-screen {
+    padding-top: calc(2rem + var(--safe-area-top));
+    padding-bottom: calc(2rem + var(--safe-area-bottom));
+  }
+
+  .auth-logo {
+    width: 13.5rem;
+    height: 5.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .auth-form {
+    margin-top: 2rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .auth-form-submit {
+    margin-top: 2.5rem;
+  }
+
+  .auth-secondary-text {
+    margin-top: 2rem;
   }
 }
