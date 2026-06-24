@@ -32,7 +32,7 @@ export function LoginView({
   passwordInputProps,
 }: LoginViewProps) {
   return (
-    <main className="flex min-h-svh justify-center bg-[url('/images/top/background.png')] bg-cover bg-center px-6 py-16">
+    <main className="mobile-scroll-screen auth-screen flex justify-center bg-[url('/images/top/background.png')] bg-cover bg-center px-6">
       <div className="flex w-full max-w-[26.25rem] flex-col items-center">
         <h1
           className="translate-y-3 font-[Inter] text-lg leading-7 font-normal tracking-normal text-white"
@@ -47,7 +47,7 @@ export function LoginView({
           width={logo.width}
           height={logo.height}
           priority
-          className="mt-9 h-[6.25rem] w-[16.25rem] max-w-full"
+          className="auth-logo mt-9 h-[6.25rem] w-[16.25rem] max-w-full"
         />
 
         <LoginForm
@@ -60,7 +60,7 @@ export function LoginView({
           passwordInputProps={passwordInputProps}
         />
 
-        <p className="mt-12 font-[Inter] text-sm leading-none font-normal tracking-normal text-[#454545]">
+        <p className="auth-secondary-text mt-12 font-[Inter] text-sm leading-none font-normal tracking-normal text-[#454545]">
           アカウントをお持ちでない方は
         </p>
 

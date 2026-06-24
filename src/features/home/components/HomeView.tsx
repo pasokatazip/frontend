@@ -13,13 +13,13 @@ type HomeViewProps = {
 export function HomeView({ effectImage, title }: HomeViewProps) {
   return (
     <>
-      <main className="min-h-svh bg-[url('/images/home/background.png')] bg-cover bg-center">
+      <main className="mobile-screen bg-[url('/images/home/background.png')] bg-cover bg-center">
         <Image
           src={effectImage.src}
           alt=""
           width={effectImage.width}
           height={effectImage.height}
-          className="fixed bottom-0 left-0 max-w-fit"
+          className="fixed bottom-[env(safe-area-inset-bottom)] left-0 max-w-fit"
         />
       </main>
       <Footer />
