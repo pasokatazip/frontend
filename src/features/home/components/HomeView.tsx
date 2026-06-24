@@ -14,9 +14,6 @@ export function HomeView({ effectImage, title }: HomeViewProps) {
   return (
     <>
       <main className="mobile-screen bg-[url('/images/home/background.png')] bg-cover bg-center">
-        <div className="mobile-screen flex items-center justify-center">
-          <h1 className="text-5xl font-bold text-white">{title}</h1>
-        </div>
         <Image
           src={effectImage.src}
           alt=""
