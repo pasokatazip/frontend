@@ -1,8 +1,8 @@
 import type { ComponentProps } from "react";
 import type { UseFormRegisterReturn } from "react-hook-form";
-import { gradients } from "@/components/layout/gradientLayout";
 import { shadows } from "@/components/layout/shadowLayout";
 import { GreenButton } from "@/components/ui/button/GreenButton";
+import { TextInput } from "@/components/ui/input/TextInput";
 
 export type SignupFormProps = {
   emailInvalid?: boolean;
@@ -37,14 +37,12 @@ export function SignupForm({
           >
             メールアドレス
           </label>
-          <input
+          <TextInput
             {...emailInputProps}
             id="signup-email"
             type="email"
             autoComplete="email"
             aria-invalid={emailInvalid ? "true" : "false"}
-            className="h-[3.25rem] w-full rounded-lg px-4 font-[Inter] text-base text-[#454545] outline-none placeholder:text-white/70 focus:ring-2 focus:ring-white"
-            style={{ background: gradients.white, boxShadow: shadows.white }}
           />
         </div>
 
@@ -55,14 +53,12 @@ export function SignupForm({
           >
             パスワード
           </label>
-          <input
+          <TextInput
             {...passwordInputProps}
             id="signup-password"
             type="password"
             autoComplete="new-password"
             aria-invalid={passwordInvalid ? "true" : "false"}
-            className="h-[3.25rem] w-full rounded-lg px-4 font-[Inter] text-base text-[#454545] outline-none placeholder:text-white/70 focus:ring-2 focus:ring-white"
-            style={{ background: gradients.white, boxShadow: shadows.white }}
           />
           <p
             className="mt-2 min-h-4 text-center font-[Inter] text-xs text-red-600"

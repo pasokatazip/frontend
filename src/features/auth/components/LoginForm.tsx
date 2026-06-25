@@ -1,9 +1,9 @@
 import type { ComponentProps } from "react";
 import type { UseFormRegisterReturn } from "react-hook-form";
-import { gradients } from "@/components/layout/gradientLayout";
 import { shadows } from "@/components/layout/shadowLayout";
 import { BlueButton } from "@/components/ui/button/BlueButton";
 import { TextButton } from "@/components/ui/button/TextButton";
+import { TextInput } from "@/components/ui/input/TextInput";
 
 export type LoginFormProps = {
   emailInvalid?: boolean;
@@ -38,14 +38,12 @@ export function LoginForm({
           >
             メールアドレス
           </label>
-          <input
+          <TextInput
             {...emailInputProps}
             id="login-email"
             type="email"
             autoComplete="email"
             aria-invalid={emailInvalid ? "true" : "false"}
-            className="h-[3.25rem] w-full rounded-lg px-4 font-[Inter] text-base text-[#454545] outline-none placeholder:text-white/70 focus:ring-2 focus:ring-white"
-            style={{ background: gradients.white, boxShadow: shadows.white }}
           />
         </div>
 
@@ -56,14 +54,12 @@ export function LoginForm({
           >
             パスワード
           </label>
-          <input
+          <TextInput
             {...passwordInputProps}
             id="login-password"
             type="password"
             autoComplete="current-password"
             aria-invalid={passwordInvalid ? "true" : "false"}
-            className="h-[3.25rem] w-full rounded-lg px-4 font-[Inter] text-base text-[#454545] outline-none placeholder:text-white/70 focus:ring-2 focus:ring-white"
-            style={{ background: gradients.white, boxShadow: shadows.white }}
           />
           <p
             className="mt-2 min-h-4 text-center font-[Inter] text-xs text-red-600"
