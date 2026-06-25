@@ -10,6 +10,7 @@
   --grid-item-min-width: 18rem;
   --safe-area-top: env(safe-area-inset-top, 0px);
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --mobile-safe-padding-block: 1.25rem;
 }
 
 @theme inline {
@@ -63,12 +64,53 @@ canvas {
   min-height: 100dvh;
 }
 
+.mobile-safe-screen {
+  min-height: 100svh;
+  min-height: 100dvh;
+  padding-top: calc(var(--mobile-safe-padding-block) + var(--safe-area-top));
+  padding-bottom: calc(
+    var(--mobile-safe-padding-block) + var(--safe-area-bottom)
+  );
+}
+
 .mobile-scroll-screen {
   min-height: 100svh;
   min-height: 100dvh;
   overflow-x: clip;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+.mobile-safe-scroll-screen {
+  min-height: 100svh;
+  min-height: 100dvh;
+  overflow-x: clip;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-top: calc(var(--mobile-safe-padding-block) + var(--safe-area-top));
+  padding-bottom: calc(
+    var(--mobile-safe-padding-block) + var(--safe-area-bottom)
+  );
+}
+
+.mobile-safe-content {
+  min-height: calc(
+    100dvh - var(--mobile-safe-padding-block) -
+      var(--mobile-safe-padding-block) - var(--safe-area-top) -
+      var(--safe-area-bottom)
+  );
+}
+
+.mobile-safe-roomy {
+  --mobile-safe-padding-block: 3rem;
+}
+
+.mobile-safe-bottom-0 {
+  bottom: var(--safe-area-bottom);
+}
+
+.mobile-safe-footer {
+  bottom: calc(2.5rem + var(--safe-area-bottom));
 }
 
 .auth-screen {

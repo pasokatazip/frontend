@@ -19,7 +19,7 @@ export function HomeView({ effectImage, title }: HomeViewProps) {
           alt=""
           width={effectImage.width}
           height={effectImage.height}
-          className="fixed bottom-[env(safe-area-inset-bottom)] left-0 max-w-fit"
+          className="mobile-safe-bottom-0 fixed left-0 max-w-fit"
         />
       </main>
       <Footer />
