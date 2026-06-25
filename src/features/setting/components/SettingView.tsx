@@ -15,8 +15,8 @@ type SettingViewProps = {
 
 export function SettingView({ petImage }: SettingViewProps) {
   return (
-    <main className="mobile-scroll-screen relative overflow-hidden bg-[url('/images/background.png')] bg-cover bg-[position:center_top] bg-no-repeat px-4 pt-[calc(1.25rem+env(safe-area-inset-top))] pb-[calc(1.25rem+env(safe-area-inset-bottom))]">
-      <div className="mx-auto flex min-h-[calc(100dvh-2.5rem-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-full max-w-[28rem] flex-col">
+    <main className="mobile-safe-scroll-screen relative overflow-hidden bg-[url('/images/background.png')] bg-cover bg-[position:center_top] bg-no-repeat px-4">
+      <div className="mobile-safe-content mx-auto flex w-full max-w-[28rem] flex-col">
         <header className="flex items-center gap-5">
           <Image
             src="/icons/setting.svg"

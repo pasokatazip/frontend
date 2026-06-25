@@ -13,7 +13,7 @@ type TopViewProps = {
 
 export function TopView({ logo }: TopViewProps) {
   return (
-    <main className="mobile-screen flex items-center justify-center bg-[url('/images/top/background.png')] bg-cover bg-center px-10 pt-[calc(3rem+env(safe-area-inset-top))] pb-[calc(3rem+env(safe-area-inset-bottom))]">
+    <main className="mobile-safe-screen mobile-safe-roomy flex items-center justify-center bg-[url('/images/top/background.png')] bg-cover bg-center px-10">
       <div className="flex w-full max-w-[29rem] flex-col items-center gap-8">
         <Image
           src={logo.src}
