@@ -43,7 +43,9 @@ export function RoundButton({
         />
       </button>
 
-      <span className="text-sm whitespace-nowrap font-medium">{label}</span>
+      <span className="text-sm whitespace-nowrap font-medium text-[#4C4F5E]">
+        {label}
+      </span>
     </div>
   );
 }
