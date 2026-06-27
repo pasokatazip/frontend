@@ -2,7 +2,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #D2ECFF;
   --content-max-width: 56rem;
   --page-padding-block: 2.5rem;
   --page-padding-inline: 1.5rem;
@@ -22,8 +22,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #D2ECFF;
+    --foreground: #D2ECFF;
   }
 }
 
