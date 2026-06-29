@@ -21,7 +21,7 @@ export function PetLockedOverlay() {
         height={32}
         className="relative z-10 h-8 w-8"
       />
-      <span className="relative z-10 font-[Inter] text-xl leading-7 font-normal tracking-normal text-white sm:text-2xl">
+      <span className="relative z-10 text-xl leading-7 font-normal tracking-normal text-white sm:text-2xl">
         超YO-YO！後使用可能
       </span>
     </div>

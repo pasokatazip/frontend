@@ -14,7 +14,7 @@ export function TextInput({ className, style, ...props }: TextInputProps) {
   return (
     <input
       className={clsx(
-        "h-[3.25rem] w-full rounded-lg px-4 font-[Inter] text-base text-[#454545] outline-none placeholder:text-white/70 focus:ring-2 focus:ring-white",
+        "h-[3.25rem] w-full rounded-lg px-4 text-base text-[#454545] outline-none placeholder:text-white/70 focus:ring-2 focus:ring-white",
         className,
       )}
       style={{ ...textInputStyle, ...style }}

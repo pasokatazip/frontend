@@ -25,7 +25,7 @@ export function SettingView({ petImage }: SettingViewProps) {
             height={32}
             className="h-10 w-10"
           />
-          <h1 className="font-[Inter] text-lg leading-6 font-normal tracking-normal text-[#4C4F5E]">
+          <h1 className="text-lg leading-6 font-normal tracking-normal text-[#4C4F5E]">
             設定
           </h1>
         </header>
@@ -34,7 +34,7 @@ export function SettingView({ petImage }: SettingViewProps) {
 
         <NotificationSettingSection />
 
-        <TextButton className="mt-14 w-fit font-[Inter] text-base leading-6 font-normal tracking-normal text-red-600 underline underline-offset-2">
+        <TextButton className="mt-14 w-fit text-base leading-6 font-normal tracking-normal text-red-600 underline underline-offset-2">
           アカウント削除
         </TextButton>
 

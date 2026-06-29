@@ -16,7 +16,7 @@ type PetSettingSectionProps = {
 export function PetSettingSection({ petImage }: PetSettingSectionProps) {
   return (
     <section className="mt-8">
-      <h2 className="font-[Inter] text-base leading-6 font-normal tracking-normal text-[#4C4F5E]">
+      <h2 className="text-base leading-6 font-normal tracking-normal text-[#4C4F5E]">
         ペット設定
       </h2>
 
@@ -32,7 +32,7 @@ export function PetSettingSection({ petImage }: PetSettingSectionProps) {
 
         <div>
           <label
-            className="mb-2 block font-[Inter] text-base leading-6 font-normal tracking-normal text-[#4C4F5E]"
+            className="mb-2 block text-base leading-6 font-normal tracking-normal text-[#4C4F5E]"
             htmlFor="pet-name"
           >
             名前

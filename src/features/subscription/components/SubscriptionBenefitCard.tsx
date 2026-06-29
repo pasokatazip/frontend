@@ -11,7 +11,7 @@ export function SubscriptionBenefitCard({
 }: SubscriptionBenefitCardProps) {
   return (
     <GlassCard className="mx-auto mt-5 w-full max-w-[min(100%,22rem)] px-[clamp(0.75rem,3.5vw,0.875rem)] pt-3 pb-4">
-      <h2 className="text-center font-[Inter] text-base leading-6 font-normal tracking-normal text-[#4C4F5E]">
+      <h2 className="text-center text-base leading-6 font-normal tracking-normal text-[#4C4F5E]">
         過去レポート全開放
       </h2>
 
@@ -27,7 +27,7 @@ export function SubscriptionBenefitCard({
       <div className="mt-5 flex items-center justify-between px-[clamp(0.25rem,2vw,0.5rem)] text-[#4C4F5E]">
         <button
           aria-label="前"
-          className="font-[Inter] text-2xl leading-none font-normal"
+          className="text-2xl leading-none font-normal"
           type="button"
         >
           ‹
@@ -41,7 +41,7 @@ export function SubscriptionBenefitCard({
 
         <button
           aria-label="次"
-          className="font-[Inter] text-2xl leading-none font-normal"
+          className="text-2xl leading-none font-normal"
           type="button"
         >
           ›

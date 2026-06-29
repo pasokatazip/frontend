@@ -36,7 +36,7 @@ export function SubscriptionView({
             height={32}
             className="h-[clamp(1.75rem,8vw,2rem)] w-[clamp(1.75rem,8vw,2rem)] brightness-0 opacity-65"
           />
-          <h1 className="font-[Inter] text-[clamp(1.125rem,5vw,1.25rem)] leading-7 font-normal tracking-normal text-[#4C4F5E]">
+          <h1 className="text-[clamp(1.125rem,5vw,1.25rem)] leading-7 font-normal tracking-normal text-[#4C4F5E]">
             超-YO-YO！
           </h1>
         </header>
