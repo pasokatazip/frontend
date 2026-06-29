@@ -1,5 +1,12 @@
 import type { Metadata, Viewport } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
+
+const inter = Inter({
+  display: "swap",
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
   title: "Frontend Template",
@@ -18,8 +25,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja" translate="no" className="h-full antialiased notranslate">
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html
+      lang="ja"
+      translate="no"
+      className={`${inter.variable} h-full antialiased notranslate`}
+    >
+      <body className="min-h-full flex flex-col font-sans">{children}</body>
     </html>
   );
 }

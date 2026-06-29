@@ -35,7 +35,7 @@ export function SignupView({
     <main className="mobile-scroll-screen auth-screen flex justify-center bg-[url('/images/top/background.png')] bg-cover bg-center px-6">
       <div className="flex w-full max-w-[26.25rem] flex-col items-center">
         <h1
-          className="translate-y-3 font-[Inter] text-lg leading-7 font-normal tracking-normal text-white"
+          className="translate-y-3 text-lg leading-7 font-normal tracking-normal text-white"
           style={{ textShadow: shadows.dropwhite }}
         >
           アカウント作成
@@ -60,7 +60,7 @@ export function SignupView({
           passwordInputProps={passwordInputProps}
         />
 
-        <p className="auth-secondary-text mt-12 font-[Inter] text-sm leading-none font-normal tracking-normal text-[#454545]">
+        <p className="auth-secondary-text mt-12 text-sm leading-none font-normal tracking-normal text-[#454545]">
           アカウントをお持ちの方は
         </p>
 

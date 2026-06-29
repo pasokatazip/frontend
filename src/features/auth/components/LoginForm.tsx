@@ -33,7 +33,7 @@ export function LoginForm({
       <div className="space-y-6">
         <div>
           <label
-            className="mb-3 block font-[Inter] text-sm leading-none font-normal tracking-normal text-[#454545]"
+            className="mb-3 block text-sm leading-none font-normal tracking-normal text-[#454545]"
             htmlFor="login-email"
           >
             メールアドレス
@@ -49,7 +49,7 @@ export function LoginForm({
 
         <div>
           <label
-            className="mb-3 block font-[Inter] text-sm leading-none font-normal tracking-normal text-[#454545]"
+            className="mb-3 block text-sm leading-none font-normal tracking-normal text-[#454545]"
             htmlFor="login-password"
           >
             パスワード
@@ -62,7 +62,7 @@ export function LoginForm({
             aria-invalid={passwordInvalid ? "true" : "false"}
           />
           <p
-            className="mt-2 min-h-4 text-center font-[Inter] text-xs text-red-600"
+            className="mt-2 min-h-4 text-center text-xs text-red-600"
             aria-live="polite"
           >
             {formError}

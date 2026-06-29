@@ -5,7 +5,7 @@ export function NotificationSettingSection() {
   return (
     <section className="mt-8">
       <div className="flex min-h-7 items-center justify-between">
-        <span className="font-[Inter] text-base leading-6 font-normal tracking-normal text-[#4C4F5E]">
+        <span className="text-base leading-6 font-normal tracking-normal text-[#4C4F5E]">
           通知
         </span>
         <div className="flex h-7 w-[52px] items-center justify-end overflow-visible">
@@ -20,7 +20,7 @@ export function NotificationSettingSection() {
       <div className="mt-4 space-y-5">
         <div className="flex items-center justify-between">
           <span
-            className="font-[Inter] text-base leading-6 font-normal tracking-normal text-[#4C4F5E]"
+            className="text-base leading-6 font-normal tracking-normal text-[#4C4F5E]"
             id="report-completed-label"
           >
             レポート作成完了
@@ -30,7 +30,7 @@ export function NotificationSettingSection() {
 
         <div className="flex items-center justify-between">
           <span
-            className="font-[Inter] text-base leading-6 font-normal tracking-normal text-[#4C4F5E]"
+            className="text-base leading-6 font-normal tracking-normal text-[#4C4F5E]"
             id="pet-message-label"
           >
             ペットからのメッセージ
@@ -40,7 +40,7 @@ export function NotificationSettingSection() {
 
         <div className="flex items-center justify-between">
           <span
-            className="font-[Inter] text-base leading-6 font-normal tracking-normal text-[#4C4F5E]"
+            className="text-base leading-6 font-normal tracking-normal text-[#4C4F5E]"
             id="yo-yo-label"
           >
             YO-YO！
