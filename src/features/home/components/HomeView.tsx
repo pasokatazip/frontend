@@ -7,10 +7,9 @@ type HomeViewProps = {
     src: string;
     width: number;
   };
-  title: string;
 };
 
-export function HomeView({ effectImage, title }: HomeViewProps) {
+export function HomeView({ effectImage }: HomeViewProps) {
   return (
     <>
       <main className="min-h-svh bg-[url('/images/home/background.png')] bg-cover bg-center">
