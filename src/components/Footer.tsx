@@ -25,13 +25,17 @@ export function Footer() {
           onClick={menuFunction}
         />
       </nav>
-      <div
+      <button
+        type="button"
+        aria-label="メニューを閉じる"
         onClick={() => setMenu(false)}
         className={clsx(
-          "fixed inset-0 bg-black transition-opacity duration-300 pointer-events-none",
-          openMenu ? "opacity-25" : "opacity-0 pointer-events-none",
+          "fixed inset-0 bg-black transition-opacity duration-300",
+          openMenu
+            ? "opacity-25 pointer-events-auto"
+            : "opacity-0 pointer-events-none",
         )}
-      />{" "}
+      />
       <Hamburger
         onClose={() => setMenu(false)}
         className={clsx(
