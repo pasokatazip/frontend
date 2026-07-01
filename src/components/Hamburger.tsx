@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import { gradients } from "@/components/layout/gradientLayout";
 import { shadows } from "@/components/layout/shadowLayout";
 import clsx from "clsx";
+import Link from "next/link";
 
 const silverNavStyle = {
   background: gradients.silver,
@@ -17,7 +18,7 @@ export function Hamburger({ className, onClose }: HamburgerProps) {
   return (
     <nav
       className={clsx(
-        "fixed bottom-45 right-0 p-6.5 pr-8 rounded-l-2xl",
+        "fixed bottom-45 right-0 p-6.5 pr-8 rounded-l-2xl text-[#4C4F5E]",
         className,
       )}
       style={silverNavStyle}
@@ -25,7 +26,7 @@ export function Hamburger({ className, onClose }: HamburgerProps) {
       {" "}
       <ul className="text-4 w-40">
         <li>
-          <a
+          <Link
             href=""
             className="
                     flex items-center gap-4 p-3 pl-0
@@ -40,10 +41,10 @@ export function Hamburger({ className, onClose }: HamburgerProps) {
                     "
           >
             ヘルプ
-          </a>
+          </Link>
         </li>
         <li>
-          <a
+          <Link
             href=""
             className="
                 flex items-center gap-4 p-3 pl-0
@@ -58,10 +59,10 @@ export function Hamburger({ className, onClose }: HamburgerProps) {
                 "
           >
             設定
-          </a>
+          </Link>
         </li>
         <li>
-          <a
+          <Link
             href=""
             className="
                 flex items-center gap-4 p-3 pl-0
@@ -76,10 +77,10 @@ export function Hamburger({ className, onClose }: HamburgerProps) {
                 "
           >
             超-YO-YO！
-          </a>
+          </Link>
         </li>
         <li>
-          <a
+          <Link
             href=""
             className="
                 flex items-center gap-4 p-3 pl-0
@@ -93,7 +94,7 @@ export function Hamburger({ className, onClose }: HamburgerProps) {
                 "
           >
             ログアウト
-          </a>
+          </Link>
         </li>
       </ul>
       <button
