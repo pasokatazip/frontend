@@ -1,7 +1,7 @@
 import type { StaticImageData } from "next/image";
-import goalImage from "@public/images/tutorial/goal.png";
-import reportImage from "@public/images/tutorial/report.png";
-import routineImage from "@public/images/tutorial/routine.png";
+import goalImage from "../../../../public/images/tutorial/goal.png";
+import reportImage from "../../../../public/images/tutorial/report.png";
+import routineImage from "../../../../public/images/tutorial/routine.png";
 
 export type DialogueId =
   | "description"

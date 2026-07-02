@@ -2,11 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import { type ReactNode, useState } from "react";
-import homeEffectImage from "@public/images/home/effect.png";
-import postSuccessPetImage from "@public/images/home/pet.png";
-import doctorImage from "@public/images/subscription/doctor.png";
-import touchIcon from "@public/images/tutorial/touchIcon.png";
-import tutorialPetImage from "@public/images/tutorial/tutorialpet.png";
+import homeEffectImage from "../../../../public/images/home/effect.png";
+import postSuccessPetImage from "../../../../public/images/home/pet.png";
+import doctorImage from "../../../../public/images/subscription/doctor.png";
+import touchIcon from "../../../../public/images/tutorial/touchIcon.png";
+import tutorialPetImage from "../../../../public/images/tutorial/tutorialpet.png";
 import {
   dialogues,
   lessons,
