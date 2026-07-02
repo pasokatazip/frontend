@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "oxlint . -c .oxlintrc.json",
     "lint:fix": "oxlint . -c .oxlintrc.json --fix",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
