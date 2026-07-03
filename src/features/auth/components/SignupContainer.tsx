@@ -1,7 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { signupAction } from "@/features/auth/actions/SignupAction";
 import {
   signupErrorMessage,
   signupSchema,
@@ -10,6 +12,7 @@ import {
 import { SignupView } from "./SignupView";
 
 export function SignupContainer() {
+  const router = useRouter();
   const {
     formState: { errors, isSubmitting },
     handleSubmit,
@@ -23,12 +26,14 @@ export function SignupContainer() {
     resolver: zodResolver(signupSchema),
   });
 
-  // APIの接続はauth/apiに切り出す
-  function onSubmit(values: SignupFormValues) {
-    void values;
-    setError("root", {
-      message: signupErrorMessage,
-    });
+  async function onSubmit(values: SignupFormValues) {
+    const result = await signupAction(values);
+
+    if (result.success) {
+      router.push("/Tutorial");
+    } else {
+      setError("root", { message: result.error });
+    }
   }
 
   const formError =
