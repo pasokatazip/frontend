@@ -4,7 +4,7 @@ type DateSelectorProps = {
   text: string;
   onPrev: () => void;
   onNext: () => void;
-  onOpen: () => void;
+  onOpen?: () => void;
 };
 
 export function DateSelector({
@@ -14,7 +14,7 @@ export function DateSelector({
   onOpen,
 }: DateSelectorProps) {
   return (
-    <SilverButton className="max-h-10 max-w-full p-2 flex justify-evenly gap-2.5 text-[16px]">
+    <SilverButton className="max-h-10 max-w-full p-2 flex justify-between! gap-2.5 text-[16px]">
       <button onClick={onPrev}>
         <span
           className="
