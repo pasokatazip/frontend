@@ -7,7 +7,7 @@ const createUserResponseSchema = z.object({
 });
 
 export async function createUser(values: SignupFormValues) {
-  const response = await apiFetch("/user", {
+  const response = await apiFetch("/users", {
     body: JSON.stringify(values),
     headers: {
       "Content-Type": "application/json",
