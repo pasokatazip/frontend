@@ -8,9 +8,9 @@ type Props = {
 
 export function SouvenirBox({ souvenirs }: Props) {
   return (
-    <GlassCard className="w-full rounded-xl bg-white/30 p-3 text-[10px] text-[#4C4F5E]">
+    <GlassCard className="w-full rounded-xl bg-white/30 p-5 text-[10px] text-[#4C4F5E]">
       <p>おみやげ</p>
-      <div className="flex justify-around">
+      <div className="flex justify-between mt-2">
         {souvenirs.map((souvenir) => (
           <Image
             key={souvenir.id}
