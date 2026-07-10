@@ -5,6 +5,7 @@ import { RoundButton } from "@/components/ui/button/RoundButton";
 import { Hamburger } from "@/components/Hamburger";
 import { useState } from "react";
 import clsx from "clsx";
+import Link from "next/link";
 
 export function Footer() {
   const [openMenu, setMenu] = useState(false);
@@ -14,7 +15,9 @@ export function Footer() {
   return (
     <footer className="mobile-safe-footer fixed left-0 min-w-full px-4">
       <nav className="flex justify-center gap-5">
-        <RoundButton image="/icons/book.svg" label="きろく" className="" />
+        <Link href="/Report">
+          <RoundButton image="/icons/book.svg" label="きろく" className="" />
+        </Link>
         <GreenButton className="max-h-12.5 min-w-40 rounded-xl rounded-bl-xs">
           つぶやく
         </GreenButton>
