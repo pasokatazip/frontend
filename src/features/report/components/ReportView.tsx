@@ -7,12 +7,17 @@ import { CalendarButton } from "./CalendarButton";
 import { CalendarPicker } from "./CalendarPicker";
 import { DateSelector } from "./DateSelector";
 import { ScrollArea } from "./ScrollArea";
+import Link from "next/link";
+import { SouvenirBox } from "./SouvenirBox";
+import { RewardModal } from "./RewardModal";
+import type { Souvenir } from "@/types/souvenir";
 
 type ReportViewProps = {
   reportInfo: {
     date: Date;
     selectDate: string;
     title: string;
+
     openCalendar: boolean;
 
     prevDay: () => void;
@@ -22,10 +27,22 @@ type ReportViewProps = {
     closeCalendarPicker: () => void;
 
     onSelectDate: (date: Date) => void;
+
+    todaySouvenirs: Souvenir[];
+    onPraise: () => void;
+
+    openRewardModal: boolean;
+    closeRewardModal: () => void;
+  };
+  petImage: {
+    alt: string;
+    height: number;
+    src: string;
+    width: number;
   };
 };
 
-export function ReportView({ reportInfo }: ReportViewProps) {
+export function ReportView({ reportInfo, petImage }: ReportViewProps) {
   return (
     <>
       <main className="mobile-screen bg-[url('/images/report/background.png')] bg-cover bg-center min-h-svh p-4">
@@ -50,7 +67,7 @@ export function ReportView({ reportInfo }: ReportViewProps) {
           />
 
           <article>
-            <GlassCard className="px-5.5 p-6 min-h-100 text-[10px]">
+            <GlassCard className="px-5.5 p-6 min-h-100 text-[10px] text-[#4C4F5E]">
               <div className="h-90">
                 <ScrollArea>
                   <div className="flex flex-col gap-4">
@@ -65,7 +82,6 @@ export function ReportView({ reportInfo }: ReportViewProps) {
                       おはYO
                       <span className="text-shadow-none">・00:00</span>
                     </p>
-
                     <div className="flex flex-col gap-0.5">
                       <p className="flex gap-2 text-[12px] [text-shadow:0_0_2px_#5BD4EC]">
                         <span
@@ -88,6 +104,17 @@ export function ReportView({ reportInfo }: ReportViewProps) {
                         </ul>
                       </div>
                     </div>
+                    <p className="flex gap-2 text-[12px] [text-shadow:0_0_2px_#5BD4EC]">
+                      <span
+                        className="
+                          block w-5 h-5
+                          bg-[url('/icons/sleep.svg')]
+                          bg-contain bg-no-repeat
+                        "
+                      />
+                      おやすみだYO〜
+                      <span className="text-shadow-none">・00:00</span>
+                    </p>
                   </div>
                 </ScrollArea>
               </div>
@@ -95,25 +122,41 @@ export function ReportView({ reportInfo }: ReportViewProps) {
           </article>
         </div>
 
-        <div className="flex mt-4.5 gap-9">
-          <BlueButton className="rounded-xl">ほめる！</BlueButton>
-
+        <div className="flex mt-4.5 gap-9 mb-24">
+          {reportInfo.todaySouvenirs.length === 0 ? (
+            <BlueButton
+              className="rounded-xl h-[120px]"
+              onClick={reportInfo.onPraise}
+            >
+              ほめる！
+            </BlueButton>
+          ) : (
+            <SouvenirBox souvenirs={reportInfo.todaySouvenirs} />
+          )}
           <Image
-            src="/images/home/pet.png"
-            alt=""
-            className="self-start"
-            width={111}
-            height={95}
+            src={petImage.src}
+            alt={petImage.alt}
+            width={petImage.width}
+            height={petImage.height}
+            priority
           />
         </div>
+        <RewardModal
+          open={reportInfo.openRewardModal}
+          onClose={reportInfo.closeRewardModal}
+          souvenirs={reportInfo.todaySouvenirs}
+        />
       </main>
 
-      <footer className="fixed bottom-8.5 flex min-w-full gap-20 px-4">
-        <RoundButton image="/icons/home.svg" label="ホームへ" />
-
-        <GreenButton className="rounded-xl rounded-br-none max-h-15">
-          きろく
-        </GreenButton>
+      <footer className="fixed bottom-3 flex min-w-full gap-20 px-4">
+        <Link href="/Home">
+          <RoundButton image="/icons/home.svg" label="ホームへ" />
+        </Link>
+        <Link href="/GrowRecord" className="w-full">
+          <GreenButton className="rounded-xl rounded-br-none max-h-15">
+            成長きろく
+          </GreenButton>
+        </Link>
       </footer>
     </>
   );
