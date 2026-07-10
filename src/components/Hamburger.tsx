@@ -27,7 +27,7 @@ export function Hamburger({ className, onClose }: HamburgerProps) {
       <ul className="text-4 w-40">
         <li>
           <Link
-            href=""
+            href="/Help"
             className="
                     flex items-center gap-4 p-3 pl-0
                     before:content-['']
@@ -45,7 +45,7 @@ export function Hamburger({ className, onClose }: HamburgerProps) {
         </li>
         <li>
           <Link
-            href=""
+            href="/Setting"
             className="
                 flex items-center gap-4 p-3 pl-0
                 before:content-['']
@@ -63,7 +63,7 @@ export function Hamburger({ className, onClose }: HamburgerProps) {
         </li>
         <li>
           <Link
-            href=""
+            href="/Subscription"
             className="
                 flex items-center gap-4 p-3 pl-0
                 before:content-['']
