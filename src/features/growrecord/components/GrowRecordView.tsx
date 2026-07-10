@@ -27,11 +27,19 @@ type GrowRecordViewProps = {
     src: string;
     width: number;
   };
+  lastSouvenir: {
+    unlocked: boolean;
+    alt: string;
+    height: number;
+    src: string;
+    width: number;
+  };
 };
 
 export function GrowRecordView({
   GrowRecordInfo,
   petImage,
+  lastSouvenir,
 }: GrowRecordViewProps) {
   return (
     <>
@@ -67,12 +75,16 @@ export function GrowRecordView({
                 height={60}
               />
               <Image
-                src="/images/souvenir/secret.png"
-                alt=""
-                className="self-start min-w-15 min-h-15 absolute top-0 left-0"
-                width={60}
-                height={60}
-              />
+                src={
+                  lastSouvenir.unlocked
+                    ? lastSouvenir.src
+                    : "/images/souvenir/secret.png"
+                }
+                alt={lastSouvenir.alt}
+                className="absolute top-0 left-0 min-w-15 min-h-15"
+                width={lastSouvenir.width}
+                height={lastSouvenir.height}
+              />{" "}
             </div>
           </div>
         </div>

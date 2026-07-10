@@ -44,6 +44,14 @@ export function GrowRecordContainer() {
         height: 120,
         width: 120,
       }}
+      lastSouvenir={{
+        unlocked: true,
+        // API入れたら変更する
+        src: "/images/souvenir/secret.png",
+        alt: "りんご",
+        width: 60,
+        height: 60,
+      }}
     />
   );
 }
