@@ -12,6 +12,7 @@ services:
 
     environment:
       PETYOYO_API_URL: ${PETYOYO_API_URL}
+      PETYOYO_IMAGE_URL: ${PETYOYO_IMAGE_URL}
 
     volumes:
       # ローカルのコード変更をコンテナに反映
