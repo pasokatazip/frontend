@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  env: {
+    PETYOYO_IMAGE_URL: process.env.PETYOYO_IMAGE_URL ?? "",
+  },
 };
 
 export default nextConfig;
