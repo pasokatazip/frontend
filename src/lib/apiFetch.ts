@@ -1,8 +1,11 @@
 import { getServerEnv } from "@/config/serverEnv";
 
 export class ApiError extends Error {
-  constructor(public readonly status: number) {
-    super("API request failed");
+  constructor(
+    public readonly status: number,
+    public readonly responseText: string,
+  ) {
+    super(`API request failed: status=${status} body=${responseText}`);
     this.name = "ApiError";
   }
 }
@@ -17,7 +20,7 @@ export async function apiFetch(path: string, init?: RequestInit) {
   });
 
   if (!response.ok) {
-    throw new ApiError(response.status);
+    throw new ApiError(response.status, await response.text());
   }
 
   return response;
