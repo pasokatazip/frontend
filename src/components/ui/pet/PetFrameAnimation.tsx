@@ -1,7 +1,8 @@
 "use client";
 
 import { clsx } from "clsx";
-import { useEffect, useRef } from "react";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import type { HTMLAttributes } from "react";
 
 export type PetFrameAnimationProps = HTMLAttributes<HTMLDivElement> & {
@@ -18,6 +19,8 @@ export function PetFrameAnimation({
   ...props
 }: PetFrameAnimationProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isAnimationReady, setIsAnimationReady] = useState(false);
+  const firstFrameUrl = frameUrls[0];
 
   useEffect(() => {
     const animationContainer = containerRef.current;
@@ -28,38 +31,36 @@ export function PetFrameAnimation({
 
     let cancelled = false;
     let destroyApplication: (() => void) | undefined;
+    setIsAnimationReady(false);
 
     async function initializeAnimation(container: HTMLDivElement) {
       const { AnimatedSprite, Application, Assets } = await import("pixi.js");
       const app = new Application();
+      const texturePromise = Promise.all(
+        frameUrls.map((url) => Assets.load(url)),
+      );
 
-      await app.init({
-        antialias: true,
-        autoDensity: true,
-        backgroundAlpha: 0,
-        resizeTo: container,
-        resolution: Math.min(window.devicePixelRatio, 2),
-      });
+      const [, textures] = await Promise.all([
+        app.init({
+          antialias: true,
+          autoDensity: true,
+          backgroundAlpha: 0,
+          resizeTo: container,
+          resolution: Math.min(window.devicePixelRatio, 2),
+        }),
+        texturePromise,
+      ]);
 
       if (cancelled) {
         app.destroy(true);
         return;
       }
 
-      app.canvas.className = "block h-full w-full";
+      app.canvas.className = "absolute inset-0 block h-full w-full";
       app.canvas.style.filter = `hue-rotate(${hueRotate}deg)`;
       app.canvas.setAttribute("aria-label", ariaLabel);
       app.canvas.setAttribute("role", "img");
       container.appendChild(app.canvas);
-
-      const textures = await Promise.all(
-        frameUrls.map((url) => Assets.load(url)),
-      );
-
-      if (cancelled) {
-        app.destroy(true);
-        return;
-      }
 
       const sprite = new AnimatedSprite(textures);
       const reducedMotion = window.matchMedia(
@@ -93,6 +94,7 @@ export function PetFrameAnimation({
       reducedMotion.addEventListener("change", updateMotion);
       resizeSprite();
       updateMotion();
+      setIsAnimationReady(true);
 
       destroyApplication = () => {
         resizeObserver.disconnect();
@@ -118,6 +120,23 @@ export function PetFrameAnimation({
       className={clsx("relative aspect-square", className)}
       ref={containerRef}
       {...props}
-    />
+    >
+      {firstFrameUrl ? (
+        <Image
+          src={firstFrameUrl}
+          alt=""
+          aria-hidden="true"
+          fill
+          priority
+          sizes="8.75rem"
+          unoptimized
+          className={clsx(
+            "absolute inset-0 h-full w-full object-contain transition-opacity duration-150",
+            isAnimationReady ? "opacity-0" : "opacity-100",
+          )}
+          style={{ filter: `hue-rotate(${hueRotate}deg)` }}
+        />
+      ) : null}
+    </div>
   );
 }
