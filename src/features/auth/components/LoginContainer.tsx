@@ -1,7 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { loginAction } from "@/features/auth/actions/LoginAction";
 import {
   loginErrorMessage,
   loginSchema,
@@ -10,6 +12,7 @@ import {
 import { LoginView } from "./LoginView";
 
 export function LoginContainer() {
+  const router = useRouter();
   const {
     formState: { errors, isSubmitting },
     handleSubmit,
@@ -23,12 +26,14 @@ export function LoginContainer() {
     resolver: zodResolver(loginSchema),
   });
 
-  // APIの接続はauth/apiに切り出す
-  function onSubmit(values: LoginFormValues) {
-    void values;
-    setError("root", {
-      message: loginErrorMessage,
-    });
+  async function onSubmit(values: LoginFormValues) {
+    const result = await loginAction(values);
+
+    if (result.success) {
+      router.push("/Home");
+    } else {
+      setError("root", { message: result.error });
+    }
   }
 
   const formError =
