@@ -1,6 +1,58 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { getSubscriptionStatusAction } from "@/features/subscription/actions/GetSubscriptionStatusAction";
+import { startSubscriptionCheckoutAction } from "@/features/subscription/actions/StartSubscriptionCheckoutAction";
 import { SubscriptionView } from "./SubscriptionView";
 
 export function SubscriptionContainer() {
+  const [error, setError] = useState<string>();
+  const [isCheckoutStarting, setIsCheckoutStarting] = useState(false);
+  const [isSubscriptionActive, setIsSubscriptionActive] = useState(false);
+  const [isSubscriptionStatusLoading, setIsSubscriptionStatusLoading] =
+    useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadSubscriptionStatus() {
+      const result = await getSubscriptionStatusAction();
+
+      if (cancelled) {
+        return;
+      }
+
+      if (result.success) {
+        setIsSubscriptionActive(result.status.active);
+      } else {
+        setError(result.error);
+      }
+
+      setIsSubscriptionStatusLoading(false);
+    }
+
+    void loadSubscriptionStatus();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  async function handleCheckoutStart() {
+    setError(undefined);
+    setIsCheckoutStarting(true);
+
+    const result = await startSubscriptionCheckoutAction();
+
+    if (result.success) {
+      window.location.assign(result.checkoutUrl);
+      return;
+    }
+
+    setError(result.error);
+    setIsCheckoutStarting(false);
+  }
+
   return (
     <SubscriptionView
       doctorImage={{
@@ -21,6 +73,11 @@ export function SubscriptionContainer() {
         src: "/images/subscription/superyo-yo.png",
         width: 840,
       }}
+      checkoutError={error}
+      isCheckoutStarting={isCheckoutStarting}
+      isSubscriptionActive={isSubscriptionActive}
+      isSubscriptionStatusLoading={isSubscriptionStatusLoading}
+      onCheckoutStart={handleCheckoutStart}
     />
   );
 }

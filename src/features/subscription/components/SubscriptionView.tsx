@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { BlueButton } from "@/components/ui/button/BlueButton";
+import { SilverButton } from "@/components/ui/button/SilverButton";
 import { SubscriptionBenefitCard } from "@/features/subscription/components/SubscriptionBenefitCard";
 import { SubscriptionFooterVisual } from "@/features/subscription/components/SubscriptionFooterVisual";
 
@@ -11,16 +12,29 @@ export type ImageAsset = {
 };
 
 type SubscriptionViewProps = {
+  checkoutError?: string;
   doctorImage: ImageAsset;
+  isCheckoutStarting: boolean;
+  isSubscriptionActive: boolean;
+  isSubscriptionStatusLoading: boolean;
+  onCheckoutStart: () => void;
   petImage: ImageAsset;
   superYoYoImage: ImageAsset;
 };
 
 export function SubscriptionView({
+  checkoutError,
   doctorImage,
+  isCheckoutStarting,
+  isSubscriptionActive,
+  isSubscriptionStatusLoading,
+  onCheckoutStart,
   petImage,
   superYoYoImage,
 }: SubscriptionViewProps) {
+  const isCheckoutDisabled =
+    isCheckoutStarting || isSubscriptionActive || isSubscriptionStatusLoading;
+
   return (
     <main className="mobile-safe-screen relative overflow-hidden px-[clamp(1rem,5vw,1.5rem)]">
       <div
@@ -43,12 +57,32 @@ export function SubscriptionView({
 
         <SubscriptionBenefitCard superYoYoImage={superYoYoImage} />
 
-        <BlueButton
-          className="mx-auto mt-5 max-w-[min(100%,21rem)] text-sm"
-          style={{ height: "3.25rem" }}
+        {isSubscriptionActive ? (
+          <SilverButton
+            aria-disabled="true"
+            className="mx-auto mt-5 max-w-[min(100%,24rem)] text-lg !text-[#4C4F5E]"
+            disabled
+            style={{ height: "4rem" }}
+          >
+            超-YO-YO！済です
+          </SilverButton>
+        ) : (
+          <BlueButton
+            className="mx-auto mt-5 max-w-[min(100%,21rem)] text-sm"
+            disabled={isCheckoutDisabled}
+            onClick={onCheckoutStart}
+            style={{ height: "3.25rem" }}
+          >
+            超-YO-YO！して機能を解放する　¥700
+          </BlueButton>
+        )}
+
+        <p
+          aria-live="polite"
+          className="mt-3 min-h-5 text-center text-xs leading-5 text-red-600"
         >
-          超-YO-YO！して機能を解放する　¥700
-        </BlueButton>
+          {checkoutError}
+        </p>
 
         <SubscriptionFooterVisual
           doctorImage={doctorImage}
