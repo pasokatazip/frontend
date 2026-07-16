@@ -47,7 +47,7 @@ export function SettingView({
           <h2 className="text-base leading-6 font-normal tracking-normal text-[#4C4F5E]">
             ペット設定
           </h2>
-          <PetSettingSection hue={hue} onHueChange={onHueChange}>
+          <PetSettingSection compact hue={hue} onHueChange={onHueChange}>
             {!isSubscriptionActive && <PetLockedOverlay />}
           </PetSettingSection>
         </section>
@@ -56,8 +56,8 @@ export function SettingView({
         <TextButton className="mt-14 w-fit text-base leading-6 font-normal tracking-normal text-red-600 underline underline-offset-2">
           アカウント削除
         </TextButton>
-        <Link href="/Home" className="w-full flex my-6">
-          <BlueButton className="max-h-15 max-w-[85%] m-auto text-[18px]">
+        <Link href="/Home" className="mt-6 mb-4 flex w-full">
+          <BlueButton className="m-auto max-h-12 max-w-[75%] text-base">
             設定を保存する
           </BlueButton>
         </Link>
