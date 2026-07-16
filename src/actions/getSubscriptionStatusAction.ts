@@ -1,12 +1,12 @@
 "use server";
 
-import { getAuthTokenCookie } from "@/features/auth/lib/authCookie";
+import { getAuthTokenCookie } from "@/lib/authCookie";
+import { ApiError } from "@/lib/apiFetch";
+import { logServerError } from "@/lib/serverLogger";
 import {
   getSubscriptionStatus,
   type SubscriptionStatus,
-} from "@/features/subscription/api/GetSubscriptionStatus";
-import { ApiError } from "@/lib/apiFetch";
-import { logServerError } from "@/lib/serverLogger";
+} from "@/lib/subscriptionStatus";
 
 const subscriptionStatusFailedMessage = "契約状態を確認できませんでした";
 const unauthorizedMessage = "ログインし直してください";

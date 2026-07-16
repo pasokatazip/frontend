@@ -2,7 +2,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #D2ECFF;
+  --foreground: #d2ecff;
   --content-max-width: 56rem;
   --page-padding-block: 2.5rem;
   --page-padding-inline: 1.5rem;
@@ -24,8 +24,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #D2ECFF;
-    --foreground: #D2ECFF;
+    --background: #d2ecff;
+    --foreground: #d2ecff;
   }
 }
 
@@ -47,7 +47,10 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family:
-    var(--font-inter, Inter), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    var(--font-inter, Inter),
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
     sans-serif;
 }
 
@@ -182,4 +185,35 @@ canvas {
   .auth-secondary-text {
     margin-top: 2rem;
   }
+}
+
+.color-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 40px;
+  height: 22px;
+  border-radius: 9999px;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 4px 0 #5bd4ec;
+  transition: transform 0.2s ease;
+}
+
+.color-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.08);
+}
+
+.color-slider::-webkit-slider-thumb:active {
+  transform: scale(1.15);
+}
+
+.color-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 9999px;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 4px 0 #5bd4ec;
 }

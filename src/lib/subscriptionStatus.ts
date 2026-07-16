@@ -7,6 +7,7 @@ const subscriptionStatusSchema = z.object({
   fincode_subscription_id: z.string().optional(),
 });
 
+// settingでも使うからsubscriptionStatusに切り出した
 export type SubscriptionStatus = z.infer<typeof subscriptionStatusSchema>;
 
 export async function getSubscriptionStatus(token: string) {

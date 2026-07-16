@@ -19,8 +19,18 @@ export function PetFrameAnimation({
   ...props
 }: PetFrameAnimationProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const hueRotateRef = useRef(hueRotate);
   const [isAnimationReady, setIsAnimationReady] = useState(false);
   const firstFrameUrl = frameUrls[0];
+
+  hueRotateRef.current = hueRotate;
+
+  useEffect(() => {
+    if (canvasRef.current) {
+      canvasRef.current.style.filter = `hue-rotate(${hueRotate}deg)`;
+    }
+  }, [hueRotate]);
 
   useEffect(() => {
     const animationContainer = containerRef.current;
@@ -57,9 +67,10 @@ export function PetFrameAnimation({
       }
 
       app.canvas.className = "absolute inset-0 block h-full w-full";
-      app.canvas.style.filter = `hue-rotate(${hueRotate}deg)`;
+      app.canvas.style.filter = `hue-rotate(${hueRotateRef.current}deg)`;
       app.canvas.setAttribute("aria-label", ariaLabel);
       app.canvas.setAttribute("role", "img");
+      canvasRef.current = app.canvas;
       container.appendChild(app.canvas);
 
       const sprite = new AnimatedSprite(textures);
@@ -99,6 +110,7 @@ export function PetFrameAnimation({
       destroyApplication = () => {
         resizeObserver.disconnect();
         reducedMotion.removeEventListener("change", updateMotion);
+        canvasRef.current = null;
         app.destroy(true, {
           children: true,
           texture: false,
@@ -113,7 +125,7 @@ export function PetFrameAnimation({
       cancelled = true;
       destroyApplication?.();
     };
-  }, [ariaLabel, frameUrls, hueRotate]);
+  }, [ariaLabel, frameUrls]);
 
   return (
     <div
