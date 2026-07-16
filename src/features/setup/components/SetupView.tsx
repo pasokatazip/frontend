@@ -4,7 +4,6 @@ import { useState } from "react";
 import { BlueButton } from "@/components/ui/button/BlueButton";
 import { PetSettingSection } from "@/components/ui/color/PetSettingSection";
 import { TopMessagePanel } from "@/components/ui/panel/TopMessagePanel";
-import Image from "next/image";
 import Link from "next/link";
 import { BabyPetAnimation } from "@/components/ui/pet/BabyPetAnimation";
 
@@ -30,9 +29,9 @@ export function SetupView({ growthMessage }: SetupViewProps) {
           </div>
 
           <footer className="absolute m-4 right-2 bottom-[calc(0.75rem+var(--safe-area-bottom))] left-2 z-20">
-            <PetSettingSection hue={hue} onHueChange={setHue} />
+            <PetSettingSection compact hue={hue} onHueChange={setHue} />
             <Link href="/GrowRecord" className="w-full flex m">
-              <BlueButton className="max-h-15 max-w-[85%] m-auto my-5">
+              <BlueButton className="max-h-12 max-w-[75%] m-auto my-3 text-base">
                 決定する
               </BlueButton>
             </Link>

@@ -1,6 +1,6 @@
 "use server";
 
-import { getAuthTokenCookie } from "@/features/auth/lib/authCookie";
+import { getAuthTokenCookie } from "@/lib/authCookie";
 import { startSubscriptionCheckout } from "@/features/subscription/api/StartSubscriptionCheckout";
 import { ApiError } from "@/lib/apiFetch";
 import { logServerError } from "@/lib/serverLogger";

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { TextButton } from "@/components/ui/button/TextButton";
 import { NotificationSettingSection } from "@/features/setting/components/NotificationSettingSection";
@@ -11,6 +10,9 @@ import Link from "next/link";
 import { BlueButton } from "@/components/ui/button/BlueButton";
 
 type SettingViewProps = {
+  hue: number;
+  isSubscriptionActive: boolean;
+  onHueChange: (value: number) => void;
   petImage: {
     alt: string;
     height: number;
@@ -19,8 +21,12 @@ type SettingViewProps = {
   };
 };
 
-export function SettingView({ petImage }: SettingViewProps) {
-  const [hue, setHue] = useState(0);
+export function SettingView({
+  hue,
+  isSubscriptionActive,
+  onHueChange,
+  petImage,
+}: SettingViewProps) {
   return (
     <main className="mobile-safe-scroll-screen relative overflow-hidden bg-[url('/images/background.png')] bg-cover bg-[position:center_top] bg-no-repeat px-4">
       <div className="mobile-safe-content mx-auto flex w-full max-w-[28rem] flex-col">
@@ -41,7 +47,9 @@ export function SettingView({ petImage }: SettingViewProps) {
           <h2 className="text-base leading-6 font-normal tracking-normal text-[#4C4F5E]">
             ペット設定
           </h2>
-          <PetSettingSection hue={hue} onHueChange={setHue}></PetSettingSection>
+          <PetSettingSection hue={hue} onHueChange={onHueChange}>
+            {!isSubscriptionActive && <PetLockedOverlay />}
+          </PetSettingSection>
         </section>
         <NotificationSettingSection />
 

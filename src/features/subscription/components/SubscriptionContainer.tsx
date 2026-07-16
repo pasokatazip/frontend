@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getSubscriptionStatusAction } from "@/features/subscription/actions/GetSubscriptionStatusAction";
+import { getSubscriptionStatusAction } from "@/actions/getSubscriptionStatusAction";
 import { startSubscriptionCheckoutAction } from "@/features/subscription/actions/StartSubscriptionCheckoutAction";
 import { SubscriptionView } from "./SubscriptionView";
 

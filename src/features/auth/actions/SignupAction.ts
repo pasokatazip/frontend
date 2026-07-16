@@ -1,7 +1,7 @@
 "use server";
 
 import { createUser } from "@/features/auth/api/CreateUser";
-import { setAuthTokenCookie } from "@/features/auth/lib/authCookie";
+import { setAuthTokenCookie } from "@/lib/authCookie";
 import { signupSchema } from "@/features/auth/schemas/signupSchema";
 import { logServerError } from "@/lib/serverLogger";
 

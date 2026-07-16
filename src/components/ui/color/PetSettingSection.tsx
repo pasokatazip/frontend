@@ -1,24 +1,33 @@
 "use client";
 
-import Image from "next/image";
 import { ReactNode } from "react";
+import { clsx } from "clsx";
 import { GlassCard } from "@/components/ui/card/GlassCard";
 import { TextInput } from "@/components/ui/input/TextInput";
 import { BabyPetAnimation } from "../pet/BabyPetAnimation";
 
 type PetSettingSectionProps = {
+  compact?: boolean;
   hue: number;
   onHueChange: (value: number) => void;
   children?: ReactNode;
 };
 
 export function PetSettingSection({
+  compact = false,
   hue,
   onHueChange,
   children,
 }: PetSettingSectionProps) {
   return (
-    <GlassCard className="relative mt-3 grid min-h-[11.5rem] grid-cols-[7rem_1fr] items-center gap-3 overflow-hidden px-4 py-6 sm:grid-cols-[8.5rem_1fr] sm:gap-5 sm:px-8 sm:py-7">
+    <GlassCard
+      className={clsx(
+        "relative mt-3 grid items-center overflow-hidden",
+        compact
+          ? "min-h-[9.5rem] grid-cols-[5.5rem_1fr] gap-2 px-3 py-4"
+          : "min-h-[11.5rem] grid-cols-[7rem_1fr] gap-3 px-4 py-6 sm:grid-cols-[8.5rem_1fr] sm:gap-5 sm:px-8 sm:py-7",
+      )}
+    >
       <BabyPetAnimation
         hueRotate={hue}
         className="h-full w-full drop-shadow-[0_0.875rem_1.125rem_rgba(20,154,125,0.28)]"
@@ -33,10 +42,11 @@ export function PetSettingSection({
         <TextInput
           id="pet-name"
           aria-label="ペット名"
+          className={compact ? "h-11" : undefined}
           defaultValue="ペット名"
         />
       </div>
-      <div className="relative mt-5">
+      <div className={clsx("relative col-span-2", compact ? "mt-3" : "mt-5")}>
         <label
           htmlFor="pet-color"
           className="mb-2 block text-sm text-[#4C4F5E]"
@@ -51,6 +61,8 @@ export function PetSettingSection({
           }}
         />
         <input
+          id="pet-color"
+          aria-label="ペットの色"
           type="range"
           min={0}
           max={360}
