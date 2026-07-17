@@ -9,14 +9,18 @@ import { BabyPetAnimation } from "../pet/BabyPetAnimation";
 type PetSettingSectionProps = {
   compact?: boolean;
   hue: number;
+  name?: string;
   onHueChange: (value: number) => void;
+  onNameChange?: (value: string) => void;
   children?: ReactNode;
 };
 
 export function PetSettingSection({
   compact = false,
   hue,
+  name,
   onHueChange,
+  onNameChange,
   children,
 }: PetSettingSectionProps) {
   return (
@@ -43,7 +47,9 @@ export function PetSettingSection({
           id="pet-name"
           aria-label="ペット名"
           className={compact ? "h-11" : undefined}
-          defaultValue="ペット名"
+          defaultValue={name === undefined ? "ペット名" : undefined}
+          onChange={(event) => onNameChange?.(event.target.value)}
+          value={name}
         />
       </div>
       <div className={clsx("relative col-span-2", compact ? "mt-3" : "mt-5")}>
