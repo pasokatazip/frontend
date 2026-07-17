@@ -11,7 +11,7 @@ export function PetLockedOverlay() {
     <div className="absolute inset-0 z-10 flex items-center justify-center gap-5">
       <div
         aria-hidden="true"
-        className="absolute inset-0 backdrop-blur-[4px]"
+        className="absolute inset-0 backdrop-blur-[4px] shadow-[0_4px_10px_0_#FFF_inset]"
         style={lockedOverlayStyle}
       />
       <Image
