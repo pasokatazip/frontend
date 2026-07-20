@@ -9,6 +9,7 @@ type DepartViewProps = {
     onNext: () => void;
     step: DepartStep;
     name: string;
+    petImageSrc: string;
 };
 
 type ScreenProps = {
@@ -35,7 +36,11 @@ function DepartScreen({ background, children }: DepartScreenProps) {
     );
 }
 
-function Convey({ name, onNext }: ScreenProps & { name: string }) {
+function Convey({
+    name,
+    onNext,
+    petImageSrc,
+}: ScreenProps & { name: string; petImageSrc: string }) {
     return (
         <DepartScreen background="home">
             <div className="relative min-h-[100dvh]">
@@ -53,7 +58,7 @@ function Convey({ name, onNext }: ScreenProps & { name: string }) {
                     className="mobile-safe-bottom-0 pointer-events-none fixed left-0 max-w-fit"
                 />
                 <Image
-                    src="/images/home/pet.png"
+                    src={petImageSrc}
                     alt="YO-YO"
                     width={360}
                     height={360}
@@ -140,10 +145,21 @@ function NextSetup({ onNext }: ScreenProps) {
     );
 }
 
-export function DepartView({ name, onNext, step }: DepartViewProps) {
+export function DepartView({
+    name,
+    onNext,
+    petImageSrc,
+    step,
+}: DepartViewProps) {
     switch (step) {
         case "Convey":
-            return <Convey name={name} onNext={onNext} />;
+            return (
+                <Convey
+                    name={name}
+                    onNext={onNext}
+                    petImageSrc={petImageSrc}
+                />
+            );
         case "Message":
             return <Message onNext={onNext} />;
         case "LastSouvenirs":
