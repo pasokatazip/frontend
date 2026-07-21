@@ -2,7 +2,7 @@
 
 import { clsx } from "clsx";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import type { HTMLAttributes } from "react";
 
 const petAnimationFps = 5;
@@ -25,31 +25,41 @@ export function PetFrameAnimation({
 }: PetFrameAnimationProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const hueRotateRef = useRef(hueRotate);
-  const [isAnimationReady, setIsAnimationReady] = useState(false);
+  const initializationQueueRef = useRef<Promise<void>>(Promise.resolve());
   const firstFrameUrl = frameUrls[0];
-
-  hueRotateRef.current = hueRotate;
-
-  useEffect(() => {
-    if (canvasRef.current) {
-      canvasRef.current.style.filter = `hue-rotate(${hueRotate}deg)`;
-    }
-  }, [hueRotate]);
 
   useEffect(() => {
     const animationContainer = containerRef.current;
+    const canvas = canvasRef.current;
 
-    if (!animationContainer) {
+    if (!animationContainer || !canvas || frameUrls.length === 0) {
       return;
     }
 
+    const container = animationContainer;
+    const outputCanvas = canvas;
     let cancelled = false;
     let destroyApplication: (() => void) | undefined;
-    setIsAnimationReady(false);
 
-    async function initializeAnimation(container: HTMLDivElement) {
-      const { AnimatedSprite, Application, Assets } = await import("pixi.js");
+    async function initializeAnimation(
+      container: HTMLDivElement,
+      outputCanvas: HTMLCanvasElement,
+    ) {
+      const {
+        AccessibilitySystem,
+        AnimatedSprite,
+        Application,
+        Assets,
+        extensions,
+      } = await import("pixi.js");
+
+      if (cancelled) {
+        return;
+      }
+
+      // React管理外のDOMを生成するため無効化
+      extensions.remove(AccessibilitySystem);
+
       const app = new Application();
       const texturePromise = Promise.all(
         frameUrls.map((url) => Assets.load(url)),
@@ -58,50 +68,75 @@ export function PetFrameAnimation({
       const [, textures] = await Promise.all([
         app.init({
           antialias: true,
+          autoStart: false,
           autoDensity: true,
           backgroundAlpha: 0,
-          resizeTo: container,
+          canvas: outputCanvas,
+          height: Math.max(container.clientHeight, 1),
           resolution: Math.min(window.devicePixelRatio, 2),
+          width: Math.max(container.clientWidth, 1),
         }),
         texturePromise,
       ]);
 
       if (cancelled) {
-        app.destroy(true);
+        app.destroy(false);
         return;
       }
-
-      app.canvas.className = "absolute inset-0 block h-full w-full";
-      app.canvas.style.filter = `hue-rotate(${hueRotateRef.current}deg)`;
-      app.canvas.setAttribute("aria-label", ariaLabel);
-      app.canvas.setAttribute("role", "img");
-      canvasRef.current = app.canvas;
-      container.appendChild(app.canvas);
 
       const sprite = new AnimatedSprite(textures);
       const reducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       );
+      let hasCompleted = false;
 
       sprite.anchor.set(0.5);
+      // Pixiの基準60fpsに対する比率で、1秒5コマの進行速度に合わせる
       sprite.animationSpeed = petAnimationFps / pixiDefaultFps;
       sprite.loop = loop;
+      sprite.onComplete = () => {
+        hasCompleted = true;
+        app.stop();
+      };
+      app.ticker.maxFPS = petAnimationFps;
       app.stage.addChild(sprite);
 
       function resizeSprite() {
-        app.resize();
-        const size = Math.min(app.screen.width, app.screen.height);
+        const width = container.clientWidth;
+        const height = container.clientHeight;
 
-        sprite.position.set(app.screen.width / 2, app.screen.height / 2);
+        if (width === 0 || height === 0) {
+          return;
+        }
+
+        app.renderer.resize(width, height);
+        const size = Math.min(width, height);
+
+        sprite.position.set(width / 2, height / 2);
         sprite.width = size;
         sprite.height = size;
       }
 
       function updateMotion() {
         if (reducedMotion.matches) {
+          hasCompleted = false;
           sprite.gotoAndStop(0);
-        } else {
+          return;
+        }
+
+        if (!hasCompleted) {
           sprite.play();
+        }
+      }
+
+      function updateVisibility() {
+        if (document.hidden) {
+          app.stop();
+          return;
+        }
+
+        if (!hasCompleted) {
+          app.start();
         }
       }
 
@@ -109,15 +144,18 @@ export function PetFrameAnimation({
 
       resizeObserver.observe(container);
       reducedMotion.addEventListener("change", updateMotion);
+      document.addEventListener("visibilitychange", updateVisibility);
       resizeSprite();
       updateMotion();
-      setIsAnimationReady(true);
+      updateVisibility();
 
       destroyApplication = () => {
+        app.stop();
         resizeObserver.disconnect();
         reducedMotion.removeEventListener("change", updateMotion);
-        canvasRef.current = null;
-        app.destroy(true, {
+        document.removeEventListener("visibilitychange", updateVisibility);
+        // canvasはReact、textureはAssetsキャッシュが所有するためPixiでは破棄しない
+        app.destroy(false, {
           children: true,
           texture: false,
           textureSource: false,
@@ -125,13 +163,27 @@ export function PetFrameAnimation({
       };
     }
 
-    void initializeAnimation(animationContainer);
+    // 前回の非同期初期化と破棄が完了してから、同じcanvasを再利用する
+    const previousInitialization = initializationQueueRef.current;
+
+    async function queueInitialization() {
+      await previousInitialization.catch(() => null);
+
+      if (!cancelled) {
+        await initializeAnimation(container, outputCanvas);
+      }
+    }
+
+    const initialization = queueInitialization();
+
+    initializationQueueRef.current = initialization;
+    void initialization.catch(() => null);
 
     return () => {
       cancelled = true;
       destroyApplication?.();
     };
-  }, [ariaLabel, frameUrls, loop]);
+  }, [frameUrls, loop]);
 
   return (
     <div
@@ -148,13 +200,17 @@ export function PetFrameAnimation({
           priority
           sizes="8.75rem"
           unoptimized
-          className={clsx(
-            "absolute inset-0 h-full w-full object-contain transition-opacity duration-150",
-            isAnimationReady ? "opacity-0" : "opacity-100",
-          )}
+          className="absolute inset-0 h-full w-full object-contain"
           style={{ filter: `hue-rotate(${hueRotate}deg)` }}
         />
       ) : null}
+      <canvas
+        aria-hidden="true"
+        className="absolute inset-0 block h-full w-full"
+        ref={canvasRef}
+        style={{ filter: `hue-rotate(${hueRotate}deg)` }}
+      />
+      <span className="sr-only">{ariaLabel}</span>
     </div>
   );
 }
