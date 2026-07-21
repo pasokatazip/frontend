@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { DialoguePanel } from "@/components/ui/dialogue/DialoguePanel";
-import { BabyPetAnimation } from "@/components/ui/pet/BabyPetAnimation";
+import { BabyPetAnimation } from "@/components/ui/pet/animations/BabyPet/BabyPetAnimation";
 
 type GrowViewProps = {
   dialogue: {

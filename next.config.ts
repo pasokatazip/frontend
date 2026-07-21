@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   env: {
+    PETYOYO_IMAGE_VERSION: process.env.PETYOYO_IMAGE_VERSION ?? "",
     PETYOYO_IMAGE_URL: process.env.PETYOYO_IMAGE_URL ?? "",
   },
 };

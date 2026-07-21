@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import { clsx } from "clsx";
 import { GlassCard } from "@/components/ui/card/GlassCard";
 import { TextInput } from "@/components/ui/input/TextInput";
-import { BabyPetAnimation } from "../pet/BabyPetAnimation";
+import { BabyPetAnimation } from "../pet/animations/BabyPet/BabyPetAnimation";
 
 type PetSettingSectionProps = {
   compact?: boolean;
