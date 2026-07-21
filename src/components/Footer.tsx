@@ -15,7 +15,7 @@ export function Footer() {
     setMenu(!openMenu);
   };
   return (
-    <footer className="mobile-safe-footer fixed left-0 min-w-full px-4">
+    <footer className="mobile-safe-footer fixed left-0 z-20 min-w-full px-4">
       <nav className="flex justify-center gap-5">
         <Link href="/Report">
           <RoundButton image="/icons/book.svg" label="きろく" className="" />
