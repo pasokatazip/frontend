@@ -4,7 +4,7 @@ import type { ComponentProps } from "react";
 import { BlueButton } from "@/components/ui/button/BlueButton";
 import { PetSettingSection } from "@/components/ui/color/PetSettingSection";
 import { TopMessagePanel } from "@/components/ui/panel/TopMessagePanel";
-import { BabyPetAnimation } from "@/components/ui/pet/BabyPetAnimation";
+import { BabyPetAnimation } from "@/components/ui/pet/animations/BabyPet/BabyPetAnimation";
 
 type SetupViewProps = {
   growthMessage: string;

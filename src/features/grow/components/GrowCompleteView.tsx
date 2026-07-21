@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { DialoguePanel } from "@/components/ui/dialogue/DialoguePanel";
 import { TopMessagePanel } from "@/components/ui/panel/TopMessagePanel";
-import { BabyPetAnimation } from "@/components/ui/pet/BabyPetAnimation";
+import { BabyPetAnimation } from "@/components/ui/pet/animations/BabyPet/BabyPetAnimation";
 
 type GrowCompleteViewProps = {
   dialogue: {

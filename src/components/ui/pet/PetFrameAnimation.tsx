@@ -5,10 +5,14 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { HTMLAttributes } from "react";
 
+const petAnimationFps = 5;
+const pixiDefaultFps = 60;
+
 export type PetFrameAnimationProps = HTMLAttributes<HTMLDivElement> & {
   ariaLabel?: string;
   frameUrls: string[];
   hueRotate?: number;
+  loop?: boolean;
 };
 
 export function PetFrameAnimation({
@@ -16,6 +20,7 @@ export function PetFrameAnimation({
   className,
   frameUrls,
   hueRotate = 212,
+  loop = true,
   ...props
 }: PetFrameAnimationProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -79,7 +84,8 @@ export function PetFrameAnimation({
       );
 
       sprite.anchor.set(0.5);
-      sprite.animationSpeed = 1 / 14;
+      sprite.animationSpeed = petAnimationFps / pixiDefaultFps;
+      sprite.loop = loop;
       app.stage.addChild(sprite);
 
       function resizeSprite() {
@@ -125,7 +131,7 @@ export function PetFrameAnimation({
       cancelled = true;
       destroyApplication?.();
     };
-  }, [ariaLabel, frameUrls]);
+  }, [ariaLabel, frameUrls, loop]);
 
   return (
     <div
