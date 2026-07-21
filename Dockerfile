@@ -1,30 +1,36 @@
+ARG NODE_VERSION=24.18.0
+
+# ********************
+# 共通のNode・pnpm環境
+# ********************
+FROM node:${NODE_VERSION}-alpine3.24 AS base
+
+ARG PNPM_VERSION=10.16.1
+
+# pnpmはCorepackで管理し、実行時に不要なnpmはイメージへ残さない
+RUN corepack enable && \
+    corepack prepare pnpm@${PNPM_VERSION} --activate && \
+    rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx
+
 # ********************
 # 依存関係をインストールする
 # ********************
-FROM node:24-alpine AS deps
+FROM base AS deps
 
 WORKDIR /app
 
 # package.json  pnpm-lock.yamlをコピーしてDocker cacheを効かせる
 COPY package.json pnpm-lock.yaml ./
 
-# pnpmをインストールして依存関係をインストール
-RUN npm install -g pnpm@10.16.1 && \
-    pnpm install --frozen-lockfile
+# 依存関係をインストール
+RUN pnpm install --frozen-lockfile
 
 # ********************
 # 開発用
 # ********************
-FROM node:24-alpine AS dev
+FROM base AS dev
 
 WORKDIR /app
-
-RUN npm install -g pnpm@10.16.1
-# deps stageで作ったnode_modulesを使う
-COPY --from=deps /app/node_modules ./node_modules
-
-# アプリコピー
-COPY . .
 
 EXPOSE 3000
 
@@ -34,11 +40,9 @@ CMD ["pnpm", "run", "dev", "-H", "0.0.0.0"]
 # ********************
 # 本番build 
 # ********************
-FROM node:24-alpine AS builder
+FROM base AS builder
 
 WORKDIR /app
-
-RUN npm install -g pnpm@10.16.1
 
 # deps stageで作ったnode_modulesを使う
 COPY --from=deps /app/node_modules ./node_modules
@@ -52,11 +56,9 @@ RUN pnpm run build
 # ********************
 # 本番実行
 # ********************
-FROM node:24-alpine AS prod
+FROM base AS prod
 
 WORKDIR /app
-
-RUN npm install -g pnpm@10.16.1
 
 ENV NODE_ENV=production
 ENV PORT=3000
