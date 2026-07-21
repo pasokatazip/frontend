@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import { GetItemBubble } from "@/components/ui/bubble/GetItemBubble";
 import { TopMessagePanel } from "@/components/ui/panel/TopMessagePanel";
+import { shadows } from "@/components/layout/shadowLayout";
 
 export type DepartStep = "Convey" | "Message" | "LastSouvenirs" | "NextSetup";
 
@@ -90,7 +91,10 @@ function Message({ onNext }: ScreenProps) {
                     height={360}
                     className="h-40 w-40 object-contain"
                 />
-                <p className="text-lg text-teal-500 leading-6 [text-shadow:0px_0px_4px_rgb(0_0_0/0.25)]">
+                <p
+                    className="text-lg text-teal-500 leading-6"
+                    style={{ textShadow: shadows.blackSoft }}
+                >
                     しあわせに なるYO...
                 </p>
             </button>
