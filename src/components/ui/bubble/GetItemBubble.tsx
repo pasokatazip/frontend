@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import Image, { type StaticImageData } from "next/image";
+import { shadows } from "@/components/layout/shadowLayout";
 
 export type GetItemBubbleSouvenir = {
     image: StaticImageData | string;
@@ -38,7 +39,10 @@ export function GetItemBubble({
             />
 
             <div className="relative z-10 flex h-full flex-col gap-2 items-center justify-center px-[16%] text-center">
-                <p className="text-zinc-600 text-base leading-6 [text-shadow:0px_0px_2px_rgb(255_255_255/1.00)]">
+                <p
+                    className="text-zinc-600 text-base leading-6"
+                    style={{ textShadow: shadows.dropwhite }}
+                >
                     {text}
                 </p>
                 <div className="flex w-full items-start justify-center gap-2">
@@ -54,7 +58,10 @@ export function GetItemBubble({
                                 height={112}
                                 className={`${souvenirImageClassName} shrink-0 object-contain`}
                             />
-                            <p className="w-full truncate text-center text-[10px] leading-4 text-zinc-600 [text-shadow:0px_0px_4px_rgb(255_255_255/1.00)]">
+                            <p
+                                className="w-full truncate text-center text-[10px] leading-4 text-zinc-600"
+                                style={{ textShadow: shadows.dropwhiteLarge }}
+                            >
                                 {souvenir.name}
                             </p>
                         </div>
