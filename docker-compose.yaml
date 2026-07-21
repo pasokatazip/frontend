@@ -24,7 +24,7 @@ services:
       # Next.jsの生成物はコンテナ側の書き込み可能なvolumeで保持
       - front-next:/app/.next
 
-    command: pnpm run dev -H 0.0.0.0
+    command: sh -c "pnpm install --frozen-lockfile && pnpm run dev -H 0.0.0.0"
 
 volumes:
   front-node-modules:
