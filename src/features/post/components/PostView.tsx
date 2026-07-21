@@ -5,14 +5,18 @@ import { PostComposer } from "@/components/ui/form/PostComposer";
 
 type PostViewProps = {
   message: string;
+  submitError?: string;
+
   onHome: () => void;
   onMessageChange: (message: string) => void;
   onSubmit?: (message: string) => void;
+
   petImage: StaticImageData;
 };
 
 export function PostView({
   message,
+  submitError,
   onHome,
   onMessageChange,
   onSubmit,
@@ -21,11 +25,12 @@ export function PostView({
   return (
     <PetComposerLayout petImage={petImage}>
       <PostComposer
-        onSubmit={onSubmit}
-        onValueChange={onMessageChange}
         value={message}
+        onValueChange={onMessageChange}
+        onSubmit={onSubmit}
       />
 
+      <p className="min-h-4 text-center text-xs text-red-600">{submitError}</p>
       <div className="fixed bottom-[calc(0.25rem+var(--safe-area-bottom))] left-4">
         <RoundButton
           image="/icons/home.svg"
