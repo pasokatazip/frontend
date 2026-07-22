@@ -2,6 +2,7 @@ import Image from "next/image";
 import { shadows } from "@/components/layout/shadowLayout";
 import { GreenButton } from "@/components/ui/button/GreenButton";
 import { LoginForm, type LoginFormProps } from "./LoginForm";
+import Link from "next/link";
 
 type LoginViewProps = Pick<
   LoginFormProps,
@@ -68,7 +69,7 @@ export function LoginView({
           className="mt-4 max-w-[21rem] text-sm"
           style={{ height: "3.5rem" }}
         >
-          アカウント作成
+          <Link href="/Signup">アカウント作成</Link>
         </GreenButton>
       </div>
     </main>
