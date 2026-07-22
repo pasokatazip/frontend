@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { RoundButton } from "@/components/ui/button/RoundButton";
+import Link from "next/link";
 
 type SettingFooterProps = {
   petImage: {
@@ -13,7 +14,9 @@ type SettingFooterProps = {
 export function SettingFooter({ petImage }: SettingFooterProps) {
   return (
     <div className="mt-auto flex items-end justify-between pb-1">
-      <RoundButton image="/icons/home.svg" label="ホームへ" />
+      <Link href="/Home">
+        <RoundButton image="/icons/home.svg" label="ホームへ" />
+      </Link>
       <Image
         src={petImage.src}
         alt={petImage.alt}

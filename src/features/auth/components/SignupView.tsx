@@ -2,6 +2,7 @@ import Image from "next/image";
 import { shadows } from "@/components/layout/shadowLayout";
 import { BlueButton } from "@/components/ui/button/BlueButton";
 import { SignupForm, type SignupFormProps } from "./SignupForm";
+import Link from "next/link";
 
 type SignupViewProps = Pick<
   SignupFormProps,
@@ -68,7 +69,7 @@ export function SignupView({
           className="mt-4 max-w-[21rem] text-sm"
           style={{ height: "3.5rem" }}
         >
-          ログイン
+          <Link href="/Login">ログイン</Link>
         </BlueButton>
       </div>
     </main>
