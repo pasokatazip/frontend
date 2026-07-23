@@ -2,7 +2,7 @@
 
 import { clsx } from "clsx";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { HTMLAttributes } from "react";
 
 const petAnimationFps = 5;
@@ -35,12 +35,15 @@ export function PetFrameAnimation({
   const initializationQueueRef = useRef<Promise<void>>(Promise.resolve());
   const onCompleteRef = useRef(onComplete);
   const onIntroCompleteRef = useRef(onIntroComplete);
+  const [canvasIsReady, setCanvasIsReady] = useState(false);
   const firstFrameUrl = introFrameUrls[0] ?? frameUrls[0];
 
   onCompleteRef.current = onComplete;
   onIntroCompleteRef.current = onIntroComplete;
 
   useEffect(() => {
+    setCanvasIsReady(false);
+
     const animationContainer = containerRef.current;
     const canvas = canvasRef.current;
 
@@ -187,6 +190,8 @@ export function PetFrameAnimation({
       document.addEventListener("visibilitychange", updateVisibility);
       resizeSprite();
       updateMotion();
+      app.renderer.render(app.stage);
+      setCanvasIsReady(true);
       updateVisibility();
 
       destroyApplication = () => {
@@ -240,13 +245,19 @@ export function PetFrameAnimation({
           priority
           sizes="8.75rem"
           unoptimized
-          className="absolute inset-0 h-full w-full object-contain"
+          className={clsx(
+            "absolute inset-0 h-full w-full object-contain",
+            canvasIsReady && "invisible",
+          )}
           style={{ filter: `hue-rotate(${hueRotate}deg)` }}
         />
       ) : null}
       <canvas
         aria-hidden="true"
-        className="absolute inset-0 block h-full w-full"
+        className={clsx(
+          "absolute inset-0 block h-full w-full",
+          !canvasIsReady && "invisible",
+        )}
         ref={canvasRef}
         style={{ filter: `hue-rotate(${hueRotate}deg)` }}
       />
