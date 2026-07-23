@@ -11,6 +11,7 @@ import {
 
 const movementInterval = 100;
 const movementSeconds = movementInterval / 1_000;
+const noPausedPetIds = new Set<string>();
 
 type InitialPositionArea = {
   height: number;
@@ -21,6 +22,7 @@ type InitialPositionArea = {
 type HomePetMovementOptions = {
   enabled?: boolean;
   initialPositionArea?: InitialPositionArea;
+  pausedPetIds?: ReadonlySet<string>;
 };
 
 export function useHomePetMovement(
@@ -28,13 +30,17 @@ export function useHomePetMovement(
   {
     enabled = true,
     initialPositionArea,
+    pausedPetIds = noPausedPetIds,
   }: HomePetMovementOptions = {},
 ) {
   const fieldRef = useRef<HTMLDivElement>(null);
-  const petRef = useRef<HTMLDivElement>(null);
+  const petRef = useRef<HTMLButtonElement>(null);
   const boundsRef = useRef<MovementBounds | null>(null);
+  const pausedPetIdsRef = useRef(pausedPetIds);
   const timerRef = useRef<number | null>(null);
   const [motions, setMotions] = useState<PetMotion[]>([]);
+
+  pausedPetIdsRef.current = pausedPetIds;
 
   useEffect(() => {
     if (!enabled && !initialPositionArea) {
@@ -77,6 +83,7 @@ export function useHomePetMovement(
             bounds,
             Date.now(),
             movementSeconds,
+            pausedPetIdsRef.current,
           ),
         );
       }
