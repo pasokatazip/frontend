@@ -1,16 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ReportView } from "./ReportView";
 import type { Souvenir } from "@/types/souvenir";
+import { getReportAction } from "../actions/GetReportAction";
+import { Report } from "../schemas/ReportSchema";
 
 export function ReportContainer() {
   const [date, setDate] = useState(new Date());
   const [openCalendar, setOpenCalendar] = useState(false);
   const [openRewardModal, setOpenRewardModal] = useState(false);
-  const today = new Date();
 
   const [todaySouvenirs, setTodaySouvenirs] = useState<Souvenir[]>([]);
+  const [reports, setReports] = useState<Report[]>([]);
+
+  const today = new Date();
+
+  useEffect(() => {
+    async function fetchReports() {
+      try {
+        const data = await getReportAction();
+        setReports(data.reports);
+      } catch (error) {
+        console.error("レポート取得失敗", error);
+      }
+    }
+
+    fetchReports();
+  }, []);
 
   const prevDay = () => {
     setDate((prev) => {
@@ -32,9 +49,21 @@ export function ReportContainer() {
     if (todaySouvenirs.length > 0) return;
 
     const rewards = [
-      { id: 1, image: "/images/souvenir/secret.png", name: "ああああああああ" },
-      { id: 2, image: "/images/souvenir/secret.png", name: "ああああああああ" },
-      { id: 3, image: "/images/souvenir/secret.png", name: "ああああああああ" },
+      {
+        id: 1,
+        image: "/images/souvenir/secret.png",
+        name: "ああああああああ",
+      },
+      {
+        id: 2,
+        image: "/images/souvenir/secret.png",
+        name: "ああああああああ",
+      },
+      {
+        id: 3,
+        image: "/images/souvenir/secret.png",
+        name: "ああああああああ",
+      },
     ];
 
     setTodaySouvenirs(rewards);
@@ -68,6 +97,8 @@ export function ReportContainer() {
           setDate(date);
           setOpenCalendar(false);
         },
+
+        reports,
 
         todaySouvenirs,
         onPraise: handlePraise,
