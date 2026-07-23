@@ -1,13 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePetProgressStore } from "@/stores/usePetProgressStore";
 import { usePetProgressHydration } from "@/hooks/usePetProgressHydration";
 import { GrowCompleteView } from "./GrowCompleteView";
 
 export function GrowCompleteContainer() {
   const router = useRouter();
+  const isLeavingRef = useRef(false);
   const hasHydrated = usePetProgressHydration();
   const evolutionFlow = usePetProgressStore((state) => state.evolutionFlow);
   const setEvolutionFlow = usePetProgressStore(
@@ -18,7 +19,11 @@ export function GrowCompleteContainer() {
   const stageKey = evolutionFlow?.toStageKey ?? "akago";
 
   useEffect(() => {
-    if (hasHydrated && evolutionFlow?.step !== "complete") {
+    if (
+      hasHydrated &&
+      !isLeavingRef.current &&
+      evolutionFlow?.step !== "complete"
+    ) {
       router.replace("/Home");
     }
   }, [evolutionFlow?.step, hasHydrated, router]);
@@ -28,6 +33,7 @@ export function GrowCompleteContainer() {
   }
 
   function handleNext() {
+    isLeavingRef.current = true;
     setEvolutionFlow();
     router.push("/Home");
   }
