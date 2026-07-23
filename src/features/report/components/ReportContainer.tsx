@@ -17,19 +17,28 @@ export function ReportContainer() {
   const today = new Date();
 
   useEffect(() => {
+    let ignore = false;
+
     async function fetchReports() {
       try {
         const targetDate = date.toISOString().split("T")[0];
-
         const data = await getReportAction(targetDate);
 
-        setReports(data.reports);
+        if (!ignore) {
+          setReports(data.reports);
+        }
       } catch (error) {
-        console.error("レポート取得失敗", error);
+        if (!ignore) {
+          console.error("レポート取得失敗", error);
+        }
       }
     }
 
     fetchReports();
+
+    return () => {
+      ignore = true;
+    };
   }, [date]);
 
   const prevDay = () => {
