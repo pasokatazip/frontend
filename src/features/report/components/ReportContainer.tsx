@@ -19,7 +19,10 @@ export function ReportContainer() {
   useEffect(() => {
     async function fetchReports() {
       try {
-        const data = await getReportAction();
+        const targetDate = date.toISOString().split("T")[0];
+
+        const data = await getReportAction(targetDate);
+
         setReports(data.reports);
       } catch (error) {
         console.error("レポート取得失敗", error);
@@ -27,7 +30,7 @@ export function ReportContainer() {
     }
 
     fetchReports();
-  }, []);
+  }, [date]);
 
   const prevDay = () => {
     setDate((prev) => {
