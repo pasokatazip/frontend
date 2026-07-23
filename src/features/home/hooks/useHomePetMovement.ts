@@ -6,12 +6,30 @@ import {
   updatePetMotions,
   type MovementBounds,
   type PetMotion,
+  type PetPosition,
 } from "@/features/home/utils/petMovement";
 
 const movementInterval = 100;
 const movementSeconds = movementInterval / 1_000;
 
-export function useHomePetMovement(petIds: string[]) {
+type InitialPositionArea = {
+  height: number;
+  positions: PetPosition[];
+  width: number;
+};
+
+type HomePetMovementOptions = {
+  enabled?: boolean;
+  initialPositionArea?: InitialPositionArea;
+};
+
+export function useHomePetMovement(
+  petIds: string[],
+  {
+    enabled = true,
+    initialPositionArea,
+  }: HomePetMovementOptions = {},
+) {
   const fieldRef = useRef<HTMLDivElement>(null);
   const petRef = useRef<HTMLDivElement>(null);
   const boundsRef = useRef<MovementBounds | null>(null);
@@ -19,6 +37,16 @@ export function useHomePetMovement(petIds: string[]) {
   const [motions, setMotions] = useState<PetMotion[]>([]);
 
   useEffect(() => {
+    if (!enabled && !initialPositionArea) {
+      setMotions([]);
+      return;
+    }
+
+    if (initialPositionArea?.positions.length === 0) {
+      setMotions([]);
+      return;
+    }
+
     const field = fieldRef.current;
     const petElement = petRef.current;
 
@@ -57,7 +85,7 @@ export function useHomePetMovement(petIds: string[]) {
     function syncMovement() {
       stopMovement();
 
-      if (!document.hidden && !reducedMotion.matches) {
+      if (enabled && !document.hidden && !reducedMotion.matches) {
         timerRef.current = window.setInterval(movePets, movementInterval);
       }
     }
@@ -79,7 +107,21 @@ export function useHomePetMovement(petIds: string[]) {
 
     const bounds = updateBounds();
 
-    setMotions(createInitialPetMotions(petIds, bounds, Date.now()));
+    const startingPositions = initialPositionArea
+      ? initialPositionArea.positions.map((position) => ({
+          ...position,
+          x:
+            (fieldElement.clientWidth - initialPositionArea.width) / 2 +
+            position.x,
+          y:
+            (fieldElement.clientHeight - initialPositionArea.height) / 2 +
+            position.y,
+        }))
+      : [];
+
+    setMotions(
+      createInitialPetMotions(petIds, bounds, Date.now(), startingPositions),
+    );
 
     const resizeObserver = new ResizeObserver(updateBounds);
 
@@ -94,7 +136,7 @@ export function useHomePetMovement(petIds: string[]) {
       document.removeEventListener("visibilitychange", syncMovement);
       reducedMotion.removeEventListener("change", syncMovement);
     };
-  }, [petIds]);
+  }, [enabled, initialPositionArea, petIds]);
 
   return { fieldRef, motions, petRef };
 }
