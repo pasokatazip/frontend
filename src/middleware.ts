@@ -1,16 +1,24 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { isAuthTokenCurrent } from "@/lib/authToken";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const isPublicPath = pathname === "/Login" || pathname === "/Signup";
 
-  const token = request.cookies.get("auth_token");
-  const isLoggedIn = Boolean(token);
+  const token = request.cookies.get("auth_token")?.value;
+  const tokenIsCurrent = token ? isAuthTokenCurrent(token) : false;
+  const isLoggedIn = Boolean(token) && tokenIsCurrent;
 
   if (!isLoggedIn && !isPublicPath) {
-    return NextResponse.redirect(new URL("/Login", request.url));
+    const response = NextResponse.redirect(new URL("/Login", request.url));
+
+    if (token && !tokenIsCurrent) {
+      response.cookies.delete("auth_token");
+    }
+
+    return response;
   }
 
   if (
