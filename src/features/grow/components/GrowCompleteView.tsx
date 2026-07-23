@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { DialoguePanel } from "@/components/ui/dialogue/DialoguePanel";
+import { PetStageAnimation } from "@/components/ui/pet/PetStageAnimation";
 import { TopMessagePanel } from "@/components/ui/panel/TopMessagePanel";
-import { BabyPetAnimation } from "@/components/ui/pet/animations/BabyPet/BabyPetAnimation";
 
 type GrowCompleteViewProps = {
   dialogue: {
@@ -17,12 +17,16 @@ type GrowCompleteViewProps = {
     width: number;
   };
   growthMessage: string;
+  onNext: () => void;
+  stageKey: string;
 };
 
 export function GrowCompleteView({
   dialogue,
   doctorImage,
   growthMessage,
+  onNext,
+  stageKey,
 }: GrowCompleteViewProps) {
   return (
     <main className="mobile-screen relative overflow-hidden bg-[url('/images/background.png')] bg-cover bg-center bg-no-repeat">
@@ -32,7 +36,10 @@ export function GrowCompleteView({
         </TopMessagePanel>
 
         <div className="absolute top-[35%] left-1/2 h-[7.5rem] w-[8.5rem] -translate-x-1/2">
-          <BabyPetAnimation className="h-full w-full drop-shadow-[0_0.875rem_1.125rem_rgba(20,154,125,0.28)]" />
+          <PetStageAnimation
+            className="h-full w-full drop-shadow-[0_0.875rem_1.125rem_rgba(20,154,125,0.28)]"
+            stageKey={stageKey}
+          />
         </div>
 
         <Image
@@ -47,6 +54,7 @@ export function GrowCompleteView({
         <div className="absolute right-2 bottom-[calc(0.75rem+var(--safe-area-bottom))] left-2 z-20">
           <DialoguePanel
             message={dialogue.message}
+            onNext={onNext}
             speaker={dialogue.speaker}
             typingInterval={24}
           />

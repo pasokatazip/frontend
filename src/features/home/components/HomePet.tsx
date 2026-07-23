@@ -1,34 +1,49 @@
-import Image from "next/image";
-import { BabyPetWalkAnimation } from "@/components/ui/pet/animations/BabyPetWalk/BabyPetWalkAnimation";
+import { clsx } from "clsx";
+import { PetStageAnimation } from "@/components/ui/pet/PetStageAnimation";
 import type { Ref } from "react";
 
 export type HomePetProps = {
+  className?: string;
   elementRef?: Ref<HTMLDivElement>;
   facing?: 1 | -1;
   hueRotate: number;
-  imageUrl: string;
+  layout?: "field" | "group";
   name: string;
+  onWalkStart?: () => void;
+  stageKey: string;
+  variant?: "walk" | "yo";
   x?: number;
   y?: number;
 };
 
 export function HomePet({
+  className,
   elementRef,
   facing = 1,
   hueRotate,
-  imageUrl,
+  layout = "field",
   name,
+  onWalkStart,
+  stageKey,
+  variant = "walk",
   x,
   y,
 }: HomePetProps) {
   const hasPosition = x !== undefined && y !== undefined;
+  const isVisible = hasPosition;
 
   return (
     <div
-      className="absolute top-0 left-0 h-[8.75rem] w-[10rem] transition-[transform,opacity] duration-100 ease-linear will-change-transform"
+      className={clsx(
+        "transition-[transform,opacity] duration-100 ease-linear will-change-transform",
+        layout === "field"
+          ? "absolute top-0 left-0 h-[8.75rem] w-[10rem]"
+          : "h-28 w-32",
+        className,
+      )}
       ref={elementRef}
       style={{
-        opacity: hasPosition ? 1 : 0,
+        opacity: isVisible ? 1 : 0,
         transform: hasPosition ? `translate3d(${x}px, ${y}px, 0)` : undefined,
       }}
     >
@@ -37,21 +52,13 @@ export function HomePet({
         className="relative h-full w-full drop-shadow-[0_0.875rem_1.125rem_rgba(20,154,125,0.28)]"
         style={{ transform: `scaleX(${facing})` }}
       >
-        <Image
-          src={imageUrl}
-          alt=""
-          aria-hidden="true"
-          fill
-          loading="eager"
-          sizes="10rem"
-          unoptimized
-          className="object-contain"
-          style={{ filter: `hue-rotate(${hueRotate}deg)` }}
-        />
-        <BabyPetWalkAnimation
+        <PetStageAnimation
           aria-hidden="true"
           hueRotate={hueRotate}
           className="absolute inset-0 h-full w-full"
+          onIntroComplete={onWalkStart}
+          stageKey={stageKey}
+          variant={variant === "yo" ? "yoWalk" : "walk"}
         />
       </div>
     </div>

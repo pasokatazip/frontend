@@ -14,6 +14,8 @@ export type PetMotion = {
   y: number;
 };
 
+export type PetPosition = Pick<PetMotion, "id" | "x" | "y">;
+
 const collisionDistanceRatio = 0.5;
 const minimumSpeed = 28;
 const speedRange = 18;
@@ -27,8 +29,49 @@ const initialPositions = [
   { x: 0.28, y: 0.68 },
 ];
 
+const groupedPetCells = [0, 1, 2, 3];
+const groupedPetCellHeight = 116;
+const groupedPetCellWidth = 132;
+const groupedPetHeight = 112;
+const groupedPetWidth = 128;
+
 function randomBetween(minimum: number, maximum: number) {
   return minimum + Math.random() * (maximum - minimum);
+}
+
+function shuffle(values: number[]) {
+  const shuffledValues = [...values];
+
+  for (let index = shuffledValues.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+
+    [shuffledValues[index], shuffledValues[randomIndex]] = [
+      shuffledValues[randomIndex],
+      shuffledValues[index],
+    ];
+  }
+
+  return shuffledValues;
+}
+
+export function createGroupedPetPositions(petIds: string[]) {
+  const cells = shuffle(groupedPetCells);
+
+  return petIds.slice(0, cells.length).map((id, index) => {
+    const cell = cells[index];
+    const column = cell % 2;
+    const row = Math.floor(cell / 2);
+
+    return {
+      id,
+      x:
+        column * groupedPetCellWidth +
+        randomBetween(0, groupedPetCellWidth - groupedPetWidth),
+      y:
+        row * groupedPetCellHeight +
+        randomBetween(0, groupedPetCellHeight - groupedPetHeight),
+    } satisfies PetPosition;
+  });
 }
 
 function createVelocity() {
@@ -124,9 +167,13 @@ export function createInitialPetMotions(
   petIds: string[],
   bounds: MovementBounds,
   now: number,
+  startingPositions: PetPosition[] = [],
 ) {
   const motions = petIds.map((id, index) => {
     const initialPosition = initialPositions[index] ?? { x: 0.5, y: 0.5 };
+    const startingPosition = startingPositions.find(
+      (position) => position.id === id,
+    );
     const velocity = createVelocity();
 
     return {
@@ -134,8 +181,8 @@ export function createInitialPetMotions(
       id,
       nextDirectionChange: getNextDirectionChange(now),
       ...velocity,
-      x: bounds.maximumX * initialPosition.x,
-      y: bounds.maximumY * initialPosition.y,
+      x: startingPosition?.x ?? bounds.maximumX * initialPosition.x,
+      y: startingPosition?.y ?? bounds.maximumY * initialPosition.y,
     } satisfies PetMotion;
   });
 

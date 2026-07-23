@@ -7,12 +7,16 @@ import type { HTMLAttributes } from "react";
 
 const petAnimationFps = 5;
 const pixiDefaultFps = 60;
+const emptyFrameUrls: string[] = [];
 
 export type PetFrameAnimationProps = HTMLAttributes<HTMLDivElement> & {
   ariaLabel?: string;
   frameUrls: string[];
   hueRotate?: number;
+  introFrameUrls?: string[];
   loop?: boolean;
+  onComplete?: () => void;
+  onIntroComplete?: () => void;
 };
 
 export function PetFrameAnimation({
@@ -20,13 +24,21 @@ export function PetFrameAnimation({
   className,
   frameUrls,
   hueRotate = 212,
+  introFrameUrls = emptyFrameUrls,
   loop = true,
+  onComplete,
+  onIntroComplete,
   ...props
 }: PetFrameAnimationProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const initializationQueueRef = useRef<Promise<void>>(Promise.resolve());
-  const firstFrameUrl = frameUrls[0];
+  const onCompleteRef = useRef(onComplete);
+  const onIntroCompleteRef = useRef(onIntroComplete);
+  const firstFrameUrl = introFrameUrls[0] ?? frameUrls[0];
+
+  onCompleteRef.current = onComplete;
+  onIntroCompleteRef.current = onIntroComplete;
 
   useEffect(() => {
     const animationContainer = containerRef.current;
@@ -62,7 +74,7 @@ export function PetFrameAnimation({
 
       const app = new Application();
       const texturePromise = Promise.all(
-        frameUrls.map((url) => Assets.load(url)),
+        [...introFrameUrls, ...frameUrls].map((url) => Assets.load(url)),
       );
 
       const [, textures] = await Promise.all([
@@ -84,19 +96,34 @@ export function PetFrameAnimation({
         return;
       }
 
-      const sprite = new AnimatedSprite(textures);
+      const introTextures = textures.slice(0, introFrameUrls.length);
+      const mainTextures = textures.slice(introFrameUrls.length);
+      const sprite = new AnimatedSprite(
+        introTextures.length > 0 ? introTextures : mainTextures,
+      );
       const reducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       );
       let hasCompleted = false;
+      let isPlayingIntro = introTextures.length > 0;
 
       sprite.anchor.set(0.5);
       // Pixiの基準60fpsに対する比率で、1秒5コマの進行速度に合わせる
       sprite.animationSpeed = petAnimationFps / pixiDefaultFps;
-      sprite.loop = loop;
+      sprite.loop = isPlayingIntro ? false : loop;
       sprite.onComplete = () => {
+        if (isPlayingIntro) {
+          isPlayingIntro = false;
+          sprite.textures = mainTextures;
+          sprite.loop = loop;
+          sprite.gotoAndPlay(0);
+          onIntroCompleteRef.current?.();
+          return;
+        }
+
         hasCompleted = true;
         app.stop();
+        onCompleteRef.current?.();
       };
       app.ticker.maxFPS = petAnimationFps;
       app.stage.addChild(sprite);
@@ -119,8 +146,21 @@ export function PetFrameAnimation({
 
       function updateMotion() {
         if (reducedMotion.matches) {
-          hasCompleted = false;
+          const shouldNotifyCompletion = !hasCompleted;
+
+          if (isPlayingIntro) {
+            isPlayingIntro = false;
+            sprite.textures = mainTextures;
+            sprite.loop = loop;
+            onIntroCompleteRef.current?.();
+          }
+
+          hasCompleted = true;
           sprite.gotoAndStop(0);
+
+          if (shouldNotifyCompletion) {
+            onCompleteRef.current?.();
+          }
           return;
         }
 
@@ -183,7 +223,7 @@ export function PetFrameAnimation({
       cancelled = true;
       destroyApplication?.();
     };
-  }, [frameUrls, loop]);
+  }, [frameUrls, introFrameUrls, loop]);
 
   return (
     <div

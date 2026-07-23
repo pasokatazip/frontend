@@ -1,6 +1,9 @@
 import Image from "next/image";
 import { Footer } from "@/components/Footer";
+import { TopMessagePanel } from "@/components/ui/panel/TopMessagePanel";
 import type { CurrentPet } from "@/features/home/api/GetCurrentPet";
+import type { EvolutionStatus } from "@/features/home/api/GetEvolutionStatus";
+import { HomeProgressController } from "./HomeProgressController";
 import { HomePetField } from "./HomePetField";
 
 type HomeViewProps = {
@@ -10,19 +13,29 @@ type HomeViewProps = {
     width: number;
   };
   error?: string;
+  evolutionStatus?: EvolutionStatus;
+  pet?: CurrentPet;
   pets: CurrentPet[];
-  petImageUrl: string;
 };
 
 export function HomeView({
   effectImage,
   error,
+  evolutionStatus,
+  pet,
   pets,
-  petImageUrl,
 }: HomeViewProps) {
+  const currentGroup = pet?.current_group;
+
   return (
     <>
       <main className="mobile-screen relative overflow-hidden bg-[url('/images/home/background.png')] bg-cover bg-center">
+        {pet && evolutionStatus ? (
+          <HomeProgressController
+            evolutionStatus={evolutionStatus}
+            pet={pet}
+          />
+        ) : null}
         <Image
           src={effectImage.src}
           alt=""
@@ -31,7 +44,16 @@ export function HomeView({
           loading="eager"
           className="mobile-safe-bottom-0 pointer-events-none fixed left-0 max-w-fit"
         />
-        <HomePetField imageUrl={petImageUrl} pets={pets} />
+        {currentGroup ? (
+          <TopMessagePanel className="absolute -top-10 left-0 z-20">
+            {currentGroup.display_name}でYO-YO!中です
+          </TopMessagePanel>
+        ) : null}
+        <HomePetField
+          currentStageKey={evolutionStatus?.currentStageKey ?? "akago"}
+          grouped={Boolean(currentGroup)}
+          pets={pets}
+        />
         {error ? (
           <p
             aria-live="polite"
