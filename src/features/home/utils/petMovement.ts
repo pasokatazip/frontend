@@ -106,7 +106,11 @@ function keepInsideBounds(motion: PetMotion, bounds: MovementBounds) {
   }
 }
 
-function separateCollidingPets(motions: PetMotion[], bounds: MovementBounds) {
+function separateCollidingPets(
+  motions: PetMotion[],
+  bounds: MovementBounds,
+  pausedPetIds: ReadonlySet<string> = new Set(),
+) {
   for (let firstIndex = 0; firstIndex < motions.length; firstIndex += 1) {
     for (
       let secondIndex = firstIndex + 1;
@@ -125,9 +129,37 @@ function separateCollidingPets(motions: PetMotion[], bounds: MovementBounds) {
 
       const normalX = distance === 0 ? 1 : differenceX / distance;
       const normalY = distance === 0 ? 0 : differenceY / distance;
-      const correction = (bounds.minimumDistance - distance) / 2;
+      const overlap = bounds.minimumDistance - distance;
       const firstSpeed = Math.hypot(first.velocityX, first.velocityY);
       const secondSpeed = Math.hypot(second.velocityX, second.velocityY);
+      const firstIsPaused = pausedPetIds.has(first.id);
+      const secondIsPaused = pausedPetIds.has(second.id);
+
+      if (firstIsPaused && secondIsPaused) {
+        continue;
+      }
+
+      if (firstIsPaused) {
+        second.x += normalX * overlap;
+        second.y += normalY * overlap;
+        second.velocityX = normalX * secondSpeed;
+        second.velocityY = normalY * secondSpeed;
+        second.facing = second.velocityX < 0 ? -1 : 1;
+        keepInsideBounds(second, bounds);
+        continue;
+      }
+
+      if (secondIsPaused) {
+        first.x -= normalX * overlap;
+        first.y -= normalY * overlap;
+        first.velocityX = -normalX * firstSpeed;
+        first.velocityY = -normalY * firstSpeed;
+        first.facing = first.velocityX < 0 ? -1 : 1;
+        keepInsideBounds(first, bounds);
+        continue;
+      }
+
+      const correction = overlap / 2;
 
       first.x -= normalX * correction;
       first.y -= normalY * correction;
@@ -207,15 +239,20 @@ export function updatePetMotions(
   bounds: MovementBounds,
   now: number,
   elapsedSeconds: number,
+  pausedPetIds: ReadonlySet<string> = new Set(),
 ) {
   const nextMotions = motions.map((motion) => {
     const nextMotion = { ...motion };
+
+    if (pausedPetIds.has(nextMotion.id)) {
+      return nextMotion;
+    }
 
     if (now >= nextMotion.nextDirectionChange) {
       Object.assign(nextMotion, createVelocity());
       nextMotion.nextDirectionChange = getNextDirectionChange(now);
     }
-    
+
     nextMotion.x += nextMotion.velocityX * elapsedSeconds;
     nextMotion.y += nextMotion.velocityY * elapsedSeconds;
     nextMotion.facing = nextMotion.velocityX < 0 ? -1 : 1;
@@ -223,6 +260,6 @@ export function updatePetMotions(
     return nextMotion;
   });
 
-  separateCollidingPets(nextMotions, bounds);
+  separateCollidingPets(nextMotions, bounds, pausedPetIds);
   return nextMotions;
 }

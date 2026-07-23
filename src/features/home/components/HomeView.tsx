@@ -42,7 +42,7 @@ export function HomeView({
           width={effectImage.width}
           height={effectImage.height}
           loading="eager"
-          className="mobile-safe-bottom-0 pointer-events-none fixed left-0 max-w-fit"
+          className="mobile-safe-bottom-0 pointer-events-none fixed left-0 z-[15] max-w-fit"
         />
         {currentGroup ? (
           <TopMessagePanel className="absolute -top-10 left-0 z-20">

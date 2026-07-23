@@ -31,6 +31,8 @@ export function HomePetField({
   const petIds = useMemo(() => pets.map(({ id }) => id), [pets]);
   const [groupedPositions, setGroupedPositions] = useState<PetPosition[]>([]);
   const [walkingPetIds, setWalkingPetIds] = useState<Set<string>>(new Set());
+  const [yoingPetIds, setYoingPetIds] = useState<Set<string>>(new Set());
+  const [animationKeys, setAnimationKeys] = useState<Record<string, number>>({});
   const allGroupedPetsAreWalking =
     grouped && pets.length > 0 && walkingPetIds.size >= pets.length;
   const initialPositionArea = useMemo(
@@ -46,6 +48,7 @@ export function HomePetField({
   const { fieldRef, motions, petRef } = useHomePetMovement(petIds, {
     enabled: !grouped || allGroupedPetsAreWalking,
     initialPositionArea,
+    pausedPetIds: yoingPetIds,
   });
 
   useEffect(() => {
@@ -62,6 +65,25 @@ export function HomePetField({
       nextWalkingPetIds.add(petId);
       return nextWalkingPetIds;
     });
+    setYoingPetIds((currentYoingPetIds) => {
+      const nextYoingPetIds = new Set(currentYoingPetIds);
+
+      nextYoingPetIds.delete(petId);
+      return nextYoingPetIds;
+    });
+  }
+
+  function playYo(petId: string) {
+    setYoingPetIds((currentYoingPetIds) => {
+      const nextYoingPetIds = new Set(currentYoingPetIds);
+
+      nextYoingPetIds.add(petId);
+      return nextYoingPetIds;
+    });
+    setAnimationKeys((currentAnimationKeys) => ({
+      ...currentAnimationKeys,
+      [petId]: (currentAnimationKeys[petId] ?? 0) + 1,
+    }));
   }
 
   function getStageKey(pet: CurrentPet, index: number) {
@@ -86,6 +108,7 @@ export function HomePetField({
         return (
           <HomePet
             key={pet.id}
+            animationKey={animationKeys[pet.id]}
             className={grouped ? "absolute top-0 left-0" : undefined}
             elementRef={index === 0 ? petRef : undefined}
             facing={
@@ -94,13 +117,10 @@ export function HomePetField({
             hueRotate={colorCodeToHueRotate(pet.color)}
             layout={grouped ? "group" : "field"}
             name={pet.name}
-            onWalkStart={
-              grouped && !walkingPetIds.has(pet.id)
-                ? () => startWalking(pet.id)
-                : undefined
-            }
+            onWalkStart={() => startWalking(pet.id)}
+            onYo={() => playYo(pet.id)}
             stageKey={getStageKey(pet, index)}
-            variant={grouped ? "yo" : "walk"}
+            variant={grouped || yoingPetIds.has(pet.id) ? "yo" : "walk"}
             x={motion?.x}
             y={motion?.y}
           />
