@@ -1,4 +1,5 @@
 import { clsx } from "clsx";
+import Image from "next/image";
 import { PetStageAnimation } from "@/components/ui/pet/PetStageAnimation";
 import type { Ref } from "react";
 
@@ -12,6 +13,7 @@ export type HomePetProps = {
   name: string;
   onWalkStart?: () => void;
   onYo?: () => void;
+  showYoImage?: boolean;
   stageKey: string;
   variant?: "walk" | "yo";
   x?: number;
@@ -28,6 +30,7 @@ export function HomePet({
   name,
   onWalkStart,
   onYo,
+  showYoImage = false,
   stageKey,
   variant = "walk",
   x,
@@ -54,6 +57,21 @@ export function HomePet({
       }}
       type="button"
     >
+      {showYoImage ? (
+        <Image
+          src="/images/home/yo.png"
+          alt=""
+          aria-hidden="true"
+          width={64}
+          height={40}
+          className={clsx(
+            "pointer-events-none absolute left-1/2 z-20 -translate-x-1/2 object-contain",
+            layout === "field"
+              ? "-top-4 h-10 w-16"
+              : "-top-3 h-8 w-[3.25rem]",
+          )}
+        />
+      ) : null}
       <div
         className="relative h-full w-full drop-shadow-[0_0.875rem_1.125rem_rgba(20,154,125,0.28)]"
         style={{ transform: `scaleX(${facing})` }}
