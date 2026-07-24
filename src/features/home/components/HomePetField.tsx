@@ -119,6 +119,10 @@ export function HomePetField({
             name={pet.name}
             onWalkStart={() => startWalking(pet.id)}
             onYo={() => playYo(pet.id)}
+            showYoImage={
+              (grouped && !walkingPetIds.has(pet.id)) ||
+              yoingPetIds.has(pet.id)
+            }
             stageKey={getStageKey(pet, index)}
             variant={grouped || yoingPetIds.has(pet.id) ? "yo" : "walk"}
             x={motion?.x}
