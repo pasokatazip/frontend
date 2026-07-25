@@ -6,17 +6,17 @@ type TutorialPostViewProps = {
   message: string;
   onMessageChange: (message: string) => void;
   onSubmit?: (message: string) => void;
-  petImage: StaticImageData;
+  pet: PetSnapshot;
 };
 
 export function TutorialPostView({
   message,
   onMessageChange,
   onSubmit,
-  petImage,
+  pet,
 }: TutorialPostViewProps) {
   return (
-    <PetComposerLayout petImage={petImage}>
+    <PetComposerLayout pet={pet}>
       <PostComposer
         onSubmit={onSubmit}
         onValueChange={onMessageChange}

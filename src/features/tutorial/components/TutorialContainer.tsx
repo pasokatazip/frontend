@@ -78,7 +78,15 @@ export function TutorialContainer() {
     post: () => (
       <TutorialPostContainer
         onSubmit={() => moveTo("postSuccess")}
-        petImage={tutorialPetImage}
+        pet={{
+          petId: "tutorial-pet",
+          petName: "ペット",
+          currentStageKey: "baby",
+          currentStageNo: 1,
+          nextStageKey: "",
+          stageId: 1,
+          canEvolve: false,
+        }}
       />
     ),
     postFeedback: () => (

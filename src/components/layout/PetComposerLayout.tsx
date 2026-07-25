@@ -8,10 +8,7 @@ import { PetSnapshot } from "@/types/pet";
 
 type PetComposerLayoutProps = {
   children: ReactNode;
-  pet?: PetSnapshot;
-  petImage?:
-    | StaticImageData
-    | { src: string; alt: string; width: number; height: number };
+  pet: PetSnapshot;
 };
 
 function useLockedDocumentViewport() {
@@ -45,11 +42,7 @@ function useLockedDocumentViewport() {
   }, []);
 }
 
-export function PetComposerLayout({
-  children,
-  pet,
-  petImage,
-}: PetComposerLayoutProps) {
+export function PetComposerLayout({ children, pet }: PetComposerLayoutProps) {
   useLockedDocumentViewport();
 
   return (
@@ -60,25 +53,11 @@ export function PetComposerLayout({
       />
 
       <div className="relative mx-auto h-full w-full max-w-[29rem]">
-        {pet && (
-          <GetMyPet
-            pet={pet}
-            size="md"
-            className="absolute top-[31%] left-1/2 h-[7rem] w-[7.75rem] -translate-x-1/2 object-contain"
-          />
-        )}
-
-        {petImage && (
-          <div className="absolute top-[31%] left-1/2 h-[7rem] w-[7.75rem] -translate-x-1/2">
-            <Image
-              src={petImage.src}
-              alt={"alt" in petImage ? petImage.alt : "pet"}
-              width={"width" in petImage ? petImage.width : 200}
-              height={"height" in petImage ? petImage.height : 200}
-              className="h-full w-full object-contain"
-            />
-          </div>
-        )}
+        <GetMyPet
+          pet={pet}
+          size="md"
+          className="absolute top-[31%] left-1/2 h-[7rem] w-[7.75rem] -translate-x-1/2 object-contain"
+        />
 
         <div className="absolute top-[56%] right-3 left-3">{children}</div>
       </div>
