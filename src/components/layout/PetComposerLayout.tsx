@@ -1,6 +1,5 @@
 "use client";
 
-import Image, { type StaticImageData } from "next/image";
 import { useEffect } from "react";
 import type { ReactNode } from "react";
 import { GetMyPet } from "../ui/pet/GetMyPet";

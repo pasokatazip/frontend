@@ -1,4 +1,3 @@
-import type { StaticImageData } from "next/image";
 import { PetComposerLayout } from "@/components/layout/PetComposerLayout";
 import { PostComposer } from "@/components/ui/form/PostComposer";
 import { PetSnapshot } from "@/types/pet";
