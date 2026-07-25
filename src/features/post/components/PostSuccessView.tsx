@@ -1,18 +1,16 @@
 import Image, { type StaticImageData } from "next/image";
 import { RoundButton } from "@/components/ui/button/RoundButton";
 import { TopMessagePanel } from "@/components/ui/panel/TopMessagePanel";
+import { GetMyPet } from "@/components/ui/pet/GetMyPet";
+import { PetSnapshot } from "@/types/pet";
 
 type PostSuccessViewProps = {
   onHome: () => void;
   onNext: () => void;
-  petImage: StaticImageData;
+  pet: PetSnapshot;
 };
 
-export function PostSuccessView({
-  onHome,
-  onNext,
-  petImage,
-}: PostSuccessViewProps) {
+export function PostSuccessView({ onHome, onNext, pet }: PostSuccessViewProps) {
   return (
     <main className="mobile-screen relative overflow-hidden">
       <div
@@ -29,10 +27,10 @@ export function PostSuccessView({
           onClick={onNext}
           type="button"
         >
-          <Image
-            src={petImage}
-            alt="ペット"
-            priority
+          <GetMyPet
+            pet={pet}
+            size="md"
+            variant="yo"
             className="pointer-events-none h-full w-full object-contain"
           />
         </button>

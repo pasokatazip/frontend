@@ -1,11 +1,12 @@
 "use client";
 
-import petImage from "@public/images/home/pet.png";
 import { useRouter } from "next/navigation";
 import { PostSuccessView } from "./PostSuccessView";
+import { usePetSession } from "@/hooks/usePetSession";
 
 export function PostSuccessContainer() {
   const router = useRouter();
+  const petSnapshot = usePetSession();
 
   function handleNext() {
     router.push("/Home");
@@ -15,7 +16,7 @@ export function PostSuccessContainer() {
     <PostSuccessView
       onHome={handleNext}
       onNext={handleNext}
-      petImage={petImage}
+      pet={petSnapshot}
     />
   );
 }

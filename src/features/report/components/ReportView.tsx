@@ -12,6 +12,8 @@ import { RewardModal } from "./RewardModal";
 import type { Souvenir } from "@/types/souvenir";
 import { ReportTimeline } from "./ReportTimeline";
 import { Report } from "../schemas/ReportSchema";
+import { GetMyPet } from "@/components/ui/pet/GetMyPet";
+import { PetSnapshot } from "@/types/pet";
 
 type ReportViewProps = {
   reportInfo: {
@@ -37,15 +39,10 @@ type ReportViewProps = {
     openRewardModal: boolean;
     closeRewardModal: () => void;
   };
-  petImage: {
-    alt: string;
-    height: number;
-    src: string;
-    width: number;
-  };
+  pet: PetSnapshot;
 };
 
-export function ReportView({ reportInfo, petImage }: ReportViewProps) {
+export function ReportView({ reportInfo, pet }: ReportViewProps) {
   return (
     <>
       <main className="mobile-screen bg-[url('/images/report/background.png')] bg-cover bg-center min-h-svh p-4">
@@ -76,7 +73,7 @@ export function ReportView({ reportInfo, petImage }: ReportViewProps) {
           </article>
         </div>
 
-        <div className="flex mt-4.5 gap-9 mb-24">
+        <div className="flex mt-4.5 gap-9 mb-24 items-center">
           {reportInfo.todaySouvenirs.length === 0 ? (
             <BlueButton
               className="rounded-xl h-[120px]"
@@ -87,13 +84,7 @@ export function ReportView({ reportInfo, petImage }: ReportViewProps) {
           ) : (
             <SouvenirBox souvenirs={reportInfo.todaySouvenirs} />
           )}
-          <Image
-            src={petImage.src}
-            alt={petImage.alt}
-            width={petImage.width}
-            height={petImage.height}
-            priority
-          />
+          <GetMyPet pet={pet} size="md" />
         </div>
         <RewardModal
           open={reportInfo.openRewardModal}

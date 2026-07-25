@@ -5,6 +5,7 @@ import { ReportView } from "./ReportView";
 import type { Souvenir } from "@/types/souvenir";
 import { getReportAction } from "../actions/GetReportAction";
 import { Report } from "../schemas/ReportSchema";
+import { usePetSession } from "@/hooks/usePetSession";
 
 export function ReportContainer() {
   const [date, setDate] = useState(new Date());
@@ -15,6 +16,8 @@ export function ReportContainer() {
   const [reports, setReports] = useState<Report[]>([]);
 
   const today = new Date();
+
+  const petSnapshot = usePetSession();
 
   useEffect(() => {
     let ignore = false;
@@ -89,7 +92,7 @@ export function ReportContainer() {
     date.getMonth() === today.getMonth() &&
     date.getDate() === today.getDate();
 
-  const title = `${isToday ? "今日" : selectDate}のペット名YO-YO`;
+  const title = `${isToday ? "今日" : selectDate}の${petSnapshot.petName}YO-YO`;
 
   return (
     <ReportView
@@ -118,12 +121,7 @@ export function ReportContainer() {
         openRewardModal,
         closeRewardModal: () => setOpenRewardModal(false),
       }}
-      petImage={{
-        src: "/images/home/pet1.png",
-        alt: "ペット",
-        height: 120,
-        width: 120,
-      }}
+      pet={petSnapshot}
     />
   );
 }

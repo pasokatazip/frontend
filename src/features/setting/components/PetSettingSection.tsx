@@ -3,17 +3,14 @@ import { BlueButton } from "@/components/ui/button/BlueButton";
 import { GlassCard } from "@/components/ui/card/GlassCard";
 import { TextInput } from "@/components/ui/input/TextInput";
 import { PetLockedOverlay } from "@/features/setting/components/PetLockedOverlay";
+import { GetMyPet } from "@/components/ui/pet/GetMyPet";
+import { PetSnapshot } from "@/types/pet";
 
 type PetSettingSectionProps = {
-  petImage: {
-    alt: string;
-    height: number;
-    src: string;
-    width: number;
-  };
+  pet: PetSnapshot;
 };
 
-export function PetSettingSection({ petImage }: PetSettingSectionProps) {
+export function PetSettingSection({ pet }: PetSettingSectionProps) {
   return (
     <section className="mt-8">
       <h2 className="text-base leading-6 font-normal tracking-normal text-[#4C4F5E]">
@@ -21,12 +18,9 @@ export function PetSettingSection({ petImage }: PetSettingSectionProps) {
       </h2>
 
       <GlassCard className="relative mt-3 grid min-h-[11.5rem] grid-cols-[7rem_1fr] items-center gap-3 overflow-hidden px-4 py-6 sm:grid-cols-[8.5rem_1fr] sm:gap-5 sm:px-8 sm:py-7">
-        <Image
-          src={petImage.src}
-          alt={petImage.alt}
-          width={petImage.width}
-          height={petImage.height}
-          priority
+        <GetMyPet
+          pet={pet}
+          size="md"
           className="h-[7.5rem] w-[8.5rem] object-contain sm:h-[8.75rem] sm:w-[9.75rem]"
         />
 

@@ -3,10 +3,12 @@
 import Image, { type StaticImageData } from "next/image";
 import { useEffect } from "react";
 import type { ReactNode } from "react";
+import { GetMyPet } from "../ui/pet/GetMyPet";
+import { PetSnapshot } from "@/types/pet";
 
 type PetComposerLayoutProps = {
   children: ReactNode;
-  petImage: StaticImageData;
+  pet: PetSnapshot;
 };
 
 function useLockedDocumentViewport() {
@@ -40,10 +42,7 @@ function useLockedDocumentViewport() {
   }, []);
 }
 
-export function PetComposerLayout({
-  children,
-  petImage,
-}: PetComposerLayoutProps) {
+export function PetComposerLayout({ children, pet }: PetComposerLayoutProps) {
   useLockedDocumentViewport();
 
   return (
@@ -54,16 +53,13 @@ export function PetComposerLayout({
       />
 
       <div className="relative mx-auto h-full w-full max-w-[29rem]">
-        <Image
-          src={petImage}
-          alt="ペット"
-          priority
+        <GetMyPet
+          pet={pet}
+          size="md"
           className="absolute top-[31%] left-1/2 h-[7rem] w-[7.75rem] -translate-x-1/2 object-contain"
         />
 
-        <div className="absolute top-[56%] right-3 left-3">
-          {children}
-        </div>
+        <div className="absolute top-[56%] right-3 left-3">{children}</div>
       </div>
     </main>
   );

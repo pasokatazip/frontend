@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getSubscriptionStatusAction } from "@/actions/getSubscriptionStatusAction";
 import { startSubscriptionCheckoutAction } from "@/features/subscription/actions/StartSubscriptionCheckoutAction";
 import { SubscriptionView } from "./SubscriptionView";
+import { usePetSession } from "@/hooks/usePetSession";
 
 export function SubscriptionContainer() {
   const [error, setError] = useState<string>();
@@ -11,6 +12,8 @@ export function SubscriptionContainer() {
   const [isSubscriptionActive, setIsSubscriptionActive] = useState(false);
   const [isSubscriptionStatusLoading, setIsSubscriptionStatusLoading] =
     useState(true);
+
+  const petSnapshot = usePetSession();
 
   useEffect(() => {
     let cancelled = false;
@@ -61,12 +64,7 @@ export function SubscriptionContainer() {
         src: "/images/subscription/doctor.png",
         width: 468,
       }}
-      petImage={{
-        alt: "ペット",
-        height: 323,
-        src: "/images/home/pet.png",
-        width: 364,
-      }}
+      pet={petSnapshot}
       superYoYoImage={{
         alt: "過去レポート全開放",
         height: 780,
