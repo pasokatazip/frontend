@@ -1,19 +1,19 @@
 import { z } from "zod";
 import { apiFetch } from "@/lib/apiFetch";
 
-const startSubscriptionCheckoutResponseSchema = z.object({
+const startPurchaseCheckoutResponseSchema = z.object({
   checkout_url: z.url(),
 });
 
-export async function startSubscriptionCheckout(token: string) {
-  const response = await apiFetch("/subscriptions/checkout", {
+export async function startPurchaseCheckout(token: string) {
+  const response = await apiFetch("/purchases/checkout", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
     method: "POST",
   });
 
-  const body = startSubscriptionCheckoutResponseSchema.parse(
+  const body = startPurchaseCheckoutResponseSchema.parse(
     await response.json(),
   );
 

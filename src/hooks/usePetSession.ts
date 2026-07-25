@@ -1,19 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { PetSnapshot } from "@/types/pet";
 
-type PetSessionSnapshot = {
-  petId: string;
-  petName: string;
-  currentStageKey: string;
-  currentStageNo: number;
-  nextStageKey: string;
-  stageId: number;
-  canEvolve: boolean;
-  color?: string;
-};
-
-const defaultPetSnapshot: PetSessionSnapshot = {
+const defaultPetSnapshot: PetSnapshot = {
   petId: "",
   petName: "ペット",
   currentStageKey: "",
@@ -25,7 +15,7 @@ const defaultPetSnapshot: PetSessionSnapshot = {
 
 export function usePetSession() {
   const [petSnapshot, setPetSnapshot] =
-    useState<PetSessionSnapshot>(defaultPetSnapshot);
+    useState<PetSnapshot>(defaultPetSnapshot);
 
   useEffect(() => {
     try {
@@ -39,8 +29,8 @@ export function usePetSession() {
           setPetSnapshot(snapshot);
         }
       }
-    } catch (error) {
-      console.error("セッションからのペット情報取得に失敗しました", error);
+    } catch {
+      setPetSnapshot(defaultPetSnapshot);
     }
   }, []);
 

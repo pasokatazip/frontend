@@ -1,9 +1,12 @@
 import Image from "next/image";
 import { BlueButton } from "@/components/ui/button/BlueButton";
 import { SilverButton } from "@/components/ui/button/SilverButton";
-import { SubscriptionBenefitCard } from "@/features/subscription/components/SubscriptionBenefitCard";
+import {
+  SubscriptionBenefitCard,
+  type SubscriptionBenefit,
+} from "@/features/subscription/components/SubscriptionBenefitCard";
 import { SubscriptionFooterVisual } from "@/features/subscription/components/SubscriptionFooterVisual";
-import { PetSnapshot } from "@/types/pet";
+import type { PetSnapshot } from "@/types/pet";
 
 export type ImageAsset = {
   alt: string;
@@ -13,6 +16,7 @@ export type ImageAsset = {
 };
 
 type SubscriptionViewProps = {
+  benefits: SubscriptionBenefit[];
   checkoutError?: string;
   doctorImage: ImageAsset;
   isCheckoutStarting: boolean;
@@ -20,10 +24,10 @@ type SubscriptionViewProps = {
   isSubscriptionStatusLoading: boolean;
   onCheckoutStart: () => void;
   pet: PetSnapshot;
-  superYoYoImage: ImageAsset;
 };
 
 export function SubscriptionView({
+  benefits,
   checkoutError,
   doctorImage,
   isCheckoutStarting,
@@ -31,7 +35,6 @@ export function SubscriptionView({
   isSubscriptionStatusLoading,
   onCheckoutStart,
   pet,
-  superYoYoImage,
 }: SubscriptionViewProps) {
   const isCheckoutDisabled =
     isCheckoutStarting || isSubscriptionActive || isSubscriptionStatusLoading;
@@ -56,7 +59,7 @@ export function SubscriptionView({
           </h1>
         </header>
 
-        <SubscriptionBenefitCard superYoYoImage={superYoYoImage} />
+        <SubscriptionBenefitCard benefits={benefits} />
 
         {isSubscriptionActive ? (
           <SilverButton

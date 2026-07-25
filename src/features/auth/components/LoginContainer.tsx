@@ -30,7 +30,7 @@ export function LoginContainer() {
     const result = await loginAction(values);
 
     if (result.success) {
-      router.push("/Home");
+      router.push(result.destination);
     } else {
       setError("root", { message: result.error });
     }
