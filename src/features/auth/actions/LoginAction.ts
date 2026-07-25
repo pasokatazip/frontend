@@ -4,11 +4,12 @@ import { loginUser } from "@/features/auth/api/LoginUser";
 import { setAuthTokenCookie } from "@/lib/authCookie";
 import { loginSchema } from "@/features/auth/schemas/loginSchema";
 import { logServerError } from "@/lib/serverLogger";
+import { getPetIdFromToken } from "@/lib/authToken";
 
 const loginFailedMessage = "メールアドレスまたはパスワードが違います";
 
 export type LoginActionResult =
-  | { success: true }
+  | { destination: "/Home" | "/Tutorial"; success: true }
   | { error: string; success: false };
 
 export async function loginAction(
@@ -24,7 +25,10 @@ export async function loginAction(
     const token = await loginUser(parsedValues.data);
     await setAuthTokenCookie(token);
 
-    return { success: true };
+    return {
+      destination: getPetIdFromToken(token) ? "/Home" : "/Tutorial",
+      success: true,
+    };
   } catch (error) {
     logServerError("Login action failed", error);
 

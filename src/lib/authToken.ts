@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const authTokenPayloadSchema = z.object({
   exp: z.number().int().positive().optional(),
-  pet_id: z.string().min(1).optional(),
+  pet_id: z.string().min(1).nullable().optional(),
 });
 
 function getAuthTokenPayload(token: string) {
@@ -40,6 +40,6 @@ export function isAuthTokenCurrent(token: string, now = Date.now()) {
   return payload.exp ? payload.exp * 1_000 > now : true;
 }
 
-export function getPetIdFromToken(token: string): string | undefined {
-  return getAuthTokenPayload(token)?.pet_id;
+export function getPetIdFromToken(token: string) {
+  return getAuthTokenPayload(token)?.pet_id ?? null;
 }
