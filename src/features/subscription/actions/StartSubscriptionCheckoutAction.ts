@@ -1,7 +1,7 @@
 "use server";
 
 import { getAuthTokenCookie } from "@/lib/authCookie";
-import { startSubscriptionCheckout } from "@/features/subscription/api/StartSubscriptionCheckout";
+import { startPurchaseCheckout } from "@/features/subscription/api/StartPurchaseCheckout";
 import { ApiError } from "@/lib/apiFetch";
 import { logServerError } from "@/lib/serverLogger";
 
@@ -21,7 +21,7 @@ export async function startSubscriptionCheckoutAction(): Promise<StartSubscripti
   }
 
   try {
-    const checkoutUrl = await startSubscriptionCheckout(token);
+    const checkoutUrl = await startPurchaseCheckout(token);
 
     return { checkoutUrl, success: true };
   } catch (error) {

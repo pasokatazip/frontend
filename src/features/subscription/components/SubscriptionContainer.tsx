@@ -55,6 +55,35 @@ export function SubscriptionContainer() {
 
   return (
     <SubscriptionView
+      benefits={[
+        {
+          image: {
+            alt: "過去レポート全開放",
+            height: 810,
+            src: "/images/subscription/reportyo-yo.png",
+            width: 810,
+          },
+          title: "過去レポート全開放",
+        },
+        {
+          image: {
+            alt: "ペットの名前変更",
+            height: 810,
+            src: "/images/subscription/nameyo-yo.png",
+            width: 810,
+          },
+          title: "ペットの名前変更",
+        },
+        {
+          image: {
+            alt: "ペットの色変更",
+            height: 810,
+            src: "/images/subscription/coloryo-yo.png",
+            width: 810,
+          },
+          title: "ペットの色変更",
+        },
+      ]}
       doctorImage={{
         alt: "ドクター",
         height: 570,
@@ -66,12 +95,6 @@ export function SubscriptionContainer() {
         height: 323,
         src: "/images/home/pet.png",
         width: 364,
-      }}
-      superYoYoImage={{
-        alt: "過去レポート全開放",
-        height: 780,
-        src: "/images/subscription/superyo-yo.png",
-        width: 840,
       }}
       checkoutError={error}
       isCheckoutStarting={isCheckoutStarting}
