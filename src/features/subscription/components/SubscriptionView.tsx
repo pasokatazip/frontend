@@ -6,7 +6,7 @@ import {
   type SubscriptionBenefit,
 } from "@/features/subscription/components/SubscriptionBenefitCard";
 import { SubscriptionFooterVisual } from "@/features/subscription/components/SubscriptionFooterVisual";
-import { PetSnapshot } from "@/types/pet";
+import type { PetSnapshot } from "@/types/pet";
 
 export type ImageAsset = {
   alt: string;
@@ -23,7 +23,7 @@ type SubscriptionViewProps = {
   isSubscriptionActive: boolean;
   isSubscriptionStatusLoading: boolean;
   onCheckoutStart: () => void;
-  petImage: ImageAsset;
+  pet: PetSnapshot;
 };
 
 export function SubscriptionView({
@@ -34,7 +34,7 @@ export function SubscriptionView({
   isSubscriptionActive,
   isSubscriptionStatusLoading,
   onCheckoutStart,
-  petImage,
+  pet,
 }: SubscriptionViewProps) {
   const isCheckoutDisabled =
     isCheckoutStarting || isSubscriptionActive || isSubscriptionStatusLoading;

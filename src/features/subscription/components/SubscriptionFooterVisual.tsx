@@ -3,7 +3,7 @@ import { RoundButton } from "@/components/ui/button/RoundButton";
 import type { ImageAsset } from "@/features/subscription/components/SubscriptionView";
 import Link from "next/link";
 import { GetMyPet } from "@/components/ui/pet/GetMyPet";
-import { PetSnapshot } from "@/types/pet";
+import type { PetSnapshot } from "@/types/pet";
 
 type SubscriptionFooterVisualProps = {
   doctorImage: ImageAsset;

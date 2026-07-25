@@ -93,12 +93,7 @@ export function SubscriptionContainer() {
         src: "/images/subscription/doctor.png",
         width: 468,
       }}
-      petImage={{
-        alt: "ペット",
-        height: 323,
-        src: "/images/home/pet.png",
-        width: 364,
-      }}
+      pet={petSnapshot}
       checkoutError={error}
       isCheckoutStarting={isCheckoutStarting}
       isSubscriptionActive={isSubscriptionActive}
