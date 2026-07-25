@@ -8,24 +8,20 @@ import { SettingFooter } from "@/features/setting/components/SettingFooter";
 import { PetSettingSection } from "@/components/ui/color/PetSettingSection";
 import Link from "next/link";
 import { BlueButton } from "@/components/ui/button/BlueButton";
+import { PetSnapshot } from "@/types/pet";
 
 type SettingViewProps = {
   hue: number;
   isSubscriptionActive: boolean;
   onHueChange: (value: number) => void;
-  petImage: {
-    alt: string;
-    height: number;
-    src: string;
-    width: number;
-  };
+  pet: PetSnapshot;
 };
 
 export function SettingView({
   hue,
   isSubscriptionActive,
   onHueChange,
-  petImage,
+  pet,
 }: SettingViewProps) {
   return (
     <main className="mobile-safe-scroll-screen relative overflow-hidden bg-[url('/images/background.png')] bg-cover bg-[position:center_top] bg-no-repeat px-4">
@@ -62,7 +58,7 @@ export function SettingView({
           </BlueButton>
         </Link>
 
-        <SettingFooter petImage={petImage} />
+        <SettingFooter />
       </div>
     </main>
   );

@@ -29,13 +29,12 @@ export function HomeProgressController({
         return;
       }
 
-      const {
-        setEvolutionFlow,
-        setSnapshot,
-        snapshot,
-      } = usePetProgressStore.getState();
+      const { setEvolutionFlow, setSnapshot, snapshot } =
+        usePetProgressStore.getState();
+
       const nextSnapshot = {
         canEvolve: evolutionStatus.canEvolve,
+        color: pet.color,
         currentStageKey: evolutionStatus.currentStageKey,
         currentStageNo: evolutionStatus.currentStageNo,
         nextStageKey: evolutionStatus.nextStageKey,
@@ -43,12 +42,14 @@ export function HomeProgressController({
         petName: pet.name,
         stageId: pet.stageId,
       };
+
       const isSamePet = snapshot?.petId === pet.id;
       const stageChanged =
         isSamePet && nextSnapshot.stageId !== snapshot.stageId;
       const hasChanged =
         !isSamePet ||
         snapshot.canEvolve !== nextSnapshot.canEvolve ||
+        snapshot.color !== nextSnapshot.color ||
         snapshot.currentStageKey !== nextSnapshot.currentStageKey ||
         snapshot.currentStageNo !== nextSnapshot.currentStageNo ||
         snapshot.nextStageKey !== nextSnapshot.nextStageKey ||
@@ -87,7 +88,7 @@ export function HomeProgressController({
     return () => {
       cancelled = true;
     };
-  }, [evolutionStatus, pet.id, pet.name, pet.stageId, router]);
+  }, [evolutionStatus, pet.color, pet.id, pet.name, pet.stageId, router]);
 
   return null;
 }

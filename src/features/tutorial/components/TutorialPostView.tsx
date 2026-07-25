@@ -1,22 +1,22 @@
-import type { StaticImageData } from "next/image";
 import { PetComposerLayout } from "@/components/layout/PetComposerLayout";
 import { PostComposer } from "@/components/ui/form/PostComposer";
+import { PetSnapshot } from "@/types/pet";
 
 type TutorialPostViewProps = {
   message: string;
   onMessageChange: (message: string) => void;
   onSubmit?: (message: string) => void;
-  petImage: StaticImageData;
+  pet: PetSnapshot;
 };
 
 export function TutorialPostView({
   message,
   onMessageChange,
   onSubmit,
-  petImage,
+  pet,
 }: TutorialPostViewProps) {
   return (
-    <PetComposerLayout petImage={petImage}>
+    <PetComposerLayout pet={pet}>
       <PostComposer
         onSubmit={onSubmit}
         onValueChange={onMessageChange}

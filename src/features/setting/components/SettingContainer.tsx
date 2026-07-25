@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import { getSubscriptionStatusAction } from "@/actions/getSubscriptionStatusAction";
 import { SettingView } from "./SettingView";
+import { usePetSession } from "@/hooks/usePetSession";
 
 export function SettingContainer() {
   const [hue, setHue] = useState(0);
   const [isSubscriptionActive, setIsSubscriptionActive] = useState(false);
+  const petSnapshot = usePetSession();
 
   useEffect(() => {
     let cancelled = false;
@@ -31,12 +33,7 @@ export function SettingContainer() {
       hue={hue}
       isSubscriptionActive={isSubscriptionActive}
       onHueChange={setHue}
-      petImage={{
-        alt: "ペット",
-        height: 323,
-        src: "/images/home/pet.png",
-        width: 364,
-      }}
+      pet={petSnapshot}
     />
   );
 }
