@@ -2,6 +2,8 @@ import Image, { type StaticImageData } from "next/image";
 import { BackButton } from "@/components/ui/button/BackButton";
 import { DialoguePanel } from "@/components/ui/dialogue/DialoguePanel";
 import { TutorialScreenLayout } from "./TutorialScreenLayout";
+import { PetSnapshot } from "@/types/pet";
+import { GetMyPet } from "@/components/ui/pet/GetMyPet";
 
 type TutorialDialogueViewProps = {
   doctorImage: StaticImageData;
@@ -9,7 +11,7 @@ type TutorialDialogueViewProps = {
   nextLabel?: string;
   onBack: () => void;
   onNext?: () => void;
-  petImage: StaticImageData;
+  pet: PetSnapshot;
   speaker?: string;
 };
 
@@ -21,16 +23,15 @@ export function TutorialDialogueView({
   nextLabel,
   onBack,
   onNext,
-  petImage,
+  pet,
   speaker,
 }: TutorialDialogueViewProps) {
   return (
     <TutorialScreenLayout>
-      <Image
-        src={petImage}
-        alt="ペット"
-        priority
-        className="absolute top-[calc(50%-1.5rem-3dvh)] left-1/2 h-[6.25rem] w-[7rem] -translate-x-1/2 -translate-y-1/2 object-contain"
+      <GetMyPet
+        pet={pet}
+        size="md"
+        className="!absolute top-[calc(50%-1.5rem-3dvh)] left-1/2 h-[6.25rem] w-[7rem] -translate-x-1/2 -translate-y-1/2 object-contain"
       />
 
       <Image

@@ -1,15 +1,17 @@
 import Image, { type StaticImageData } from "next/image";
 import { TutorialScreenLayout } from "./TutorialScreenLayout";
+import { PetSnapshot } from "@/types/pet";
+import { GetMyPet } from "@/components/ui/pet/GetMyPet";
 
 type TutorialTouchViewProps = {
   onPetClick: () => void;
-  petImage: StaticImageData;
+  pet: PetSnapshot;
   touchIcon: StaticImageData;
 };
 
 export function TutorialTouchView({
   onPetClick,
-  petImage,
+  pet,
   touchIcon,
 }: TutorialTouchViewProps) {
   return (
@@ -28,10 +30,9 @@ export function TutorialTouchView({
           onClick={onPetClick}
           type="button"
         >
-          <Image
-            src={petImage}
-            alt="ペット"
-            priority
+          <GetMyPet
+            pet={pet}
+            size="lg"
             className="pointer-events-none h-[6.25rem] w-[7rem] object-contain"
           />
         </button>
