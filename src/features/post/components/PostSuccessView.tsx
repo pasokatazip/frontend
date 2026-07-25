@@ -1,4 +1,3 @@
-import Image, { type StaticImageData } from "next/image";
 import { RoundButton } from "@/components/ui/button/RoundButton";
 import { TopMessagePanel } from "@/components/ui/panel/TopMessagePanel";
 import { GetMyPet } from "@/components/ui/pet/GetMyPet";

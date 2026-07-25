@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { RoundButton } from "@/components/ui/button/RoundButton";
 import Link from "next/link";
 
