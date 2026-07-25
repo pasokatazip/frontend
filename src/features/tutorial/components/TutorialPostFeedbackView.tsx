@@ -2,27 +2,27 @@ import Image, { type StaticImageData } from "next/image";
 import { DialoguePanel } from "@/components/ui/dialogue/DialoguePanel";
 import { TopMessagePanel } from "@/components/ui/panel/TopMessagePanel";
 import { TutorialScreenLayout } from "./TutorialScreenLayout";
+import { PetSnapshot } from "@/types/pet";
+import { GetMyPet } from "@/components/ui/pet/GetMyPet";
 
 type TutorialPostFeedbackViewProps = {
   doctorImage: StaticImageData;
   onNext: () => void;
-  petImage: StaticImageData;
+  pet: PetSnapshot;
 };
 
 export function TutorialPostFeedbackView({
   doctorImage,
   onNext,
-  petImage,
+  pet,
 }: TutorialPostFeedbackViewProps) {
   return (
     <TutorialScreenLayout>
       <TopMessagePanel>つぶやきました</TopMessagePanel>
-
-      <Image
-        src={petImage}
-        alt="ペット"
-        priority
-        className="absolute top-[35%] left-1/2 h-[7.5rem] w-[8.5rem] -translate-x-1/2 object-contain"
+      <GetMyPet
+        pet={pet}
+        size="md"
+        className="!absolute top-[35%] left-1/2 h-[7.5rem] w-[8.5rem] -translate-x-1/2 object-contain"
       />
 
       <Image

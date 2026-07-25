@@ -6,6 +6,7 @@ import {
   type SubscriptionBenefit,
 } from "@/features/subscription/components/SubscriptionBenefitCard";
 import { SubscriptionFooterVisual } from "@/features/subscription/components/SubscriptionFooterVisual";
+import { PetSnapshot } from "@/types/pet";
 
 export type ImageAsset = {
   alt: string;
@@ -87,10 +88,7 @@ export function SubscriptionView({
           {checkoutError}
         </p>
 
-        <SubscriptionFooterVisual
-          doctorImage={doctorImage}
-          petImage={petImage}
-        />
+        <SubscriptionFooterVisual doctorImage={doctorImage} pet={pet} />
       </div>
     </main>
   );

@@ -1,15 +1,17 @@
 import Image, { type StaticImageData } from "next/image";
 import { TopMessagePanel } from "@/components/ui/panel/TopMessagePanel";
 import { TutorialScreenLayout } from "./TutorialScreenLayout";
+import { PetSnapshot } from "@/types/pet";
+import { GetMyPet } from "@/components/ui/pet/GetMyPet";
 
 type TutorialPostSuccessViewProps = {
   onNext: () => void;
-  petImage: StaticImageData;
+  pet: PetSnapshot;
 };
 
 export function TutorialPostSuccessView({
   onNext,
-  petImage,
+  pet,
 }: TutorialPostSuccessViewProps) {
   return (
     <TutorialScreenLayout>
@@ -21,10 +23,9 @@ export function TutorialPostSuccessView({
         onClick={onNext}
         type="button"
       >
-        <Image
-          src={petImage}
-          alt="ペット"
-          priority
+        <GetMyPet
+          pet={pet}
+          size="md"
           className="pointer-events-none h-full w-full object-contain"
         />
       </button>

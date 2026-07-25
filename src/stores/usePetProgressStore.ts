@@ -44,6 +44,7 @@ const petProgressStorage: StateStorage = {
 
 type PetProgressSnapshot = {
   canEvolve: boolean;
+  color?: string;
   currentStageKey: string;
   currentStageNo: number;
   nextStageKey?: string;

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getSubscriptionStatusAction } from "@/actions/getSubscriptionStatusAction";
 import { startSubscriptionCheckoutAction } from "@/features/subscription/actions/StartSubscriptionCheckoutAction";
 import { SubscriptionView } from "./SubscriptionView";
+import { usePetSession } from "@/hooks/usePetSession";
 
 export function SubscriptionContainer() {
   const [error, setError] = useState<string>();
@@ -11,6 +12,8 @@ export function SubscriptionContainer() {
   const [isSubscriptionActive, setIsSubscriptionActive] = useState(false);
   const [isSubscriptionStatusLoading, setIsSubscriptionStatusLoading] =
     useState(true);
+
+  const petSnapshot = usePetSession();
 
   useEffect(() => {
     let cancelled = false;

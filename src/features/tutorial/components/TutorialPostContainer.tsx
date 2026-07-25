@@ -1,17 +1,17 @@
 "use client";
 
-import type { StaticImageData } from "next/image";
 import { useState } from "react";
 import { TutorialPostView } from "./TutorialPostView";
+import { PetSnapshot } from "@/types/pet";
 
 type TutorialPostContainerProps = {
   onSubmit?: (message: string) => void;
-  petImage: StaticImageData;
+  pet: PetSnapshot;
 };
 
 export function TutorialPostContainer({
   onSubmit,
-  petImage,
+  pet,
 }: TutorialPostContainerProps) {
   const [message, setMessage] = useState("");
 
@@ -20,7 +20,7 @@ export function TutorialPostContainer({
       message={message}
       onMessageChange={setMessage}
       onSubmit={onSubmit}
-      petImage={petImage}
+      pet={pet}
     />
   );
 }

@@ -1,16 +1,48 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ReportView } from "./ReportView";
 import type { Souvenir } from "@/types/souvenir";
+import { getReportAction } from "../actions/GetReportAction";
+import { Report } from "../schemas/ReportSchema";
+import { usePetSession } from "@/hooks/usePetSession";
 
 export function ReportContainer() {
   const [date, setDate] = useState(new Date());
   const [openCalendar, setOpenCalendar] = useState(false);
   const [openRewardModal, setOpenRewardModal] = useState(false);
-  const today = new Date();
 
   const [todaySouvenirs, setTodaySouvenirs] = useState<Souvenir[]>([]);
+  const [reports, setReports] = useState<Report[]>([]);
+
+  const today = new Date();
+
+  const petSnapshot = usePetSession();
+
+  useEffect(() => {
+    let ignore = false;
+
+    async function fetchReports() {
+      try {
+        const targetDate = date.toISOString().split("T")[0];
+        const data = await getReportAction(targetDate);
+
+        if (!ignore) {
+          setReports(data.reports);
+        }
+      } catch (error) {
+        if (!ignore) {
+          console.error("レポート取得失敗", error);
+        }
+      }
+    }
+
+    fetchReports();
+
+    return () => {
+      ignore = true;
+    };
+  }, [date]);
 
   const prevDay = () => {
     setDate((prev) => {
@@ -32,9 +64,21 @@ export function ReportContainer() {
     if (todaySouvenirs.length > 0) return;
 
     const rewards = [
-      { id: 1, image: "/images/souvenir/secret.png", name: "ああああああああ" },
-      { id: 2, image: "/images/souvenir/secret.png", name: "ああああああああ" },
-      { id: 3, image: "/images/souvenir/secret.png", name: "ああああああああ" },
+      {
+        id: 1,
+        image: "/images/souvenir/secret.png",
+        name: "ああああああああ",
+      },
+      {
+        id: 2,
+        image: "/images/souvenir/secret.png",
+        name: "ああああああああ",
+      },
+      {
+        id: 3,
+        image: "/images/souvenir/secret.png",
+        name: "ああああああああ",
+      },
     ];
 
     setTodaySouvenirs(rewards);
@@ -48,7 +92,7 @@ export function ReportContainer() {
     date.getMonth() === today.getMonth() &&
     date.getDate() === today.getDate();
 
-  const title = `${isToday ? "今日" : selectDate}のペット名YO-YO`;
+  const title = `${isToday ? "今日" : selectDate}の${petSnapshot.petName}YO-YO`;
 
   return (
     <ReportView
@@ -69,18 +113,15 @@ export function ReportContainer() {
           setOpenCalendar(false);
         },
 
+        reports,
+
         todaySouvenirs,
         onPraise: handlePraise,
 
         openRewardModal,
         closeRewardModal: () => setOpenRewardModal(false),
       }}
-      petImage={{
-        src: "/images/home/pet1.png",
-        alt: "ペット",
-        height: 120,
-        width: 120,
-      }}
+      pet={petSnapshot}
     />
   );
 }

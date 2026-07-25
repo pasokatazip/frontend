@@ -3,10 +3,8 @@
 import { useRouter } from "next/navigation";
 import { type ReactNode, useState } from "react";
 import homeEffectImage from "@public/images/home/effect.png";
-import postSuccessPetImage from "@public/images/home/pet.png";
 import doctorImage from "@public/images/subscription/doctor.png";
 import touchIcon from "@public/images/tutorial/touchIcon.png";
-import tutorialPetImage from "@public/images/tutorial/tutorialpet.png";
 import {
   dialogues,
   lessons,
@@ -23,6 +21,17 @@ import { TutorialPostContainer } from "./TutorialPostContainer";
 import { TutorialPostFeedbackView } from "./TutorialPostFeedbackView";
 import { TutorialPostSuccessView } from "./TutorialPostSuccessView";
 import { TutorialTouchView } from "./TutorialTouchView";
+import { PetSnapshot } from "@/types/pet";
+
+const tutorialPet: PetSnapshot = {
+  petId: "tutorial-pet",
+  petName: "ペット",
+  currentStageKey: "baby",
+  currentStageNo: 1,
+  nextStageKey: "",
+  stageId: 1,
+  canEvolve: false,
+};
 
 export function TutorialContainer() {
   const router = useRouter();
@@ -44,7 +53,7 @@ export function TutorialContainer() {
         doctorImage={doctorImage}
         message={dialogue.message}
         nextLabel={dialogue.nextLabel}
-        petImage={tutorialPetImage}
+        pet={tutorialPet}
         onBack={() => moveTo(dialogue.previous)}
         onNext={() => moveTo(dialogue.next)}
         speaker={dialogue.speaker}
@@ -78,20 +87,20 @@ export function TutorialContainer() {
     post: () => (
       <TutorialPostContainer
         onSubmit={() => moveTo("postSuccess")}
-        petImage={tutorialPetImage}
+        pet={tutorialPet}
       />
     ),
     postFeedback: () => (
       <TutorialPostFeedbackView
         doctorImage={doctorImage}
         onNext={() => moveTo("routine")}
-        petImage={postSuccessPetImage}
+        pet={tutorialPet}
       />
     ),
     postSuccess: () => (
       <TutorialPostSuccessView
         onNext={() => moveTo("postFeedback")}
-        petImage={postSuccessPetImage}
+        pet={tutorialPet}
       />
     ),
     prompt: () => renderDialogue("prompt"),
@@ -100,7 +109,7 @@ export function TutorialContainer() {
     routine: () => renderLesson("routine"),
     touch: () => (
       <TutorialTouchView
-        petImage={tutorialPetImage}
+        pet={tutorialPet}
         touchIcon={touchIcon}
         onPetClick={() => moveTo("touched")}
       />

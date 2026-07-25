@@ -6,11 +6,14 @@ import Image from "next/image";
 import { CalendarButton } from "./CalendarButton";
 import { CalendarPicker } from "./CalendarPicker";
 import { DateSelector } from "./DateSelector";
-import { ScrollArea } from "./ScrollArea";
 import Link from "next/link";
 import { SouvenirBox } from "./SouvenirBox";
 import { RewardModal } from "./RewardModal";
 import type { Souvenir } from "@/types/souvenir";
+import { ReportTimeline } from "./ReportTimeline";
+import { Report } from "../schemas/ReportSchema";
+import { GetMyPet } from "@/components/ui/pet/GetMyPet";
+import { PetSnapshot } from "@/types/pet";
 
 type ReportViewProps = {
   reportInfo: {
@@ -28,21 +31,18 @@ type ReportViewProps = {
 
     onSelectDate: (date: Date) => void;
 
+    reports: Report[];
+
     todaySouvenirs: Souvenir[];
     onPraise: () => void;
 
     openRewardModal: boolean;
     closeRewardModal: () => void;
   };
-  petImage: {
-    alt: string;
-    height: number;
-    src: string;
-    width: number;
-  };
+  pet: PetSnapshot;
 };
 
-export function ReportView({ reportInfo, petImage }: ReportViewProps) {
+export function ReportView({ reportInfo, pet }: ReportViewProps) {
   return (
     <>
       <main className="mobile-screen bg-[url('/images/report/background.png')] bg-cover bg-center min-h-svh p-4">
@@ -68,61 +68,12 @@ export function ReportView({ reportInfo, petImage }: ReportViewProps) {
 
           <article>
             <GlassCard className="px-5.5 p-6 min-h-100 text-[10px] text-[#4C4F5E]">
-              <div className="h-90">
-                <ScrollArea>
-                  <div className="flex flex-col gap-4">
-                    <p className="flex gap-2 text-[12px] [text-shadow:0_0_2px_#5BD4EC]">
-                      <span
-                        className="
-                          block w-5 h-5
-                          bg-[url('/icons/sun.svg')]
-                          bg-contain bg-no-repeat
-                        "
-                      />
-                      おはYO
-                      <span className="text-shadow-none">・00:00</span>
-                    </p>
-                    <div className="flex flex-col gap-0.5">
-                      <p className="flex gap-2 text-[12px] [text-shadow:0_0_2px_#5BD4EC]">
-                        <span
-                          className="
-                            block w-5 h-5
-                            bg-[url('/icons/bubble.svg')]
-                            bg-contain bg-no-repeat
-                          "
-                        />
-                        見出し
-                        <span className="text-shadow-none">・00:00</span>
-                      </p>
-
-                      <div className="ml-7">
-                        <p className="text-gray-600">群れのうわさ</p>
-
-                        <ul className="list-disc list-inside">
-                          <li>つぶやき内容</li>
-                          <li>つぶやき内容</li>
-                        </ul>
-                      </div>
-                    </div>
-                    <p className="flex gap-2 text-[12px] [text-shadow:0_0_2px_#5BD4EC]">
-                      <span
-                        className="
-                          block w-5 h-5
-                          bg-[url('/icons/sleep.svg')]
-                          bg-contain bg-no-repeat
-                        "
-                      />
-                      おやすみだYO〜
-                      <span className="text-shadow-none">・00:00</span>
-                    </p>
-                  </div>
-                </ScrollArea>
-              </div>
+              <ReportTimeline reports={reportInfo.reports} />
             </GlassCard>
           </article>
         </div>
 
-        <div className="flex mt-4.5 gap-9 mb-24">
+        <div className="flex mt-4.5 gap-9 mb-24 items-center">
           {reportInfo.todaySouvenirs.length === 0 ? (
             <BlueButton
               className="rounded-xl h-[120px]"
@@ -133,13 +84,7 @@ export function ReportView({ reportInfo, petImage }: ReportViewProps) {
           ) : (
             <SouvenirBox souvenirs={reportInfo.todaySouvenirs} />
           )}
-          <Image
-            src={petImage.src}
-            alt={petImage.alt}
-            width={petImage.width}
-            height={petImage.height}
-            priority
-          />
+          <GetMyPet pet={pet} size="md" />
         </div>
         <RewardModal
           open={reportInfo.openRewardModal}

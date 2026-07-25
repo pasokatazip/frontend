@@ -1,7 +1,7 @@
-import type { StaticImageData } from "next/image";
 import { PetComposerLayout } from "@/components/layout/PetComposerLayout";
 import { RoundButton } from "@/components/ui/button/RoundButton";
 import { PostComposer } from "@/components/ui/form/PostComposer";
+import { PetSnapshot } from "@/types/pet";
 
 type PostViewProps = {
   message: string;
@@ -11,7 +11,7 @@ type PostViewProps = {
   onMessageChange: (message: string) => void;
   onSubmit?: (message: string) => void;
 
-  petImage: StaticImageData;
+  pet: PetSnapshot;
 };
 
 export function PostView({
@@ -20,10 +20,10 @@ export function PostView({
   onHome,
   onMessageChange,
   onSubmit,
-  petImage,
+  pet,
 }: PostViewProps) {
   return (
-    <PetComposerLayout petImage={petImage}>
+    <PetComposerLayout pet={pet}>
       <PostComposer
         value={message}
         onValueChange={onMessageChange}
