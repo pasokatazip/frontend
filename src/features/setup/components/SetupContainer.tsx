@@ -24,7 +24,7 @@ export function SetupContainer() {
     setIsSubmitting(false);
 
     if (result.success) {
-      router.push("/GrowRecord");
+      router.replace("/Home");
       return;
     }
 
