@@ -22,6 +22,9 @@ export function ReportContainer() {
   useEffect(() => {
     let ignore = false;
 
+    setTodaySouvenirs([]);
+    setOpenRewardModal(false);
+
     async function fetchReports() {
       try {
         const targetDate = date.toISOString().split("T")[0];
@@ -29,6 +32,15 @@ export function ReportContainer() {
 
         if (!ignore) {
           setReports(data.reports);
+          setTodaySouvenirs(
+            data.reports.flatMap((report) =>
+              report.souvenirs.map((souvenir) => ({
+                id: souvenir.id,
+                name: souvenir.displayName,
+                image: souvenir.imageURL || "/images/souvenir/secret.png",
+              })),
+            ),
+          );
         }
       } catch (error) {
         if (!ignore) {
@@ -61,27 +73,8 @@ export function ReportContainer() {
   };
 
   const handlePraise = () => {
-    if (todaySouvenirs.length > 0) return;
+    if (todaySouvenirs.length === 0) return;
 
-    const rewards = [
-      {
-        id: 1,
-        image: "/images/souvenir/secret.png",
-        name: "ああああああああ",
-      },
-      {
-        id: 2,
-        image: "/images/souvenir/secret.png",
-        name: "ああああああああ",
-      },
-      {
-        id: 3,
-        image: "/images/souvenir/secret.png",
-        name: "ああああああああ",
-      },
-    ];
-
-    setTodaySouvenirs(rewards);
     setOpenRewardModal(true);
   };
 

@@ -31,6 +31,7 @@ export function RewardModal({ open, onClose, souvenirs }: Props) {
                   width={80}
                   height={80}
                   className="object-contain"
+                  unoptimized
                 />
                 <p className="mt-2 text-center text-[10px]">{souvenir.name}</p>
               </div>

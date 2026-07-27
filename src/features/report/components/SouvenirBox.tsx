@@ -19,6 +19,7 @@ export function SouvenirBox({ souvenirs }: Props) {
             className="object-cover"
             width={50}
             height={50}
+            unoptimized
           />
         ))}
       </div>
