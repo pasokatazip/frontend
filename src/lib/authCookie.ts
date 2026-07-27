@@ -3,6 +3,7 @@ import { getServerEnv } from "@/config/serverEnv";
 import { getAuthTokenExpiresAt } from "@/lib/authToken";
 
 const authCookieName = "auth_token";
+const purchaseActiveCookieName = "purchase_active";
 
 export async function getAuthTokenCookie() {
   const cookieStore = await cookies();
@@ -15,11 +16,14 @@ export async function setAuthTokenCookie(token: string) {
   const { NODE_ENV } = getServerEnv();
   const expires = getAuthTokenExpiresAt(token);
 
-  cookieStore.set(authCookieName, token, {
+  const options = {
     expires,
     httpOnly: true,
     path: "/",
     sameSite: "lax",
     secure: NODE_ENV === "production",
-  });
+  } as const;
+
+  cookieStore.set(authCookieName, token, options);
+  cookieStore.delete(purchaseActiveCookieName);
 }

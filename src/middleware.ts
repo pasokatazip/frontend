@@ -4,8 +4,21 @@ import { isAuthTokenCurrent } from "@/lib/authToken";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const isPurchaseCallback =
+    pathname === "/Subscription" &&
+    request.method === "POST" &&
+    !request.headers.has("Next-Action");
 
-  const isPublicPath = pathname === "/Login" || pathname === "/Signup";
+  if (isPurchaseCallback) {
+    return NextResponse.redirect(
+      new URL("/Subscription?purchase=confirm", request.url),
+      303,
+    );
+  }
+
+  const isPublicPath =
+    pathname === "/Login" ||
+    pathname === "/Signup";
 
   const token = request.cookies.get("auth_token")?.value;
   const tokenIsCurrent = token ? isAuthTokenCurrent(token) : false;

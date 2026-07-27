@@ -2,9 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { getSubscriptionStatusAction } from "@/actions/getSubscriptionStatusAction";
+import { confirmPurchaseAction } from "@/features/subscription/actions/ConfirmPurchaseAction";
 import { startSubscriptionCheckoutAction } from "@/features/subscription/actions/StartSubscriptionCheckoutAction";
 import { SubscriptionView } from "./SubscriptionView";
 import { usePetSession } from "@/hooks/usePetSession";
+
+const purchaseConfirmationPendingKey = "purchase-confirmation-pending";
 
 export function SubscriptionContainer() {
   const [error, setError] = useState<string>();
@@ -19,14 +22,27 @@ export function SubscriptionContainer() {
     let cancelled = false;
 
     async function loadSubscriptionStatus() {
-      const result = await getSubscriptionStatusAction();
+      const confirmationPending =
+        new URL(window.location.href).searchParams.get("purchase") ===
+          "confirm" ||
+        sessionStorage.getItem(purchaseConfirmationPendingKey) === "true";
+      const result = confirmationPending
+        ? await confirmPurchaseAction()
+        : await getSubscriptionStatusAction();
+
+      if (confirmationPending) {
+        sessionStorage.removeItem(purchaseConfirmationPendingKey);
+        window.history.replaceState(null, "", "/Subscription");
+      }
 
       if (cancelled) {
         return;
       }
 
       if (result.success) {
-        setIsSubscriptionActive(result.status.active);
+        setIsSubscriptionActive(
+          "active" in result ? result.active : result.status.active,
+        );
       } else {
         setError(result.error);
       }
@@ -48,6 +64,7 @@ export function SubscriptionContainer() {
     const result = await startSubscriptionCheckoutAction();
 
     if (result.success) {
+      sessionStorage.setItem(purchaseConfirmationPendingKey, "true");
       window.location.assign(result.checkoutUrl);
       return;
     }
