@@ -18,7 +18,9 @@ export function PostSuccessView({ onHome, onNext, pet }: PostSuccessViewProps) {
       />
 
       <div className="relative mx-auto min-h-[100dvh] w-full max-w-[29rem]">
-        <TopMessagePanel>つぶやきました</TopMessagePanel>
+        <TopMessagePanel className="absolute -top-10 left-0 z-20">
+          つぶやきました
+        </TopMessagePanel>
 
         <button
           aria-label="つぎへ進む"

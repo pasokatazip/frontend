@@ -18,7 +18,9 @@ export function TutorialPostFeedbackView({
 }: TutorialPostFeedbackViewProps) {
   return (
     <TutorialScreenLayout>
-      <TopMessagePanel>つぶやきました</TopMessagePanel>
+      <TopMessagePanel className="absolute -top-10 left-0 z-20">
+        つぶやきました
+      </TopMessagePanel>
       <GetMyPet
         pet={pet}
         size="md"
