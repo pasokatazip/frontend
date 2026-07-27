@@ -1,8 +1,9 @@
 "use server";
 
 import { createPet } from "@/features/setup/api/CreatePet";
+import { refreshAuthToken } from "@/features/auth/api/RefreshAuthToken";
 import { petSetupSchema } from "@/features/setup/schemas/petSetupSchema";
-import { getAuthTokenCookie } from "@/lib/authCookie";
+import { getAuthTokenCookie, setAuthTokenCookie } from "@/lib/authCookie";
 import { ApiError } from "@/lib/apiFetch";
 import { logServerError } from "@/lib/serverLogger";
 import { hueRotateToColorCode } from "@/utils/hueRotateToColorCode";
@@ -34,6 +35,8 @@ export async function createPetAction(
       color: hueRotateToColorCode(parsedValues.data.hueRotate),
       name: parsedValues.data.name,
     });
+    const refreshedToken = await refreshAuthToken(token);
+    await setAuthTokenCookie(refreshedToken);
 
     return { success: true };
   } catch (error) {
