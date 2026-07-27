@@ -48,7 +48,11 @@ export function SubscriptionView({
       <div className="mobile-safe-content relative mx-auto flex w-full max-w-[min(100%,27rem)] flex-col">
         <header className="flex items-center gap-[clamp(1rem,4vw,1.25rem)]">
           <Image
-            src="/icons/lock.svg"
+            src={
+              isSubscriptionActive
+                ? "/icons/lock-open.svg"
+                : "/icons/lock.svg"
+            }
             alt=""
             width={32}
             height={32}

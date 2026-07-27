@@ -78,6 +78,7 @@ export function Hamburger({
                 before:bg-[url('/icons/lock.svg')]
                 before:bg-contain
                 before:bg-no-repeat
+                before:brightness-0
                 border-b border-b-white
                 "
           >
