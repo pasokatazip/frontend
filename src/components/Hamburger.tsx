@@ -70,17 +70,16 @@ export function Hamburger({
           <Link
             href="/Subscription"
             className="
-                flex items-center gap-4 p-3 pl-0
-                before:content-['']
-                before:block
-                before:w-8
-                before:h-8
-                before:bg-[url('/icons/lock.svg')]
-                before:bg-contain
-                before:bg-no-repeat
-                before:brightness-0
-                border-b border-b-white
-                "
+                    flex items-center gap-4 p-3 pl-0
+                    before:content-['']
+                    before:block
+                    before:w-8
+                    before:h-8
+                    before:bg-[url('/icons/lock.svg')]
+                    before:bg-contain
+                    before:bg-no-repeat
+                    border-b border-b-white
+                    "
           >
             超-YO-YO！
           </Link>
