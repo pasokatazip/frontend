@@ -3,6 +3,7 @@ import { z } from "zod";
 const authTokenPayloadSchema = z.object({
   exp: z.number().int().positive().optional(),
   pet_id: z.string().min(1).nullable().optional(),
+  subsc: z.boolean().optional(),
 });
 
 function getAuthTokenPayload(token: string) {
@@ -42,4 +43,8 @@ export function isAuthTokenCurrent(token: string, now = Date.now()) {
 
 export function getPetIdFromToken(token: string) {
   return getAuthTokenPayload(token)?.pet_id ?? null;
+}
+
+export function getSubscriptionActiveFromToken(token: string) {
+  return getAuthTokenPayload(token)?.subsc ?? false;
 }
