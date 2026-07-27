@@ -109,7 +109,7 @@ export function ReportContainer() {
         reports,
 
         todaySouvenirs,
-        onPraise: handlePraise,
+        openSouvenirBubble: handlePraise,
 
         openRewardModal,
         closeRewardModal: () => setOpenRewardModal(false),

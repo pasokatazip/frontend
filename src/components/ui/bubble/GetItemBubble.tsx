@@ -57,6 +57,7 @@ export function GetItemBubble({
                                 width={112}
                                 height={112}
                                 className={`${souvenirImageClassName} shrink-0 object-contain`}
+                                unoptimized
                             />
                             <p
                                 className="w-full truncate text-center text-[10px] leading-4 text-zinc-600"

@@ -36,7 +36,7 @@ type ReportViewProps = {
     reports: Report[];
 
     todaySouvenirs: Souvenir[];
-    onPraise: () => void;
+    openSouvenirBubble: () => void;
 
     openRewardModal: boolean;
     closeRewardModal: () => void;
@@ -53,7 +53,7 @@ export function ReportView({ reportInfo, pet }: ReportViewProps) {
     if (reportInfo.todaySouvenirs.length === 0) return;
 
     setPraisedDate(selectedDateKey);
-    reportInfo.onPraise();
+    reportInfo.openSouvenirBubble();
   };
 
   return (
@@ -92,7 +92,13 @@ export function ReportView({ reportInfo, pet }: ReportViewProps) {
               ほめる！
             </BlueButton>
           ) : (
-            <SouvenirBox souvenirs={reportInfo.todaySouvenirs} />
+            <button
+              type="button"
+              className="w-full text-left"
+              onClick={reportInfo.openSouvenirBubble}
+            >
+              <SouvenirBox souvenirs={reportInfo.todaySouvenirs} />
+            </button>
           )}
           <GetMyPet pet={pet} size="md" />
         </div>
