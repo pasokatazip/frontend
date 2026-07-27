@@ -1,4 +1,3 @@
-import Image, { type StaticImageData } from "next/image";
 import { TopMessagePanel } from "@/components/ui/panel/TopMessagePanel";
 import { TutorialScreenLayout } from "./TutorialScreenLayout";
 import { PetSnapshot } from "@/types/pet";
@@ -15,7 +14,9 @@ export function TutorialPostSuccessView({
 }: TutorialPostSuccessViewProps) {
   return (
     <TutorialScreenLayout>
-      <TopMessagePanel>つぶやきました</TopMessagePanel>
+      <TopMessagePanel className="absolute -top-10 left-0 z-20">
+        つぶやきました
+      </TopMessagePanel>
 
       <button
         aria-label="つぎへ進む"
