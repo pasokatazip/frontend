@@ -55,11 +55,7 @@ export function ReportContainer() {
             ),
           );
         }
-      } catch (error) {
-        if (!ignore) {
-          console.error("レポート取得失敗", error);
-        }
-      }
+      } catch {}
     }
 
     fetchReports();
