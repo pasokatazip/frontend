@@ -1,12 +1,16 @@
 "use client";
 
-import { GreenButton } from "@/components/ui/button/GreenButton";
-import { RoundButton } from "@/components/ui/button/RoundButton";
-import { Hamburger } from "@/components/Hamburger";
 import { useState } from "react";
-import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import clsx from "clsx";
+import { logoutAction } from "@/actions/logoutAction";
+import { Hamburger } from "@/components/Hamburger";
+import { GreenButton } from "@/components/ui/button/GreenButton";
+import { RoundButton } from "@/components/ui/button/RoundButton";
+import { usePetProgressStore } from "@/stores/usePetProgressStore";
+
+const purchaseConfirmationPendingKey = "purchase-confirmation-pending";
 
 export function Footer() {
   const router = useRouter();
@@ -14,6 +18,16 @@ export function Footer() {
   const menuFunction = () => {
     setMenu(!openMenu);
   };
+
+  async function handleLogout() {
+    await logoutAction();
+    usePetProgressStore.getState().reset();
+    await usePetProgressStore.persist.clearStorage();
+    sessionStorage.removeItem(purchaseConfirmationPendingKey);
+    router.replace("/Login");
+    router.refresh();
+  }
+
   return (
     <footer className="mobile-safe-footer fixed left-0 z-20 min-w-full px-4">
       <nav className="flex justify-center gap-5">
@@ -46,6 +60,7 @@ export function Footer() {
       />
       <Hamburger
         onClose={() => setMenu(false)}
+        onLogout={handleLogout}
         className={clsx(
           "transition-all duration-300",
           openMenu

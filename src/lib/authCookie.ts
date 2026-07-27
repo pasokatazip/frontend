@@ -11,6 +11,13 @@ export async function getAuthTokenCookie() {
   return cookieStore.get(authCookieName)?.value;
 }
 
+export async function deleteAuthCookies() {
+  const cookieStore = await cookies();
+
+  cookieStore.delete(authCookieName);
+  cookieStore.delete(purchaseActiveCookieName);
+}
+
 export async function setAuthTokenCookie(token: string) {
   const cookieStore = await cookies();
   const { NODE_ENV } = getServerEnv();

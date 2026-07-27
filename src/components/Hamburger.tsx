@@ -12,9 +12,14 @@ const silverNavStyle = {
 interface HamburgerProps {
   className?: string;
   onClose?: () => void;
+  onLogout: () => void;
 }
 
-export function Hamburger({ className, onClose }: HamburgerProps) {
+export function Hamburger({
+  className,
+  onClose,
+  onLogout,
+}: HamburgerProps) {
   return (
     <nav
       className={clsx(
@@ -80,9 +85,11 @@ export function Hamburger({ className, onClose }: HamburgerProps) {
           </Link>
         </li>
         <li>
-          <Link
-            href=""
+          <button
+            type="button"
+            onClick={onLogout}
             className="
+                w-full
                 flex items-center gap-4 p-3 pl-0
                 before:content-['']
                 before:block
@@ -94,11 +101,13 @@ export function Hamburger({ className, onClose }: HamburgerProps) {
                 "
           >
             ログアウト
-          </Link>
+          </button>
         </li>
       </ul>
       <button
+        aria-label="メニューを閉じる"
         onClick={onClose}
+        type="button"
         className="
                 flex justify-end items-center w-full
                 before:content-['']
