@@ -1,6 +1,6 @@
 // types/souvenir.ts
 export type Souvenir = {
-  id: number;
+  id: string;
   name: string;
   image: string;
 };

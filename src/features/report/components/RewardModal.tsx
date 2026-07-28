@@ -1,5 +1,6 @@
-import Image from "next/image";
+import { GetItemBubble } from "@/components/ui/bubble/GetItemBubble";
 import type { Souvenir } from "@/types/souvenir";
+import clsx from "clsx";
 
 type Props = {
   open: boolean;
@@ -8,35 +9,23 @@ type Props = {
 };
 
 export function RewardModal({ open, onClose, souvenirs }: Props) {
-  if (!open) return null;
-
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
+      aria-hidden={!open}
+      className={clsx(
+        "fixed inset-0 z-50 flex items-center justify-center bg-black/40 transition-opacity duration-200 ease-out motion-reduce:transition-none",
+        open ? "opacity-100" : "pointer-events-none opacity-0",
+      )}
       onClick={onClose}
     >
       <div
-        className="relative m-3 text-[#4C4F5E] text-[16px]"
+        role="dialog"
+        aria-modal={open ? "true" : undefined}
+        aria-label="今日のおみやげ"
+        className="m-3 w-full max-w-[25.5rem]"
         onClick={(e) => e.stopPropagation()}
       >
-        <Image src="/images/getBubble.png" alt="" width={400} height={400} />
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3.5">
-          <p>今日のおみやげ</p>
-          <div className="flex gap-2.5">
-            {souvenirs.map((souvenir) => (
-              <div key={souvenir.id} className="flex flex-col items-center">
-                <Image
-                  src={souvenir.image}
-                  alt={souvenir.name}
-                  width={80}
-                  height={80}
-                  className="object-contain"
-                />
-                <p className="mt-2 text-center text-[10px]">{souvenir.name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+        <GetItemBubble text="今日のおみやげ" souvenirs={souvenirs} />
       </div>
     </div>
   );

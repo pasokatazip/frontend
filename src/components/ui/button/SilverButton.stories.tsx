@@ -1,5 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import type { ButtonHTMLAttributes } from "react";
 import { SilverButton } from "./SilverButton";
+
+type SilverButtonStoryArgs = ButtonHTMLAttributes<HTMLButtonElement>;
 
 const meta = {
   title: "UI/Button",
@@ -17,7 +20,7 @@ const meta = {
       </div>
     ),
   ],
-} satisfies Meta<typeof SilverButton>;
+} satisfies Meta<SilverButtonStoryArgs>;
 
 export default meta;
 

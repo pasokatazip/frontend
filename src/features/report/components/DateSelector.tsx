@@ -14,9 +14,13 @@ export function DateSelector({
   onOpen,
 }: DateSelectorProps) {
   return (
-    <SilverButton className="max-h-10 max-w-full p-2 flex justify-between! gap-2.5 text-[16px]">
-      <button onClick={onPrev}>
+    <SilverButton
+      as="div"
+      className="max-h-10 max-w-full justify-between! gap-2.5 p-2 text-[16px]"
+    >
+      <button type="button" onClick={onPrev}>
         <span
+          aria-hidden="true"
           className="
             block w-6 h-6
             bg-[url('/icons/arrowFront.svg')]
@@ -24,10 +28,17 @@ export function DateSelector({
         />
       </button>
 
-      <button onClick={onOpen}>{text}</button>
+      <button
+        type="button"
+        className="min-w-0 flex-1 truncate"
+        onClick={onOpen}
+      >
+        {text}
+      </button>
 
-      <button onClick={onNext}>
+      <button type="button" onClick={onNext}>
         <span
+          aria-hidden="true"
           className="
             block w-6 h-6
             bg-[url('/icons/arrowBack.svg')]

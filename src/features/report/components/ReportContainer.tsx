@@ -7,8 +7,21 @@ import { getReportAction } from "../actions/GetReportAction";
 import { Report } from "../schemas/ReportSchema";
 import { usePetSession } from "@/hooks/usePetSession";
 
+function getYesterday() {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  return yesterday;
+}
+
+function formatDateForApi(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 export function ReportContainer() {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(getYesterday);
   const [openCalendar, setOpenCalendar] = useState(false);
   const [openRewardModal, setOpenRewardModal] = useState(false);
 
@@ -22,19 +35,27 @@ export function ReportContainer() {
   useEffect(() => {
     let ignore = false;
 
+    setTodaySouvenirs([]);
+    setOpenRewardModal(false);
+
     async function fetchReports() {
       try {
-        const targetDate = date.toISOString().split("T")[0];
+        const targetDate = formatDateForApi(date);
         const data = await getReportAction(targetDate);
 
         if (!ignore) {
           setReports(data.reports);
+          setTodaySouvenirs(
+            data.reports.flatMap((report) =>
+              report.souvenirs.map((souvenir) => ({
+                id: souvenir.id,
+                name: souvenir.displayName,
+                image: souvenir.imageURL || "/images/souvenir/secret.png",
+              })),
+            ),
+          );
         }
-      } catch (error) {
-        if (!ignore) {
-          console.error("レポート取得失敗", error);
-        }
-      }
+      } catch {}
     }
 
     fetchReports();
@@ -61,27 +82,8 @@ export function ReportContainer() {
   };
 
   const handlePraise = () => {
-    if (todaySouvenirs.length > 0) return;
+    if (todaySouvenirs.length === 0) return;
 
-    const rewards = [
-      {
-        id: 1,
-        image: "/images/souvenir/secret.png",
-        name: "ああああああああ",
-      },
-      {
-        id: 2,
-        image: "/images/souvenir/secret.png",
-        name: "ああああああああ",
-      },
-      {
-        id: 3,
-        image: "/images/souvenir/secret.png",
-        name: "ああああああああ",
-      },
-    ];
-
-    setTodaySouvenirs(rewards);
     setOpenRewardModal(true);
   };
 
@@ -92,7 +94,14 @@ export function ReportContainer() {
     date.getMonth() === today.getMonth() &&
     date.getDate() === today.getDate();
 
-  const title = `${isToday ? "今日" : selectDate}の${petSnapshot.petName}YO-YO`;
+  const yesterday = getYesterday();
+  const isYesterday =
+    date.getFullYear() === yesterday.getFullYear() &&
+    date.getMonth() === yesterday.getMonth() &&
+    date.getDate() === yesterday.getDate();
+
+  const dateLabel = isToday ? "今日" : isYesterday ? "昨日" : selectDate;
+  const title = `${dateLabel}の${petSnapshot.petName}YO-YO`;
 
   return (
     <ReportView
@@ -116,7 +125,7 @@ export function ReportContainer() {
         reports,
 
         todaySouvenirs,
-        onPraise: handlePraise,
+        openSouvenirBubble: handlePraise,
 
         openRewardModal,
         closeRewardModal: () => setOpenRewardModal(false),
