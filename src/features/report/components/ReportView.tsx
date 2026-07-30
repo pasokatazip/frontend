@@ -2,7 +2,6 @@ import { BlueButton } from "@/components/ui/button/BlueButton";
 import { GreenButton } from "@/components/ui/button/GreenButton";
 import { RoundButton } from "@/components/ui/button/RoundButton";
 import { GlassCard } from "@/components/ui/card/GlassCard";
-import Image from "next/image";
 import { CalendarButton } from "./CalendarButton";
 import { CalendarPicker } from "./CalendarPicker";
 import { DateSelector } from "./DateSelector";
