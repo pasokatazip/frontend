@@ -20,12 +20,10 @@ export function Footer() {
   };
 
   async function handleLogout() {
-    await logoutAction();
     usePetProgressStore.getState().reset();
     await usePetProgressStore.persist.clearStorage();
     sessionStorage.removeItem(purchaseConfirmationPendingKey);
-    router.replace("/Login");
-    router.refresh();
+    await logoutAction();
   }
 
   return (
