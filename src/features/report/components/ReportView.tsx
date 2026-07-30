@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { BlueButton } from "@/components/ui/button/BlueButton";
 import { GreenButton } from "@/components/ui/button/GreenButton";
 import { RoundButton } from "@/components/ui/button/RoundButton";
@@ -33,7 +36,7 @@ type ReportViewProps = {
     reports: Report[];
 
     todaySouvenirs: Souvenir[];
-    onPraise: () => void;
+    openSouvenirBubble: () => void;
 
     openRewardModal: boolean;
     closeRewardModal: () => void;
@@ -42,6 +45,17 @@ type ReportViewProps = {
 };
 
 export function ReportView({ reportInfo, pet }: ReportViewProps) {
+  const [praisedDate, setPraisedDate] = useState<string | null>(null);
+  const selectedDateKey = `${reportInfo.date.getFullYear()}-${reportInfo.date.getMonth() + 1}-${reportInfo.date.getDate()}`;
+  const hasPraised = praisedDate === selectedDateKey;
+
+  const handlePraise = () => {
+    if (reportInfo.todaySouvenirs.length === 0) return;
+
+    setPraisedDate(selectedDateKey);
+    reportInfo.openSouvenirBubble();
+  };
+
   return (
     <>
       <main className="mobile-screen bg-[url('/images/report/background.png')] bg-cover bg-center min-h-svh p-4">
@@ -73,15 +87,18 @@ export function ReportView({ reportInfo, pet }: ReportViewProps) {
         </div>
 
         <div className="flex mt-4.5 gap-9 mb-24 items-center">
-          {reportInfo.todaySouvenirs.length === 0 ? (
-            <BlueButton
-              className="rounded-xl h-[120px]"
-              onClick={reportInfo.onPraise}
-            >
+          {!hasPraised ? (
+            <BlueButton className="rounded-xl h-[120px]" onClick={handlePraise}>
               ほめる！
             </BlueButton>
           ) : (
-            <SouvenirBox souvenirs={reportInfo.todaySouvenirs} />
+            <button
+              type="button"
+              className="w-full text-left"
+              onClick={reportInfo.openSouvenirBubble}
+            >
+              <SouvenirBox souvenirs={reportInfo.todaySouvenirs} />
+            </button>
           )}
           <GetMyPet pet={pet} size="md" />
         </div>
