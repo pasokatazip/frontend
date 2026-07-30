@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import clsx from "clsx";
-import { logoutAction } from "@/actions/logoutAction";
 import { Hamburger } from "@/components/Hamburger";
 import { GreenButton } from "@/components/ui/button/GreenButton";
 import { RoundButton } from "@/components/ui/button/RoundButton";
@@ -23,7 +22,12 @@ export function Footer() {
     usePetProgressStore.getState().reset();
     await usePetProgressStore.persist.clearStorage();
     sessionStorage.removeItem(purchaseConfirmationPendingKey);
-    await logoutAction();
+
+    const response = await fetch("/api/logout", { method: "POST" });
+
+    if (response.ok) {
+      window.location.replace("/Login");
+    }
   }
 
   return (

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { isAuthTokenCurrent } from "@/lib/authToken";
+import { getPetIdFromToken, isAuthTokenCurrent } from "@/lib/authToken";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -36,6 +36,15 @@ export function middleware(request: NextRequest) {
 
   if (
     isLoggedIn &&
+    token &&
+    pathname === "/Home" &&
+    !getPetIdFromToken(token)
+  ) {
+    return NextResponse.redirect(new URL("/Setup", request.url));
+  }
+
+  if (
+    isLoggedIn &&
     (pathname === "/" || pathname === "/Login" || pathname === "/Signup")
   ) {
     return NextResponse.redirect(new URL("/Home", request.url));
@@ -54,6 +63,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - 画像ファイルやCSSなどの拡張子を持つ静的ファイル
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|css|js)).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|css|js|webmanifest)).*)",
   ],
 };
