@@ -11,6 +11,10 @@ export const pushSubscriptionSchema = z.object({
 
 export type PushSubscriptionValues = z.infer<typeof pushSubscriptionSchema>;
 
+type NotificationPermissionResult =
+  | { granted: true }
+  | { error: string; granted: false };
+
 function decodeBase64Url(value: string) {
   const padding = "=".repeat((4 - (value.length % 4)) % 4);
   const base64 = (value + padding).replaceAll("-", "+").replaceAll("_", "/");
@@ -19,26 +23,35 @@ function decodeBase64Url(value: string) {
   return Uint8Array.from(bytes, (character) => character.charCodeAt(0));
 }
 
-export async function requestNotificationPermission() {
+export async function requestNotificationPermission(): Promise<NotificationPermissionResult> {
   if (!window.isSecureContext) {
-    throw new Error("通知を利用するにはHTTPSで開いてください");
+    return { error: "通知を利用するにはHTTPSで開いてください", granted: false };
   }
 
   if (!("Notification" in window)) {
-    throw new Error("このブラウザでは通知を利用できません");
+    return { error: "このブラウザでは通知を利用できません", granted: false };
   }
 
-  const permission = await Notification.requestPermission();
+  let permission: NotificationPermission;
+
+  try {
+    permission = await Notification.requestPermission();
+  } catch {
+    return { error: "通知の許可を確認できませんでした", granted: false };
+  }
 
   if (permission === "denied") {
-    throw new Error("ブラウザまたは端末の設定から通知を許可してください");
+    return {
+      error: "ブラウザまたは端末の設定から通知を許可してください",
+      granted: false,
+    };
   }
 
   if (permission !== "granted") {
-    throw new Error("通知を許可してください");
+    return { error: "通知を許可してください", granted: false };
   }
 
-  return permission;
+  return { granted: true };
 }
 
 export async function getWebPushSubscription() {
@@ -49,7 +62,11 @@ export async function getWebPushSubscription() {
     throw new Error("このブラウザではプッシュ通知を利用できません");
   }
 
-  await requestNotificationPermission();
+  const permissionResult = await requestNotificationPermission();
+
+  if (!permissionResult.granted) {
+    throw new Error(permissionResult.error);
+  }
 
   const registration = await navigator.serviceWorker.ready;
   const currentSubscription =

@@ -20,14 +20,10 @@ export function HomeNotificationPermissionRequest() {
     let cancelled = false;
 
     async function requestPermission() {
-      try {
-        await requestNotificationPermission();
-      } catch {
-        return;
-      } finally {
-        if (!cancelled) {
-          router.replace("/Home");
-        }
+      await requestNotificationPermission();
+
+      if (!cancelled) {
+        router.replace("/Home");
       }
     }
 
