@@ -11,8 +11,8 @@ services:
       - "3000:3000"
 
     environment:
-      # ブラウザからbackendAPIへアクセス
-      NEXT_PUBLIC_API_BASE_URL: http://localhost:8080
+      PETYOYO_API_URL: ${PETYOYO_API_URL}
+      PETYOYO_IMAGE_URL: ${PETYOYO_IMAGE_URL}
 
     volumes:
       # ローカルのコード変更をコンテナに反映
@@ -21,7 +21,11 @@ services:
       # node_modulesはコンテナ側volumeで保持
       - front-node-modules:/app/node_modules
 
-    command: pnpm run dev -H 0.0.0.0
+      # Next.jsの生成物はコンテナ側の書き込み可能なvolumeで保持
+      - front-next:/app/.next
+
+    command: sh -c "pnpm install --frozen-lockfile && pnpm run dev -H 0.0.0.0"
 
 volumes:
   front-node-modules:
+  front-next:

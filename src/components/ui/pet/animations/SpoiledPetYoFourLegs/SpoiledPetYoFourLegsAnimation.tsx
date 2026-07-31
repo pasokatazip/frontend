@@ -1,0 +1,26 @@
+import { getPetFrameUrls } from "@/lib/getPetFrameUrls";
+import {
+  PetFrameAnimation,
+  type PetFrameAnimationProps,
+} from "../../PetFrameAnimation";
+
+const frameUrls = getPetFrameUrls({
+  folderName: "SpoiledPetYoFourLegs",
+  frameCount: 4,
+});
+
+export type SpoiledPetYoFourLegsAnimationProps = Omit<
+  PetFrameAnimationProps,
+  "ariaLabel" | "frameUrls" | "loop"
+>;
+
+export function SpoiledPetYoFourLegsAnimation(props: SpoiledPetYoFourLegsAnimationProps) {
+  return (
+    <PetFrameAnimation
+      ariaLabel="SpoiledPetYoFourLegs"
+      frameUrls={frameUrls}
+      loop={false}
+      {...props}
+    />
+  );
+}

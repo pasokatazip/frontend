@@ -1,0 +1,21 @@
+import { clsx } from "clsx";
+import type { ButtonHTMLAttributes } from "react";
+
+type TextButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
+
+export function TextButton({
+  className,
+  type = "button",
+  ...props
+}: TextButtonProps) {
+  return (
+    <button
+      className={clsx(
+        className ??
+          "mx-auto mt-3 block text-center text-xs leading-none font-normal tracking-normal text-red-700 underline underline-offset-2",
+      )}
+      type={type}
+      {...props}
+    />
+  );
+}
