@@ -3,6 +3,7 @@ import { Footer } from "@/components/Footer";
 import { TopMessagePanel } from "@/components/ui/panel/TopMessagePanel";
 import type { CurrentPet } from "@/features/home/api/GetCurrentPet";
 import type { EvolutionStatus } from "@/features/home/api/GetEvolutionStatus";
+import { HomeNotificationPermissionRequest } from "./HomeNotificationPermissionRequest";
 import { HomeProgressController } from "./HomeProgressController";
 import { HomePetField } from "./HomePetField";
 
@@ -29,6 +30,7 @@ export function HomeView({
 
   return (
     <>
+      <HomeNotificationPermissionRequest />
       <main className="mobile-screen relative overflow-hidden bg-[url('/images/home/background.png')] bg-cover bg-center">
         {pet && evolutionStatus ? (
           <HomeProgressController
