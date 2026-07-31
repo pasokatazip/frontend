@@ -1,7 +1,25 @@
 import { ToggleButton } from "@/components/ui/button/ToggleButton";
 import { BlueCheckBox } from "@/components/ui/checkbox/BlueCheckBox";
+import type { NotificationSettings } from "@/features/setting/schemas/notificationSettingsSchema";
 
-export function NotificationSettingSection() {
+type NotificationSettingSectionProps = {
+  onChange: (settings: NotificationSettings) => void;
+  onNotificationEnabledChange: (enabled: boolean) => void;
+  settings: NotificationSettings;
+};
+
+export function NotificationSettingSection({
+  onChange,
+  onNotificationEnabledChange,
+  settings,
+}: NotificationSettingSectionProps) {
+  function updateSetting<Key extends keyof NotificationSettings>(
+    key: Key,
+    value: NotificationSettings[Key],
+  ) {
+    onChange({ ...settings, [key]: value });
+  }
+
   return (
     <section className="mt-8">
       <div className="flex min-h-7 items-center justify-between">
@@ -10,7 +28,11 @@ export function NotificationSettingSection() {
         </span>
         <div className="flex h-7 w-[52px] items-center justify-end overflow-visible">
           <div className="origin-right scale-[0.32]">
-            <ToggleButton aria-label="通知" defaultPressed />
+            <ToggleButton
+              aria-label="通知"
+              onPressedChange={onNotificationEnabledChange}
+              pressed={settings.isAllEnabled}
+            />
           </div>
         </div>
       </div>
@@ -25,7 +47,14 @@ export function NotificationSettingSection() {
           >
             レポート作成完了
           </span>
-          <BlueCheckBox aria-label="レポート作成完了" />
+          <BlueCheckBox
+            aria-label="レポート作成完了"
+            checked={settings.isReportEnabled}
+            disabled={!settings.isAllEnabled}
+            onCheckedChange={(checked) =>
+              updateSetting("isReportEnabled", checked)
+            }
+          />
         </div>
 
         <div className="flex items-center justify-between">
@@ -35,7 +64,14 @@ export function NotificationSettingSection() {
           >
             ペットからのメッセージ
           </span>
-          <BlueCheckBox aria-label="ペットからのメッセージ" />
+          <BlueCheckBox
+            aria-label="ペットからのメッセージ"
+            checked={settings.isMessageEnabled}
+            disabled={!settings.isAllEnabled}
+            onCheckedChange={(checked) =>
+              updateSetting("isMessageEnabled", checked)
+            }
+          />
         </div>
 
         <div className="flex items-center justify-between">
@@ -45,7 +81,14 @@ export function NotificationSettingSection() {
           >
             YO-YO！
           </span>
-          <BlueCheckBox aria-label="YO-YO！" defaultChecked />
+          <BlueCheckBox
+            aria-label="YO-YO！"
+            checked={settings.isYoyoEnabled}
+            disabled={!settings.isAllEnabled}
+            onCheckedChange={(checked) =>
+              updateSetting("isYoyoEnabled", checked)
+            }
+          />
         </div>
       </div>
     </section>

@@ -24,7 +24,7 @@ export function SetupContainer() {
     setIsSubmitting(false);
 
     if (result.success) {
-      router.replace("/Home");
+      router.replace("/Home?notificationPermission=prompt");
       return;
     }
 

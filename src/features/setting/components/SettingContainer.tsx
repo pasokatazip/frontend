@@ -1,39 +1,30 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { getSubscriptionStatusAction } from "@/actions/getSubscriptionStatusAction";
-import { SettingView } from "./SettingView";
-import { usePetSession } from "@/hooks/usePetSession";
+import { getNotificationSettingsAction } from "@/features/setting/actions/GetNotificationSettingsAction";
+import { SettingController } from "./SettingController";
 
-export function SettingContainer() {
-  const [hue, setHue] = useState(0);
-  const [isSubscriptionActive, setIsSubscriptionActive] = useState(false);
-  const petSnapshot = usePetSession();
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadSubscriptionStatus() {
-      const result = await getSubscriptionStatusAction();
-
-      if (!cancelled && result.success) {
-        setIsSubscriptionActive(result.status.active);
+export async function SettingContainer() {
+  const [subscriptionResult, notificationResult] = await Promise.all([
+    getSubscriptionStatusAction(),
+    getNotificationSettingsAction(),
+  ]);
+  const notificationProps = notificationResult.success
+    ? {
+        ...(notificationResult.settings
+          ? { initialNotificationSettings: notificationResult.settings }
+          : {}),
+        initiallyNotificationRegistered: notificationResult.exists,
       }
-    }
-
-    void loadSubscriptionStatus();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+    : {
+        initialNotificationError: notificationResult.error,
+        initiallyNotificationRegistered: false,
+      };
 
   return (
-    <SettingView
-      hue={hue}
-      isSubscriptionActive={isSubscriptionActive}
-      onHueChange={setHue}
-      pet={petSnapshot}
+    <SettingController
+      isSubscriptionActive={
+        subscriptionResult.success && subscriptionResult.status.active
+      }
+      {...notificationProps}
     />
   );
 }
