@@ -1,4 +1,11 @@
-import { SilverButton } from "@/components/ui/button/SilverButton";
+import type { CSSProperties } from "react";
+import { gradients } from "@/components/layout/gradientLayout";
+import { shadows } from "@/components/layout/shadowLayout";
+
+const dateSelectorStyle = {
+  background: gradients.silver,
+  boxShadow: shadows.silver,
+} satisfies CSSProperties;
 
 type DateSelectorProps = {
   text: string;
@@ -14,11 +21,11 @@ export function DateSelector({
   onOpen,
 }: DateSelectorProps) {
   return (
-    <SilverButton
-      as="div"
-      className="max-h-10 max-w-full justify-between! gap-2.5 p-2 text-[16px]"
+    <div
+      className="flex h-10 w-full max-w-full items-center justify-between gap-2.5 rounded-full border-2 border-transparent p-2 text-base leading-none font-normal tracking-normal text-black [text-shadow:0_0_2px_#FFFFFF]"
+      style={dateSelectorStyle}
     >
-      <button type="button" onClick={onPrev}>
+      <button aria-label="前へ" onClick={onPrev} type="button">
         <span
           aria-hidden="true"
           className="
@@ -28,15 +35,19 @@ export function DateSelector({
         />
       </button>
 
-      <button
-        type="button"
-        className="min-w-0 flex-1 truncate"
-        onClick={onOpen}
-      >
-        {text}
-      </button>
+      {onOpen ? (
+        <button
+          className="min-w-0 flex-1 truncate"
+          onClick={onOpen}
+          type="button"
+        >
+          {text}
+        </button>
+      ) : (
+        <span className="min-w-0 flex-1 truncate text-center">{text}</span>
+      )}
 
-      <button type="button" onClick={onNext}>
+      <button aria-label="次へ" onClick={onNext} type="button">
         <span
           aria-hidden="true"
           className="
@@ -45,6 +56,6 @@ export function DateSelector({
             bg-contain bg-no-repeat            "
         />
       </button>
-    </SilverButton>
+    </div>
   );
 }
