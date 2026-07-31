@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { PwaRegistration } from "@/components/PwaRegistration";
 import "./globals.css";
 
 const inter = Inter({
@@ -9,14 +10,24 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Frontend Template",
-  description: "Next.js, Pixi.js, Tailwind CSS, Storybook, and oxlint setup",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "ぺっとよーよー",
+  },
+  description: "つぶやきを聞いて成長するペット",
+  icons: {
+    apple: "/pwa/apple-touch-icon.png",
+    icon: "/pwa/icon-192.png",
+  },
+  title: "ぺっとよーよー",
 };
 
 export const viewport: Viewport = {
-  width: "device-width",
   initialScale: 1,
+  themeColor: "#D2ECFF",
   viewportFit: "cover",
+  width: "device-width",
 };
 
 export default function RootLayout({
@@ -30,7 +41,10 @@ export default function RootLayout({
       translate="no"
       className={`${inter.variable} h-full antialiased notranslate`}
     >
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        {children}
+        <PwaRegistration />
+      </body>
     </html>
   );
 }
