@@ -7,11 +7,28 @@ const currentGroupSchema = z.object({
   id: z.number().int().positive(),
 });
 
+const departureSchema = z
+  .object({
+    can_depart: z.boolean(),
+    eligible_at: z.string().min(1).optional(),
+    scheduled_departure_at: z.string().min(1).optional(),
+    status: z.string().min(1),
+  })
+  .transform(
+    ({ can_depart, eligible_at, scheduled_departure_at, ...departure }) => ({
+      ...departure,
+      canDepart: can_depart,
+      eligibleAt: eligible_at,
+      scheduledDepartureAt: scheduled_departure_at,
+    }),
+  );
+
 const currentPetSchema = z
   .object({
     color: z.string().min(1),
     current_group: currentGroupSchema.nullable(),
     current_stage_id: z.number().int().nonnegative(),
+    departure: departureSchema.nullable(),
     id: z.string().min(1),
     name: z.string().min(1),
   })
