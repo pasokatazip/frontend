@@ -5,7 +5,6 @@ import { getCurrentPetAction } from "@/features/home/actions/GetCurrentPetAction
 import { getEvolutionStatusAction } from "@/features/home/actions/GetEvolutionStatusAction";
 import { getAuthTokenCookie } from "@/lib/authCookie";
 import { getPetIdFromToken } from "@/lib/authToken";
-import { logServerError } from "@/lib/serverLogger";
 
 export default async function DepartPage() {
   const token = await getAuthTokenCookie();
@@ -20,10 +19,7 @@ export default async function DepartPage() {
   const [petResult, evolutionResult, latestSouvenirResult] = await Promise.all([
     getCurrentPetAction(),
     getEvolutionStatusAction(),
-    getLatestPetSouvenir(token).catch((error) => {
-      logServerError("Latest pet souvenir lookup failed", error);
-      return { souvenir: null };
-    }),
+    getLatestPetSouvenir(token),
   ]);
 
   if (!petResult.success || !petResult.pet.departure?.canDepart) {
@@ -31,6 +27,9 @@ export default async function DepartPage() {
   }
   if (!evolutionResult.success) {
     redirect("/Home");
+  }
+  if (!latestSouvenirResult.souvenir) {
+    throw new Error("Active pet must have at least one souvenir");
   }
 
   return (

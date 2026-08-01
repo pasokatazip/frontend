@@ -10,7 +10,7 @@ import { DepartView, type DepartStep } from "./DepartView";
 export type DepartPet = {
   color: string;
   currentStageKey: string;
-  latestSouvenir: LatestPetSouvenir | null;
+  latestSouvenir: LatestPetSouvenir;
   name: string;
 };
 
@@ -46,7 +46,7 @@ export function DepartContainer({ pet }: DepartContainerProps) {
       return;
     }
 
-    if (step === "Message" && pet.latestSouvenir) {
+    if (step === "Message") {
       setStep("LastSouvenir");
       return;
     }

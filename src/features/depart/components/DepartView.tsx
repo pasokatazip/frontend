@@ -11,7 +11,7 @@ export type DepartStep = "Convey" | "Message" | "LastSouvenir" | "NextSetup";
 
 type DepartViewProps = {
   isSubmitting: boolean;
-  latestSouvenir: LatestPetSouvenir | null;
+  latestSouvenir: LatestPetSouvenir;
   name: string;
   onNext: () => void;
   petColor: string;
@@ -243,15 +243,7 @@ export function DepartView({
         />
       );
     case "LastSouvenir":
-      return latestSouvenir ? (
-        <LastSouvenir onNext={onNext} souvenir={latestSouvenir} />
-      ) : (
-        <NextSetup
-          isSubmitting={isSubmitting}
-          onNext={onNext}
-          submitError={submitError}
-        />
-      );
+      return <LastSouvenir onNext={onNext} souvenir={latestSouvenir} />;
     case "NextSetup":
       return (
         <NextSetup
