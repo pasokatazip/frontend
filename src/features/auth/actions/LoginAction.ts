@@ -13,9 +13,7 @@ export type LoginActionResult =
   | { destination: "/Depart" | "/Home" | "/Tutorial"; success: true }
   | { error: string; success: false };
 
-export async function loginAction(
-  values: unknown,
-): Promise<LoginActionResult> {
+export async function loginAction(values: unknown): Promise<LoginActionResult> {
   const parsedValues = loginSchema.safeParse(values);
 
   if (!parsedValues.success) {
@@ -36,7 +34,6 @@ export async function loginAction(
           destination = "/Depart";
         }
       } catch (error) {
-        // 旅立ち状態の取得失敗だけで、成功したログインを失敗扱いにしない。
         logServerError("Login departure lookup failed", error);
       }
     }
