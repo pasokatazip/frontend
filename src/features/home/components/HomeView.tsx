@@ -1,8 +1,8 @@
 import Image from "next/image";
-import { Footer } from "@/components/Footer";
 import { TopMessagePanel } from "@/components/ui/panel/TopMessagePanel";
 import type { CurrentPet } from "@/features/home/api/GetCurrentPet";
 import type { EvolutionStatus } from "@/features/home/api/GetEvolutionStatus";
+import { HomeFooterContainer } from "./HomeFooterContainer";
 import { HomeNotificationPermissionRequest } from "./HomeNotificationPermissionRequest";
 import { HomeProgressController } from "./HomeProgressController";
 import { HomePetField } from "./HomePetField";
@@ -65,7 +65,7 @@ export function HomeView({
           </p>
         ) : null}
       </main>
-      <Footer />
+      <HomeFooterContainer />
     </>
   );
 }

@@ -2,32 +2,21 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import clsx from "clsx";
 import { Hamburger } from "@/components/Hamburger";
 import { GreenButton } from "@/components/ui/button/GreenButton";
 import { RoundButton } from "@/components/ui/button/RoundButton";
-import { usePetProgressStore } from "@/stores/usePetProgressStore";
 
-const purchaseConfirmationPendingKey = "purchase-confirmation-pending";
+type FooterProps = {
+  onLogout: () => void;
+  onPost: () => void;
+};
 
-export function Footer() {
-  const router = useRouter();
+export function Footer({ onLogout, onPost }: FooterProps) {
   const [openMenu, setMenu] = useState(false);
-  const menuFunction = () => {
-    setMenu(!openMenu);
-  };
 
-  async function handleLogout() {
-    usePetProgressStore.getState().reset();
-    await usePetProgressStore.persist.clearStorage();
-    sessionStorage.removeItem(purchaseConfirmationPendingKey);
-
-    const response = await fetch("/api/logout", { method: "POST" });
-
-    if (response.ok) {
-      window.location.replace("/Login");
-    }
+  function handleMenuToggle() {
+    setMenu((isOpen) => !isOpen);
   }
 
   return (
@@ -38,7 +27,7 @@ export function Footer() {
         </Link>
         <GreenButton
           className="max-h-12.5 min-w-40 rounded-xl rounded-bl-xs"
-          onClick={() => router.push("/Post")}
+          onClick={onPost}
         >
           つぶやく
         </GreenButton>
@@ -46,7 +35,7 @@ export function Footer() {
           image="/icons/menu.svg"
           label="メニュー"
           className=""
-          onClick={menuFunction}
+          onClick={handleMenuToggle}
         />
       </nav>
       <button
@@ -62,7 +51,7 @@ export function Footer() {
       />
       <Hamburger
         onClose={() => setMenu(false)}
-        onLogout={handleLogout}
+        onLogout={onLogout}
         className={clsx(
           "transition-all duration-300",
           openMenu
