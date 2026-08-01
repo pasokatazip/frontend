@@ -4,6 +4,7 @@ export const mockPets = [
   {
     color: "#FFD45C",
     current_group: null,
+    departure: null,
     id: "mock-pet-1",
     name: "YO-YO 2",
     stageId: 0,
@@ -11,6 +12,7 @@ export const mockPets = [
   {
     color: "#93D8FF",
     current_group: null,
+    departure: null,
     id: "mock-pet-2",
     name: "YO-YO 3",
     stageId: 1,
@@ -18,6 +20,7 @@ export const mockPets = [
   {
     color: "#C8A7FF",
     current_group: null,
+    departure: null,
     id: "mock-pet-3",
     name: "YO-YO 4",
     stageId: 2,
