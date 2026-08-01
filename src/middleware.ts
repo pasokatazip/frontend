@@ -45,6 +45,15 @@ export function middleware(request: NextRequest) {
 
   if (
     isLoggedIn &&
+    token &&
+    pathname === "/Setup" &&
+    getPetIdFromToken(token)
+  ) {
+    return NextResponse.redirect(new URL("/Home", request.url));
+  }
+
+  if (
+    isLoggedIn &&
     (pathname === "/" || pathname === "/Login" || pathname === "/Signup")
   ) {
     return NextResponse.redirect(new URL("/Home", request.url));
