@@ -5,8 +5,8 @@ export function getPetFrameUrls({
   folderName: string;
   frameCount: number;
 }) {
-  const imageBaseUrl = process.env.PETYOYO_IMAGE_URL ?? "";
-  const imageVersion = process.env.PETYOYO_IMAGE_VERSION ?? "";
+  const imageBaseUrl = process.env.NEXT_PUBLIC_PETYOYO_IMAGE_URL ?? "";
+  const imageVersion = process.env.NEXT_PUBLIC_PETYOYO_IMAGE_VERSION ?? "";
 
   return Array.from({ length: frameCount }, (_, index) => {
     const frameNumber = index + 1;
