@@ -1,14 +1,17 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { shadows } from "@/components/layout/shadowLayout";
+import { GetItemBubble } from "@/components/ui/bubble/GetItemBubble";
 import { PetStageAnimation } from "@/components/ui/pet/PetStageAnimation";
 import { TopMessagePanel } from "@/components/ui/panel/TopMessagePanel";
+import type { LatestPetSouvenir } from "@/features/depart/api/GetLatestPetSouvenir";
 import { colorCodeToHueRotate } from "@/utils/colorCodeToHueRotate";
 
-export type DepartStep = "Convey" | "Message" | "NextSetup";
+export type DepartStep = "Convey" | "Message" | "LastSouvenir" | "NextSetup";
 
 type DepartViewProps = {
   isSubmitting: boolean;
+  latestSouvenir: LatestPetSouvenir | null;
   name: string;
   onNext: () => void;
   petColor: string;
@@ -142,6 +145,33 @@ function Message({
   );
 }
 
+function LastSouvenir({
+  onNext,
+  souvenir,
+}: ScreenProps & { souvenir: LatestPetSouvenir }) {
+  return (
+    <DepartScreen background="setting">
+      <button
+        aria-label="旅立ちの案内へ進む"
+        className="flex min-h-[100dvh] w-full items-center justify-center border-0 bg-transparent p-0"
+        onClick={onNext}
+        type="button"
+      >
+        <GetItemBubble
+          className="w-[min(100%,25.5rem)]"
+          souvenirs={[
+            {
+              image: souvenir.imageURL || "/images/souvenir/secret.png",
+              name: souvenir.displayName,
+            },
+          ]}
+          text="最後のおみやげ"
+        />
+      </button>
+    </DepartScreen>
+  );
+}
+
 function NextSetup({
   isSubmitting,
   onNext,
@@ -185,6 +215,7 @@ function NextSetup({
 
 export function DepartView({
   isSubmitting,
+  latestSouvenir,
   name,
   onNext,
   petColor,
@@ -209,6 +240,16 @@ export function DepartView({
           onNext={onNext}
           petColor={petColor}
           petCurrentStageKey={petCurrentStageKey}
+        />
+      );
+    case "LastSouvenir":
+      return latestSouvenir ? (
+        <LastSouvenir onNext={onNext} souvenir={latestSouvenir} />
+      ) : (
+        <NextSetup
+          isSubmitting={isSubmitting}
+          onNext={onNext}
+          submitError={submitError}
         />
       );
     case "NextSetup":

@@ -3,21 +3,18 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { departPetAction } from "@/features/depart/actions/DepartPetAction";
+import type { LatestPetSouvenir } from "@/features/depart/api/GetLatestPetSouvenir";
 import { usePetProgressStore } from "@/stores/usePetProgressStore";
 import { DepartView, type DepartStep } from "./DepartView";
 
 export type DepartPet = {
   color: string;
   currentStageKey: string;
+  latestSouvenir: LatestPetSouvenir | null;
   name: string;
 };
 
 type DepartContainerProps = { pet: DepartPet };
-
-const nextSteps: Record<Exclude<DepartStep, "NextSetup">, DepartStep> = {
-  Convey: "Message",
-  Message: "NextSetup",
-};
 
 export function DepartContainer({ pet }: DepartContainerProps) {
   const router = useRouter();
@@ -44,12 +41,23 @@ export function DepartContainer({ pet }: DepartContainerProps) {
       return;
     }
 
-    setStep(nextSteps[step]);
+    if (step === "Convey") {
+      setStep("Message");
+      return;
+    }
+
+    if (step === "Message" && pet.latestSouvenir) {
+      setStep("LastSouvenir");
+      return;
+    }
+
+    setStep("NextSetup");
   }
 
   return (
     <DepartView
       isSubmitting={isSubmitting}
+      latestSouvenir={pet.latestSouvenir}
       name={pet.name}
       onNext={() => void handleNext()}
       petColor={pet.color}
