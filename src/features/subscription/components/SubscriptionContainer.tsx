@@ -4,10 +4,13 @@ import { useEffect, useState } from "react";
 import { getSubscriptionStatusAction } from "@/actions/getSubscriptionStatusAction";
 import { confirmPurchaseAction } from "@/features/subscription/actions/ConfirmPurchaseAction";
 import { startSubscriptionCheckoutAction } from "@/features/subscription/actions/StartSubscriptionCheckoutAction";
+import {
+  clearPurchaseConfirmationPending,
+  hasPurchaseConfirmationPending,
+  markPurchaseConfirmationPending,
+} from "@/lib/purchaseConfirmationStorage";
 import { SubscriptionView } from "./SubscriptionView";
 import { usePetSession } from "@/hooks/usePetSession";
-
-const purchaseConfirmationPendingKey = "purchase-confirmation-pending";
 
 export function SubscriptionContainer() {
   const [error, setError] = useState<string>();
@@ -25,13 +28,13 @@ export function SubscriptionContainer() {
       const confirmationPending =
         new URL(window.location.href).searchParams.get("purchase") ===
           "confirm" ||
-        sessionStorage.getItem(purchaseConfirmationPendingKey) === "true";
+        hasPurchaseConfirmationPending();
       const result = confirmationPending
         ? await confirmPurchaseAction()
         : await getSubscriptionStatusAction();
 
       if (confirmationPending) {
-        sessionStorage.removeItem(purchaseConfirmationPendingKey);
+        clearPurchaseConfirmationPending();
         window.history.replaceState(null, "", "/Subscription");
       }
 
@@ -64,7 +67,7 @@ export function SubscriptionContainer() {
     const result = await startSubscriptionCheckoutAction();
 
     if (result.success) {
-      sessionStorage.setItem(purchaseConfirmationPendingKey, "true");
+      markPurchaseConfirmationPending();
       window.location.assign(result.checkoutUrl);
       return;
     }

@@ -1,7 +1,7 @@
+"use server";
+
 import { deleteAuthCookies } from "@/lib/authCookie";
 
-export async function POST() {
+export async function logoutAction() {
   await deleteAuthCookies();
-
-  return new Response(null, { status: 204 });
 }
