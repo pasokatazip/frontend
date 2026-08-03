@@ -100,6 +100,10 @@ jobs:
           context: .
           push: true
           target: prod
+          build-args: |
+            NEXT_PUBLIC_VAPID_PUBLIC_KEY=${{ vars.NEXT_PUBLIC_VAPID_PUBLIC_KEY }}
+            NEXT_PUBLIC_PETYOYO_IMAGE_URL=${{ vars.NEXT_PUBLIC_PETYOYO_IMAGE_URL }}
+            NEXT_PUBLIC_PETYOYO_IMAGE_VERSION=${{ vars.NEXT_PUBLIC_PETYOYO_IMAGE_VERSION }}
           tags: |
             ghcr.io/pasokatazip/frontend:${{ github.ref_name }}
             ghcr.io/pasokatazip/frontend:${{ github.sha }}
