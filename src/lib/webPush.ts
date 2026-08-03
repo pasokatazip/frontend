@@ -11,6 +11,16 @@ export const pushSubscriptionSchema = z.object({
 
 export type PushSubscriptionValues = z.infer<typeof pushSubscriptionSchema>;
 
+type WebPushSubscriptionResult =
+  | {
+      subscription: PushSubscriptionValues;
+      success: true;
+    }
+  | {
+      error: string;
+      success: false;
+    };
+
 type NotificationPermissionResult =
   | { granted: true }
   | { error: string; granted: false };
@@ -88,4 +98,23 @@ export async function getWebPushSubscription() {
   });
 
   return pushSubscriptionSchema.parse(subscription.toJSON());
+}
+
+export async function getWebPushSubscriptionResult(): Promise<
+  WebPushSubscriptionResult
+> {
+  try {
+    return {
+      subscription: await getWebPushSubscription(),
+      success: true,
+    };
+  } catch (error) {
+    return {
+      error:
+        error instanceof Error
+          ? error.message
+          : "プッシュ通知を設定できませんでした",
+      success: false,
+    };
+  }
 }
