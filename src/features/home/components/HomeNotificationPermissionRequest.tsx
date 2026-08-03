@@ -2,7 +2,8 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { requestNotificationPermission } from "@/lib/webPush";
+import { registerNotificationSubscriptionAction } from "@/actions/RegisterNotificationSubscriptionAction";
+import { getWebPushSubscriptionResult } from "@/lib/webPush";
 
 const notificationPromptParameter = "notificationPermission";
 
@@ -19,15 +20,21 @@ export function HomeNotificationPermissionRequest() {
 
     let cancelled = false;
 
-    async function requestPermission() {
-      await requestNotificationPermission();
+    async function registerForNotifications() {
+      const subscriptionResult = await getWebPushSubscriptionResult();
+
+      if (subscriptionResult.success) {
+        await registerNotificationSubscriptionAction(
+          subscriptionResult.subscription,
+        );
+      }
 
       if (!cancelled) {
         router.replace("/Home");
       }
     }
 
-    void requestPermission();
+    void registerForNotifications();
 
     return () => {
       cancelled = true;

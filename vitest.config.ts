@@ -12,8 +12,22 @@ const dirname =
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@': path.resolve(dirname, 'src'),
+      '@public': path.resolve(dirname, 'public'),
+    },
+  },
   test: {
     projects: [
+      {
+        extends: true,
+        test: {
+          environment: 'node',
+          include: ['tests/unit/**/*.test.ts'],
+          name: 'unit',
+        },
+      },
       {
         extends: true,
         plugins: [

@@ -11,7 +11,8 @@
     "lint:fix": "oxlint . -c .oxlintrc.json --fix",
     "typecheck": "next typegen && tsc --noEmit",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test": "vitest run --project unit"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
