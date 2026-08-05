@@ -11,8 +11,6 @@ type HomeProgressControllerProps = {
   pet: CurrentPet;
 };
 
-const departureStageId = 3;
-
 export function HomeProgressController({
   evolutionStatus,
   pet,
@@ -31,6 +29,11 @@ export function HomeProgressController({
 
       const { setEvolutionFlow, setSnapshot, snapshot } =
         usePetProgressStore.getState();
+
+      if (pet.departure?.canDepart) {
+        router.replace("/Depart");
+        return;
+      }
 
       const nextSnapshot = {
         canEvolve: evolutionStatus.canEvolve,
@@ -60,18 +63,7 @@ export function HomeProgressController({
         return;
       }
 
-      const reachedDeparture =
-        stageChanged &&
-        nextSnapshot.currentStageNo === departureStageId &&
-        nextSnapshot.currentStageNo > snapshot.currentStageNo;
-
       setSnapshot(nextSnapshot);
-
-      if (reachedDeparture) {
-        setEvolutionFlow();
-        router.replace("/Depart");
-        return;
-      }
 
       if (stageChanged) {
         setEvolutionFlow({
@@ -88,7 +80,15 @@ export function HomeProgressController({
     return () => {
       cancelled = true;
     };
-  }, [evolutionStatus, pet.color, pet.id, pet.name, pet.stageId, router]);
+  }, [
+    evolutionStatus,
+    pet.color,
+    pet.departure?.canDepart,
+    pet.id,
+    pet.name,
+    pet.stageId,
+    router,
+  ]);
 
   return null;
 }

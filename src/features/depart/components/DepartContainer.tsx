@@ -1,48 +1,42 @@
-"use client";
+import { redirect } from "next/navigation";
+import { getLatestPetSouvenir } from "@/features/depart/api/GetLatestPetSouvenir";
+import { getCurrentPetAction } from "@/features/home/actions/GetCurrentPetAction";
+import { getEvolutionStatusAction } from "@/features/home/actions/GetEvolutionStatusAction";
+import { getAuthTokenCookie } from "@/lib/authCookie";
+import { getPetIdFromToken } from "@/lib/authToken";
+import { DepartController } from "./DepartController";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { DepartView, type DepartStep } from "./DepartView";
+export async function DepartContainer() {
+  const token = await getAuthTokenCookie();
 
-export type DepartPet = {
-    name: string;
-    imageSrc: string;
-};
+  if (!token) {
+    redirect("/Login");
+  }
+  if (!getPetIdFromToken(token)) {
+    redirect("/Setup");
+  }
 
-type DepartContainerProps = {
-    pet?: DepartPet;
-};
+  const [petResult, evolutionResult, latestSouvenirResult] = await Promise.all([
+    getCurrentPetAction(),
+    getEvolutionStatusAction(),
+    getLatestPetSouvenir(token),
+  ]);
 
-const nextSteps: Record<Exclude<DepartStep, "NextSetup">, DepartStep> = {
-    Convey: "Message",
-    Message: "LastSouvenirs",
-    LastSouvenirs: "NextSetup",
-};
+  if (!petResult.success || !petResult.pet.departure?.canDepart) {
+    redirect("/Home");
+  }
+  if (!evolutionResult.success) {
+    redirect("/Home");
+  }
 
-const defaultPet: DepartPet = {
-    name: "YoYo",
-    imageSrc: "/images/home/pet.png",
-};
-
-export function DepartContainer({ pet = defaultPet }: DepartContainerProps) {
-    const router = useRouter();
-    const [step, setStep] = useState<DepartStep>("Convey");
-
-    function handleNext() {
-        if (step === "NextSetup") {
-            router.push("/setup");
-            return;
-        }
-
-        setStep(nextSteps[step]);
-    }
-
-    return (
-        <DepartView
-            name={pet.name}
-            onNext={handleNext}
-            petImageSrc={pet.imageSrc}
-            step={step}
-        />
-    );
+  return (
+    <DepartController
+      pet={{
+        color: petResult.pet.color,
+        currentStageKey: evolutionResult.status.currentStageKey,
+        latestSouvenir: latestSouvenirResult.souvenir,
+        name: petResult.pet.name,
+      }}
+    />
+  );
 }
