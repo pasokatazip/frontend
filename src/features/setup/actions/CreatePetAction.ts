@@ -3,7 +3,11 @@
 import { createPet } from "@/features/setup/api/CreatePet";
 import { refreshAuthToken } from "@/features/auth/api/RefreshAuthToken";
 import { petSetupSchema } from "@/features/setup/schemas/petSetupSchema";
-import { getAuthTokenCookie, setAuthTokenCookie } from "@/lib/authCookie";
+import {
+  deleteSetupAccessCookie,
+  getAuthTokenCookie,
+  setAuthTokenCookie,
+} from "@/lib/authCookie";
 import { ApiError } from "@/lib/apiFetch";
 import { logServerError } from "@/lib/serverLogger";
 import { hueRotateToColorCode } from "@/utils/hueRotateToColorCode";
@@ -37,6 +41,7 @@ export async function createPetAction(
     });
     const refreshedToken = await refreshAuthToken(token);
     await setAuthTokenCookie(refreshedToken);
+    await deleteSetupAccessCookie();
 
     return { success: true };
   } catch (error) {

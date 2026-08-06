@@ -4,6 +4,7 @@ import { getAuthTokenExpiresAt } from "@/lib/authToken";
 
 const authCookieName = "auth_token";
 const purchaseActiveCookieName = "purchase_active";
+const setupAccessCookieName = "setup_access";
 
 export async function getAuthTokenCookie() {
   const cookieStore = await cookies();
@@ -16,6 +17,36 @@ export async function deleteAuthCookies() {
 
   cookieStore.delete(authCookieName);
   cookieStore.delete(purchaseActiveCookieName);
+  cookieStore.set(setupAccessCookieName, "", {
+    expires: new Date(0),
+    httpOnly: true,
+    path: "/Setup",
+    sameSite: "lax",
+  });
+}
+
+export async function grantSetupAccessCookie() {
+  const cookieStore = await cookies();
+  const { NODE_ENV } = getServerEnv();
+
+  cookieStore.set(setupAccessCookieName, "allowed", {
+    httpOnly: true,
+    maxAge: 10 * 60,
+    path: "/Setup",
+    sameSite: "lax",
+    secure: NODE_ENV === "production",
+  });
+}
+
+export async function deleteSetupAccessCookie() {
+  const cookieStore = await cookies();
+
+  cookieStore.set(setupAccessCookieName, "", {
+    expires: new Date(0),
+    httpOnly: true,
+    path: "/Setup",
+    sameSite: "lax",
+  });
 }
 
 export async function setAuthTokenCookie(token: string) {
