@@ -12,25 +12,31 @@ import { BlueButton } from "@/components/ui/button/BlueButton";
 type SettingViewProps = {
   hue: number;
   isSaving: boolean;
+  isPetProfileAvailable: boolean;
   isSubscriptionActive: boolean;
   notificationError?: string;
   notificationSettings: NotificationSettings;
   onHueChange: (value: number) => void;
+  onNameChange: (value: string) => void;
   onNotificationEnabledChange: (enabled: boolean) => void;
   onNotificationSettingsChange: (settings: NotificationSettings) => void;
   onSave: () => void;
+  petName: string;
 };
 
 export function SettingView({
   hue,
   isSaving,
+  isPetProfileAvailable,
   isSubscriptionActive,
   notificationError,
   notificationSettings,
   onHueChange,
+  onNameChange,
   onNotificationEnabledChange,
   onNotificationSettingsChange,
   onSave,
+  petName,
 }: SettingViewProps) {
   return (
     <main className="mobile-safe-scroll-screen relative overflow-hidden bg-[url('/images/background.png')] bg-cover bg-[position:center_top] bg-no-repeat px-4">
@@ -52,7 +58,14 @@ export function SettingView({
           <h2 className="text-base leading-6 font-normal tracking-normal text-[#4C4F5E]">
             ペット設定
           </h2>
-          <PetSettingSection compact hue={hue} onHueChange={onHueChange}>
+          <PetSettingSection
+            compact
+            disabled={!isPetProfileAvailable || !isSubscriptionActive}
+            hue={hue}
+            name={petName}
+            onHueChange={onHueChange}
+            onNameChange={onNameChange}
+          >
             {!isSubscriptionActive && <PetLockedOverlay />}
           </PetSettingSection>
         </section>

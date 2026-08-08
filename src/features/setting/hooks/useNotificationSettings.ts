@@ -99,8 +99,8 @@ export function useNotificationSettings({
     }
 
     if (!isRegistered && !subscription) {
-      setError("初回登録時は通知をオンにしてください");
       setIsSaving(false);
+      onSaved();
       return;
     }
 

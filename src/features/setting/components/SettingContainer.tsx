@@ -1,9 +1,11 @@
 import { getSubscriptionStatusAction } from "@/actions/getSubscriptionStatusAction";
+import { getCurrentPetAction } from "@/features/home/actions/GetCurrentPetAction";
 import { getNotificationSettingsAction } from "@/features/setting/actions/GetNotificationSettingsAction";
 import { SettingController } from "./SettingController";
 
 export async function SettingContainer() {
-  const [subscriptionResult, notificationResult] = await Promise.all([
+  const [petResult, subscriptionResult, notificationResult] = await Promise.all([
+    getCurrentPetAction(),
     getSubscriptionStatusAction(),
     getNotificationSettingsAction(),
   ]);
@@ -21,6 +23,12 @@ export async function SettingContainer() {
 
   return (
     <SettingController
+      initialPet={
+        petResult.success
+          ? { color: petResult.pet.color, name: petResult.pet.name }
+          : null
+      }
+      initialPetError={petResult.success ? undefined : petResult.error}
       isSubscriptionActive={
         subscriptionResult.success && subscriptionResult.status.active
       }

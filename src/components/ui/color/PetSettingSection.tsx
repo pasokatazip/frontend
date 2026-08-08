@@ -8,6 +8,7 @@ import { BabyPetAnimation } from "../pet/animations/BabyPet/BabyPetAnimation";
 
 type PetSettingSectionProps = {
   compact?: boolean;
+  disabled?: boolean;
   hue: number;
   name?: string;
   onHueChange: (value: number) => void;
@@ -17,6 +18,7 @@ type PetSettingSectionProps = {
 
 export function PetSettingSection({
   compact = false,
+  disabled = false,
   hue,
   name,
   onHueChange,
@@ -48,6 +50,7 @@ export function PetSettingSection({
           aria-label="ペット名"
           className={compact ? "h-11" : undefined}
           defaultValue={name === undefined ? "ペット名" : undefined}
+          disabled={disabled}
           onChange={(event) => onNameChange?.(event.target.value)}
           value={name}
         />
@@ -69,12 +72,13 @@ export function PetSettingSection({
         <input
           id="pet-color"
           aria-label="ペットの色"
+          disabled={disabled}
           type="range"
           min={0}
           max={360}
           value={hue}
           onChange={(e) => onHueChange(Number(e.target.value))}
-          className="color-slider relative h-3 w-full cursor-pointer appearance-none bg-transparent"
+          className="color-slider relative h-3 w-full cursor-pointer appearance-none bg-transparent disabled:cursor-not-allowed disabled:opacity-60"
         />
       </div>
 
