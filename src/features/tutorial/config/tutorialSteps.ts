@@ -21,7 +21,7 @@ export type TutorialStep =
   | "postSuccess"
   | "touch";
 
-export type TutorialDestination = TutorialStep | "/Home";
+export type TutorialDestination = TutorialStep | "/Setup";
 
 export type Dialogue = {
   message: string;
@@ -87,7 +87,7 @@ export const lessons = {
     imageAlt: "YO-YOのゴール",
     message:
       "YO-YOが将来どの群れに行くのかは、おぬしのつぶやきにかかっておる！\nよろしくたのむぞ",
-    next: "/Home",
+    next: "/Setup",
     nextLabel: "チュートリアルをおわる",
     previous: "report",
   },

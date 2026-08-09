@@ -23,6 +23,9 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get("auth_token")?.value;
   const tokenIsCurrent = token ? isAuthTokenCurrent(token) : false;
   const isLoggedIn = Boolean(token) && tokenIsCurrent;
+  const petId = token ? getPetIdFromToken(token) : null;
+  const hasSetupAccess =
+    request.cookies.get("setup_access")?.value === "allowed";
 
   if (!isLoggedIn && !isPublicPath) {
     const response = NextResponse.redirect(new URL("/Login", request.url));
@@ -36,19 +39,23 @@ export function middleware(request: NextRequest) {
 
   if (
     isLoggedIn &&
-    token &&
     pathname === "/Home" &&
-    !getPetIdFromToken(token)
+    !petId
   ) {
-    return NextResponse.redirect(new URL("/Setup", request.url));
+    return NextResponse.redirect(new URL("/Tutorial", request.url));
   }
 
-  if (
-    isLoggedIn &&
-    token &&
-    pathname === "/Setup" &&
-    getPetIdFromToken(token)
-  ) {
+  if (isLoggedIn && pathname === "/Setup") {
+    if (petId) {
+      return NextResponse.redirect(new URL("/Home", request.url));
+    }
+
+    if (!hasSetupAccess) {
+      return NextResponse.redirect(new URL("/Tutorial", request.url));
+    }
+  }
+
+  if (isLoggedIn && pathname === "/Tutorial" && petId) {
     return NextResponse.redirect(new URL("/Home", request.url));
   }
 

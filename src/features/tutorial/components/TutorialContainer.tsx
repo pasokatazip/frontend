@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { type ReactNode, useState } from "react";
 import homeEffectImage from "@public/images/home/effect.png";
 import doctorImage from "@public/images/subscription/doctor.png";
@@ -22,6 +21,7 @@ import { TutorialPostFeedbackView } from "./TutorialPostFeedbackView";
 import { TutorialPostSuccessView } from "./TutorialPostSuccessView";
 import { TutorialTouchView } from "./TutorialTouchView";
 import { PetSnapshot } from "@/types/pet";
+import { grantSetupAccessAction } from "@/features/tutorial/actions/GrantSetupAccessAction";
 
 const tutorialPet: PetSnapshot = {
   petId: "tutorial-pet",
@@ -34,15 +34,15 @@ const tutorialPet: PetSnapshot = {
 };
 
 export function TutorialContainer() {
-  const router = useRouter();
   const [step, setStep] = useState<TutorialStep>("touch");
 
   function moveTo(destination: TutorialDestination) {
-    if (destination === "/Home") {
-      router.push(destination);
-    } else {
-      setStep(destination);
+    if (destination === "/Setup") {
+      void grantSetupAccessAction();
+      return;
     }
+
+    setStep(destination);
   }
 
   function renderDialogue(dialogueId: DialogueId) {

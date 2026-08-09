@@ -4,6 +4,7 @@ import { refreshAuthToken } from "@/features/auth/api/RefreshAuthToken";
 import { departPet } from "@/features/depart/api/DepartPet";
 import {
   deleteAuthCookies,
+  grantSetupAccessCookie,
   getAuthTokenCookie,
   setAuthTokenCookie,
 } from "@/lib/authCookie";
@@ -34,6 +35,7 @@ export async function departPetAction(): Promise<DepartPetActionResult> {
     // 旅立ったペットのIDがJWTに残らないよう、DBの最新状態で更新
     const refreshedToken = await refreshAuthToken(token);
     await setAuthTokenCookie(refreshedToken);
+    await grantSetupAccessCookie();
 
     return { destination: "/Setup", success: true };
   } catch (error) {
