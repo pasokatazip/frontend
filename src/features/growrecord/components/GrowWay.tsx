@@ -23,15 +23,16 @@ export function GrowWay({ stages = [], petId, petName, color }: GrowWayProps) {
   return (
     <div className="flex mt-5 max-w-full text-[#4C4F5E] mb-24 gap-2">
       {FIXED_STAGE_NAMES.map((stageName, index) => {
-        const apiStage = stages[index];
-        const isUnlocked = apiStage?.unlocked ?? false;
-
-        const stageKey = apiStage?.stageKey ?? "";
+        const keyword =
+          index === 0 ? "あかご" : index === 1 ? "あまえ" : "なまい";
+        const matched = stages.find(
+          (s) => s.unlocked && s.stageName.includes(keyword),
+        );
 
         const stageSnapshot: PetSnapshot = {
           petId: petId,
           petName: petName,
-          currentStageKey: stageKey,
+          currentStageKey: matched?.stageKey ?? "",
           currentStageNo: index + 1,
           nextStageKey: "",
           stageId: index + 1,
@@ -46,7 +47,7 @@ export function GrowWay({ stages = [], petId, petName, color }: GrowWayProps) {
             </p>
 
             <div className="mt-2 w-full flex justify-center">
-              {isUnlocked && stageKey ? (
+              {matched ? (
                 <GetMyPet pet={stageSnapshot} size="md" />
               ) : (
                 <Image
