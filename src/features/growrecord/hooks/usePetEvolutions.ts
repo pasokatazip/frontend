@@ -3,17 +3,21 @@
 import { useEffect, useState } from "react";
 import { getEvolutionsAction } from "../actions/getEvolutionsAction";
 import { EvolutionResponse } from "../api/getEvolutionsApi";
+import { logClientError } from "../actions/logClientError";
 
 export function usePetEvolutions() {
   const [data, setData] = useState<EvolutionResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function load() {
       try {
         const result = await getEvolutionsAction();
         setData(result);
-      } catch {
+      } catch (err) {
+        void logClientError("進化履歴の取得失敗", err);
+        setError("データの取得に失敗しました");
       } finally {
         setLoading(false);
       }
@@ -21,5 +25,5 @@ export function usePetEvolutions() {
     void load();
   }, []);
 
-  return { data, loading };
+  return { data, loading, error };
 }
