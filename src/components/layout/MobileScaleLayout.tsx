@@ -47,8 +47,6 @@ export function MobileScaleLayout({ children }: MobileScaleLayoutProps) {
     function updateScale(force = false) {
       const nextWidth = document.documentElement.clientWidth;
 
-      // The software keyboard changes only the viewport height. Keeping the
-      // current scale prevents the whole screen from jumping while typing.
       if (!force && Math.abs(nextWidth - viewportWidth) < 2) {
         return;
       }
