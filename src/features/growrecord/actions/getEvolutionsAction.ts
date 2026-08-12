@@ -1,13 +1,12 @@
 "use server";
 
-import { cookies } from "next/headers";
+import { getAuthTokenCookie } from "@/lib/authCookie";
 import { getEvolutionsApi } from "../api/getEvolutionsApi";
 import { logServerError } from "@/lib/serverLogger";
 
 export async function getEvolutionsAction() {
   try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("auth_token")?.value;
+    const token = await getAuthTokenCookie();
 
     if (!token) {
       throw new Error("認証トークンがありません");
