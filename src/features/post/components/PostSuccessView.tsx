@@ -17,7 +17,7 @@ export function PostSuccessView({ onHome, onNext, pet }: PostSuccessViewProps) {
         className="pointer-events-none fixed inset-0 bg-[url('/images/background.png')] bg-cover bg-center bg-no-repeat"
       />
 
-      <div className="relative mx-auto min-h-[100dvh] w-full max-w-[29rem]">
+      <div className="relative mx-auto h-full w-full max-w-[29rem]">
         <TopMessagePanel className="absolute -top-10 left-0 z-20">
           つぶやきました
         </TopMessagePanel>

@@ -43,7 +43,7 @@ export function GrowRecordView({
 }: GrowRecordViewProps) {
   return (
     <>
-      <main className="mobile-screen bg-[url('/images/Report/background.png')] bg-cover bg-center min-h-svh p-4">
+      <main className="mobile-screen bg-[url('/images/Report/background.png')] bg-cover bg-center p-4">
         <div className="flex flex-col gap-3.5">
           <SilverButton className="max-h-10 max-w-[70%] flex text-[16px]">
             <p className="bg-white py-2 rounded-full w-full">

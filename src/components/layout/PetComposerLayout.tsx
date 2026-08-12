@@ -45,7 +45,7 @@ export function PetComposerLayout({ children, pet }: PetComposerLayoutProps) {
   useLockedDocumentViewport();
 
   return (
-    <main className="fixed inset-0 h-[100lvh] overflow-hidden overscroll-none">
+    <main className="fixed inset-0 h-full overflow-hidden overscroll-none">
       <div
         aria-hidden="true"
         className="fixed inset-0 bg-[url('/images/background.png')] bg-cover bg-center bg-no-repeat"
