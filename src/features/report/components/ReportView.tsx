@@ -58,7 +58,7 @@ export function ReportView({ reportInfo, pet }: ReportViewProps) {
 
   return (
     <>
-      <main className="mobile-screen bg-[url('/images/report/background.png')] bg-cover bg-center min-h-svh p-4">
+      <main className="mobile-screen bg-[url('/images/report/background.png')] bg-cover bg-center p-4">
         <div className="flex flex-col gap-3.5">
           <CalendarButton
             text={reportInfo.selectDate}

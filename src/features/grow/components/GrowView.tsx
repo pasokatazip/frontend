@@ -27,7 +27,7 @@ export function GrowView({
 }: GrowViewProps) {
   return (
     <main className="mobile-screen relative overflow-hidden bg-[url('/images/background.png')] bg-cover bg-center bg-no-repeat">
-      <div className="relative mx-auto min-h-[100dvh] w-full max-w-[29rem]">
+      <div className="relative mx-auto h-full w-full max-w-[29rem]">
         <div className="absolute top-[35%] left-1/2 h-[7.5rem] w-[8.5rem] -translate-x-1/2">
           <PetStageAnimation
             className="h-full w-full drop-shadow-[0_0.875rem_1.125rem_rgba(20,154,125,0.28)]"

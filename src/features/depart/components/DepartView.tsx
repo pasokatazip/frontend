@@ -80,7 +80,7 @@ function Convey({
 }) {
   return (
     <DepartScreen background="home">
-      <div className="relative min-h-[100dvh]">
+      <div className="relative h-full">
         <button
           aria-label="つぎのメッセージへ"
           className="absolute inset-0 z-10 cursor-pointer border-0 bg-transparent p-0"
@@ -153,7 +153,7 @@ function LastSouvenir({
     <DepartScreen background="setting">
       <button
         aria-label="旅立ちの案内へ進む"
-        className="flex min-h-[100dvh] w-full items-center justify-center border-0 bg-transparent p-0"
+        className="flex h-full w-full items-center justify-center border-0 bg-transparent p-0"
         onClick={onNext}
         type="button"
       >
@@ -179,7 +179,7 @@ function NextSetup({
 }: ScreenProps & { isSubmitting: boolean; submitError?: string }) {
   return (
     <DepartScreen background="setting">
-      <div className="relative min-h-[100dvh]">
+      <div className="relative h-full">
         <button
           aria-label="セットアップへ進む"
           className="mobile-safe-bottom-0 absolute left-1/2 cursor-pointer border-0 bg-transparent p-0 -translate-x-1/2"
