@@ -13,8 +13,7 @@ export function usePetEvolutions() {
       try {
         const result = await getEvolutionsAction();
         setData(result);
-      } catch (error) {
-        console.error("進化履歴の取得失敗:", error);
+      } catch {
       } finally {
         setLoading(false);
       }
