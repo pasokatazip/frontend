@@ -2,6 +2,6 @@
 
 import { logServerError } from "@/lib/serverLogger";
 
-export async function logClientError(message: string, error: unknown) {
-  logServerError(message, error);
+export async function logClientError(message: string, error: string) {
+  await logServerError(message, error);
 }

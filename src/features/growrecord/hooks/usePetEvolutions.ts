@@ -16,12 +16,16 @@ export function usePetEvolutions() {
         const result = await getEvolutionsAction();
         setData(result);
       } catch (err) {
-        void logClientError("進化履歴の取得失敗", err);
+        const errorMessage = err instanceof Error ? err.message : String(err);
+
+        void logClientError("進化履歴の取得失敗", errorMessage);
+
         setError("データの取得に失敗しました");
       } finally {
         setLoading(false);
       }
     }
+
     void load();
   }, []);
 
