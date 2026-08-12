@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers";
 import { getEvolutionsApi } from "../api/getEvolutionsApi";
+import { logServerError } from "@/lib/serverLogger";
 
 export async function getEvolutionsAction() {
   try {
@@ -14,7 +15,7 @@ export async function getEvolutionsAction() {
 
     return await getEvolutionsApi(token);
   } catch (error) {
-    console.error("進化履歴の取得に失敗しました", error);
+    logServerError("Get evolutions action failed", error);
     throw error;
   }
 }
