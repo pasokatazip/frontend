@@ -61,13 +61,13 @@ export function SignupView({
           passwordInputProps={passwordInputProps}
         />
 
-        <p className="auth-secondary-text mt-12 text-sm leading-none font-normal tracking-normal text-[#454545]">
+        <p className="auth-secondary-text mt-6 text-[13px] leading-none font-normal tracking-normal text-[#454545]">
           アカウントをお持ちの方は
         </p>
 
         <BlueButton
-          className="mt-4 max-w-[21rem] text-sm"
-          style={{ height: "3.5rem" }}
+          className="mt-3 max-w-[20rem] shrink-0 text-[13px]"
+          style={{ height: "3rem" }}
         >
           <Link href="/Login">ログイン</Link>
         </BlueButton>
