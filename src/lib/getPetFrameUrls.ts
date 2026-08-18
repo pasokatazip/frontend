@@ -10,7 +10,7 @@ export function getPetFrameUrls({
 
   return Array.from({ length: frameCount }, (_, index) => {
     const frameNumber = index + 1;
-    const path = `/assets/${folderName}/${folderName}${frameNumber}.png`;
+    const path = `/assets/${folderName}/${folderName}${frameNumber}.webp`;
     const url = new URL(path, imageBaseUrl || "http://localhost");
 
     if (imageVersion) {
