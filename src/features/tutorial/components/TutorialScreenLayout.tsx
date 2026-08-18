@@ -19,7 +19,7 @@ export function TutorialScreenLayout({
 
       <div
         className={clsx(
-          "relative mx-auto min-h-[100dvh] w-full max-w-[29rem]",
+          "relative mx-auto h-full w-full max-w-[29rem]",
           className,
         )}
       >

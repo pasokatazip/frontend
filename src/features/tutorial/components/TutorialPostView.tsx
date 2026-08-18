@@ -5,8 +5,9 @@ import { PetSnapshot } from "@/types/pet";
 type TutorialPostViewProps = {
   message: string;
   onMessageChange: (message: string) => void;
-  onSubmit?: (message: string) => void;
+  onSubmit: (message: string) => void;
   pet: PetSnapshot;
+  submitError?: string;
 };
 
 export function TutorialPostView({
@@ -14,6 +15,7 @@ export function TutorialPostView({
   onMessageChange,
   onSubmit,
   pet,
+  submitError,
 }: TutorialPostViewProps) {
   return (
     <PetComposerLayout pet={pet}>
@@ -22,6 +24,12 @@ export function TutorialPostView({
         onValueChange={onMessageChange}
         value={message}
       />
+      <p
+        aria-live="polite"
+        className="mt-2 min-h-4 text-center text-xs text-red-600"
+      >
+        {submitError}
+      </p>
     </PetComposerLayout>
   );
 }

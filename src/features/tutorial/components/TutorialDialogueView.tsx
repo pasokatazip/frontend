@@ -12,6 +12,8 @@ type TutorialDialogueViewProps = {
   onBack: () => void;
   onNext?: () => void;
   pet: PetSnapshot;
+  petVariant?: "idle" | "yo";
+  showYoImage?: boolean;
   speaker?: string;
 };
 
@@ -24,6 +26,8 @@ export function TutorialDialogueView({
   onBack,
   onNext,
   pet,
+  petVariant = "idle",
+  showYoImage = false,
   speaker,
 }: TutorialDialogueViewProps) {
   return (
@@ -31,6 +35,8 @@ export function TutorialDialogueView({
       <GetMyPet
         pet={pet}
         size="md"
+        showYoImage={showYoImage}
+        variant={petVariant}
         className="!absolute top-[calc(50%-1.5rem-3dvh)] left-1/2 h-[6.25rem] w-[7rem] -translate-x-1/2 -translate-y-1/2 object-contain"
       />
 

@@ -40,10 +40,10 @@ html {
 }
 
 body {
-  min-height: 100svh;
-  min-height: 100dvh;
+  height: 100svh;
+  height: 100dvh;
   min-width: 0;
-  overflow-x: clip;
+  overflow: hidden;
   background: var(--background);
   color: var(--foreground);
   font-family:
@@ -130,13 +130,13 @@ canvas {
 }
 
 .mobile-screen {
-  min-height: 100svh;
-  min-height: 100dvh;
+  height: 100%;
+  min-height: 100%;
 }
 
 .mobile-safe-screen {
-  min-height: 100svh;
-  min-height: 100dvh;
+  height: 100%;
+  min-height: 100%;
   padding-top: calc(var(--mobile-safe-padding-block) + var(--safe-area-top));
   padding-bottom: calc(
     var(--mobile-safe-padding-block) + var(--safe-area-bottom)
@@ -144,16 +144,16 @@ canvas {
 }
 
 .mobile-scroll-screen {
-  min-height: 100svh;
-  min-height: 100dvh;
+  height: 100%;
+  min-height: 100%;
   overflow-x: clip;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
 .mobile-safe-scroll-screen {
-  min-height: 100svh;
-  min-height: 100dvh;
+  height: 100%;
+  min-height: 100%;
   overflow-x: clip;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -165,7 +165,7 @@ canvas {
 
 .mobile-safe-content {
   min-height: calc(
-    100dvh - var(--mobile-safe-padding-block) -
+    var(--mobile-canvas-height) - var(--mobile-safe-padding-block) -
       var(--mobile-safe-padding-block) - var(--safe-area-top) -
       var(--safe-area-bottom)
   );
@@ -215,38 +215,8 @@ canvas {
     --grid-item-min-width: 15rem;
   }
 
-  html {
-    font-size: clamp(14px, 3.65vw, 16px);
-  }
-
   .responsive-row {
     flex-direction: column;
-  }
-}
-
-@media (max-height: 44rem) {
-  .auth-screen {
-    padding-top: calc(2rem + var(--safe-area-top));
-    padding-bottom: calc(2rem + var(--safe-area-bottom));
-  }
-
-  .auth-logo {
-    width: 13.5rem;
-    height: 5.25rem;
-    margin-top: 1.5rem;
-  }
-
-  .auth-form {
-    margin-top: 2rem;
-    padding: 2rem 1.5rem;
-  }
-
-  .auth-form-submit {
-    margin-top: 2.5rem;
-  }
-
-  .auth-secondary-text {
-    margin-top: 2rem;
   }
 }
 

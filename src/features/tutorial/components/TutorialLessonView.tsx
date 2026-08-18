@@ -28,7 +28,7 @@ export function TutorialLessonView({
 }: TutorialLessonViewProps) {
   return (
     <main className="mobile-screen relative overflow-hidden bg-[url('/images/home/background.png')] bg-cover bg-center">
-      <div className="relative mx-auto min-h-[100dvh] w-full max-w-[29rem] overflow-hidden">
+      <div className="relative mx-auto h-full w-full max-w-[29rem] overflow-hidden">
         <Image
           src={effectImage}
           alt=""
