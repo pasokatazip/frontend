@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { AppScaleLayout } from "@/components/layout/AppScaleLayout";
 import { PwaRegistration } from "@/components/PwaRegistration";
 import "./globals.css";
 
@@ -42,7 +43,7 @@ export default function RootLayout({
       className={`${inter.variable} h-full antialiased notranslate`}
     >
       <body className="min-h-full flex flex-col font-sans">
-        {children}
+        <AppScaleLayout>{children}</AppScaleLayout>
         <PwaRegistration />
       </body>
     </html>
