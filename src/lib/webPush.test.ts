@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { getWebPushSubscriptionResult } from "@/lib/webPush";
 
 const subscription = {
@@ -23,11 +23,6 @@ function stubNotificationPermission(permission: NotificationPermission) {
     isSecureContext: true,
   });
 }
-
-afterEach(() => {
-  vi.unstubAllGlobals();
-  vi.unstubAllEnvs();
-});
 
 describe("Web Push購読情報の取得", () => {
   it("既存のPush購読情報を返す", async () => {
