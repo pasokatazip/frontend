@@ -16,6 +16,7 @@ import {
 } from "../config/tutorialSteps";
 import { TutorialDialogueView } from "./TutorialDialogueView";
 import { TutorialLessonView } from "./TutorialLessonView";
+import { TutorialPetGatheringContainer } from "./TutorialPetGatheringContainer";
 import { TutorialPostContainer } from "./TutorialPostContainer";
 import { TutorialPostFeedbackView } from "./TutorialPostFeedbackView";
 import { TutorialPostSuccessView } from "./TutorialPostSuccessView";
@@ -47,6 +48,7 @@ export function TutorialContainer() {
 
   function renderDialogue(dialogueId: DialogueId) {
     const dialogue: Dialogue = dialogues[dialogueId];
+    const isYoStep = dialogueId === "empty";
 
     return (
       <TutorialDialogueView
@@ -56,6 +58,8 @@ export function TutorialContainer() {
         pet={tutorialPet}
         onBack={() => moveTo(dialogue.previous)}
         onNext={() => moveTo(dialogue.next)}
+        petVariant={isYoStep ? "yo" : "idle"}
+        showYoImage={isYoStep}
         speaker={dialogue.speaker}
       />
     );
@@ -82,6 +86,15 @@ export function TutorialContainer() {
   const renderStrategies: Record<TutorialStep, () => ReactNode> = {
     description: () => renderDialogue("description"),
     empty: () => renderDialogue("empty"),
+    gather: () => (
+      <TutorialPetGatheringContainer
+        doctorImage={doctorImage}
+        effectImage={homeEffectImage}
+        onBack={() => moveTo("postFeedback")}
+        onNext={() => moveTo("routine")}
+        pet={tutorialPet}
+      />
+    ),
     goal: () => renderLesson("goal"),
     introduction: () => renderDialogue("introduction"),
     post: () => (
@@ -93,7 +106,7 @@ export function TutorialContainer() {
     postFeedback: () => (
       <TutorialPostFeedbackView
         doctorImage={doctorImage}
-        onNext={() => moveTo("routine")}
+        onNext={() => moveTo("gather")}
         pet={tutorialPet}
       />
     ),

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { usePetProgressHydration } from "@/hooks/usePetProgressHydration";
+import { usePetProgressStore } from "@/stores/usePetProgressStore";
 import type { PetSnapshot } from "@/types/pet";
 
 const defaultPetSnapshot: PetSnapshot = {
@@ -14,25 +15,16 @@ const defaultPetSnapshot: PetSnapshot = {
 };
 
 export function usePetSession() {
-  const [petSnapshot, setPetSnapshot] =
-    useState<PetSnapshot>(defaultPetSnapshot);
+  const petSnapshot = usePetProgressStore((state) => state.snapshot);
 
-  useEffect(() => {
-    try {
-      const sessionDataRaw = sessionStorage.getItem(
-        "pet-evolution-progress-v4",
-      );
-      if (sessionDataRaw) {
-        const parsed = JSON.parse(sessionDataRaw);
-        const snapshot = parsed?.state?.snapshot;
-        if (snapshot) {
-          setPetSnapshot(snapshot);
-        }
-      }
-    } catch {
-      setPetSnapshot(defaultPetSnapshot);
-    }
-  }, []);
+  usePetProgressHydration();
 
-  return petSnapshot;
+  if (!petSnapshot) {
+    return defaultPetSnapshot;
+  }
+
+  return {
+    ...petSnapshot,
+    nextStageKey: petSnapshot.nextStageKey ?? "",
+  } satisfies PetSnapshot;
 }

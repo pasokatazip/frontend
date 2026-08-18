@@ -10,7 +10,11 @@ export function usePetProgressHydration() {
     let cancelled = false;
 
     async function hydrate() {
-      await usePetProgressStore.persist.rehydrate();
+      try {
+        await usePetProgressStore.persist.rehydrate();
+      } catch {
+        usePetProgressStore.getState().reset();
+      }
 
       if (!cancelled) {
         setHasHydrated(true);
