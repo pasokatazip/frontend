@@ -21,7 +21,7 @@ export async function createPostAction(
 
   if (!parsedValues.success) {
     return {
-      error: createPostFailedMessage,
+      error: parsedValues.error.issues[0]?.message ?? createPostFailedMessage,
       success: false,
     };
   }
