@@ -33,8 +33,8 @@ export function LoginView({
   passwordInputProps,
 }: LoginViewProps) {
   return (
-    <main className="mobile-scroll-screen auth-screen flex justify-center bg-[url('/images/top/background.png')] bg-cover bg-center px-6">
-      <div className="flex w-full max-w-[26.25rem] flex-col items-center">
+    <main className="login-screen mobile-screen auth-screen flex justify-center bg-[url('/images/top/background.png')] bg-cover bg-center px-6">
+      <div className="relative -top-8 flex w-full max-w-[26.25rem] flex-col items-center">
         <h1
           className="translate-y-3 text-lg leading-7 font-normal tracking-normal text-white"
           style={{ textShadow: shadows.dropwhite }}
