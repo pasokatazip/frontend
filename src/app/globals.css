@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant sp (@media (width <= 767px));
+
 :root {
   --background: #ffffff;
   --foreground: #d2ecff;
@@ -213,7 +215,7 @@ canvas {
   gap: var(--layout-gap);
 }
 
-@media (max-width: 47.999rem) {
+@media (max-width: 767px) {
   :root {
     --page-padding-block: 1.5rem;
     --page-padding-inline: 1rem;
