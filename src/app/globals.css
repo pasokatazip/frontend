@@ -256,6 +256,19 @@ canvas {
   .auth-secondary-text {
     margin-top: 2rem;
   }
+
+  .login-screen .auth-form {
+    margin-top: 1.25rem;
+    padding-block: 1.25rem;
+  }
+
+  .login-screen .auth-form-submit {
+    margin-top: 1.5rem;
+  }
+
+  .login-screen .auth-secondary-text {
+    margin-top: 1rem;
+  }
 }
 
 .color-slider::-webkit-slider-thumb {
