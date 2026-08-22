@@ -54,6 +54,12 @@ body {
     sans-serif;
 }
 
+html:has(.login-screen),
+body:has(.login-screen) {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 .app-scale-viewport,
 .app-scale-canvas {
   display: contents;
