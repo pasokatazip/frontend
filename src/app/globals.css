@@ -228,6 +228,45 @@ canvas {
   }
 }
 
+@media (max-height: 44rem) {
+  .auth-screen {
+    padding-top: calc(2rem + var(--safe-area-top));
+    padding-bottom: calc(2rem + var(--safe-area-bottom));
+  }
+
+  .auth-logo {
+    width: 13.5rem;
+    height: 5.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .auth-form {
+    margin-top: 2rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .auth-form-submit {
+    margin-top: 2.5rem;
+  }
+
+  .auth-secondary-text {
+    margin-top: 2rem;
+  }
+
+  .login-screen .auth-form {
+    margin-top: 1.25rem;
+    padding-block: 1.25rem;
+  }
+
+  .login-screen .auth-form-submit {
+    margin-top: 1.5rem;
+  }
+
+  .login-screen .auth-secondary-text {
+    margin-top: 1rem;
+  }
+}
+
 .color-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
