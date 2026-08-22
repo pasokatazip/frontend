@@ -16,6 +16,7 @@ export type LessonId = "goal" | "report" | "routine";
 export type TutorialStep =
   | DialogueId
   | LessonId
+  | "gather"
   | "post"
   | "postFeedback"
   | "postSuccess"

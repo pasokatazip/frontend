@@ -37,7 +37,7 @@ export function SetupView({
   return (
     <main className="mobile-screen bg-[url('/images/background.png')] bg-cover bg-center flex flex-col items-center justify-center">
       <form
-        className="relative mx-auto min-h-[100dvh] w-full max-w-[29rem]"
+        className="relative mx-auto h-full w-full max-w-[29rem]"
         onSubmit={handleSubmit}
       >
         <TopMessagePanel className="fixed top-0 right-0 left-0">
