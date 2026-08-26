@@ -37,6 +37,7 @@ export function NotFoundView() {
       <div className="absolute right-4 bottom-[calc(2rem+var(--safe-area-bottom))] left-4 z-20">
         <DialoguePanel
           message="YO-YOも歩けば棒に当たるぞい"
+          showNextIndicator={false}
           speaker="Dr.YOはかせ"
         />
       </div>
