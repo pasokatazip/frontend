@@ -3,9 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import clsx from "clsx";
-import { Hamburger } from "@/components/Hamburger";
 import { GreenButton } from "@/components/ui/button/GreenButton";
 import { RoundButton } from "@/components/ui/button/RoundButton";
+import { Hamburger } from "./Hamburger";
 
 type FooterProps = {
   onLogout: () => void;
