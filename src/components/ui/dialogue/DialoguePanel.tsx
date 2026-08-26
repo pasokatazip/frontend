@@ -9,6 +9,7 @@ type DialoguePanelProps = {
   message: string;
   nextLabel?: string;
   onNext?: () => void;
+  showNextIndicator?: boolean;
   speaker?: string;
   typingInterval?: number;
 };
@@ -80,6 +81,7 @@ export function DialoguePanel({
   message,
   nextLabel,
   onNext,
+  showNextIndicator = true,
   speaker,
   typingInterval,
 }: DialoguePanelProps) {
@@ -124,7 +126,8 @@ export function DialoguePanel({
         className="absolute right-4 bottom-4 text-sm leading-5 font-normal tracking-normal text-[#00B7AD]"
         style={{ textShadow: shadows.lightblue }}
       >
-        {nextLabel && `${nextLabel} `}▼
+        {nextLabel && `${nextLabel} `}
+        {showNextIndicator && "▼"}
       </span>
     </button>
   );
