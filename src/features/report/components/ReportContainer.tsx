@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ReportView } from "./ReportView";
 import type { Souvenir } from "@/types/souvenir";
 import { getReportAction } from "../actions/GetReportAction";
 import { Report } from "../schemas/ReportSchema";
 import { usePetSession } from "@/hooks/usePetSession";
+import { markSouvenirPraisedAction } from "../actions/MarkSouvenirPraisedAction";
 
 function getYesterday() {
   const yesterday = new Date();
@@ -27,16 +28,28 @@ export function ReportContainer() {
 
   const [todaySouvenirs, setTodaySouvenirs] = useState<Souvenir[]>([]);
   const [reports, setReports] = useState<Report[]>([]);
+  const [hasPraised, setHasPraised] = useState(false);
+  const [isPraising, setIsPraising] = useState(false);
+  const [praiseError, setPraiseError] = useState<string>();
 
   const today = new Date();
 
   const petSnapshot = usePetSession();
+  const selectedDateKey = formatDateForApi(date);
+  const selectedDateKeyRef = useRef(selectedDateKey);
+  const praiseRequestIDRef = useRef(0);
+  selectedDateKeyRef.current = selectedDateKey;
 
   useEffect(() => {
     let ignore = false;
 
     setTodaySouvenirs([]);
+    setReports([]);
+    setHasPraised(false);
+    setIsPraising(false);
+    setPraiseError(undefined);
     setOpenRewardModal(false);
+    praiseRequestIDRef.current += 1;
 
     async function fetchReports() {
       try {
@@ -45,6 +58,7 @@ export function ReportContainer() {
 
         if (!ignore) {
           setReports(data.reports);
+          setHasPraised(data.hasPraised);
           setTodaySouvenirs(
             data.reports.flatMap((report) =>
               report.souvenirs.map((souvenir) => ({
@@ -81,10 +95,48 @@ export function ReportContainer() {
     });
   };
 
-  const handlePraise = () => {
-    if (todaySouvenirs.length === 0) return;
+  const handlePraise = async () => {
+    if (todaySouvenirs.length === 0 || hasPraised || isPraising) return;
 
-    setOpenRewardModal(true);
+    const targetDate = selectedDateKey;
+    const requestID = praiseRequestIDRef.current + 1;
+    praiseRequestIDRef.current = requestID;
+    setIsPraising(true);
+    setPraiseError(undefined);
+
+    try {
+      const result = await markSouvenirPraisedAction(targetDate);
+      if (
+        praiseRequestIDRef.current !== requestID ||
+        selectedDateKeyRef.current !== targetDate
+      ) {
+        return;
+      }
+
+      if (!result.success) {
+        setPraiseError(result.error);
+        return;
+      }
+
+      setHasPraised(true);
+      setOpenRewardModal(true);
+    } catch {
+      if (
+        praiseRequestIDRef.current === requestID &&
+        selectedDateKeyRef.current === targetDate
+      ) {
+        setPraiseError(
+          "ほめた記録を保存できませんでした。少し待ってからもう一度お試しください",
+        );
+      }
+    } finally {
+      if (
+        praiseRequestIDRef.current === requestID &&
+        selectedDateKeyRef.current === targetDate
+      ) {
+        setIsPraising(false);
+      }
+    }
   };
 
   const selectDate = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
@@ -125,7 +177,13 @@ export function ReportContainer() {
         reports,
 
         todaySouvenirs,
-        openSouvenirBubble: handlePraise,
+        hasPraised,
+        isPraising,
+        praiseError,
+        praiseSouvenirs: () => {
+          void handlePraise();
+        },
+        openSouvenirBubble: () => setOpenRewardModal(true),
 
         openRewardModal,
         closeRewardModal: () => setOpenRewardModal(false),

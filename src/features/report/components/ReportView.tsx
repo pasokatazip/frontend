@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { BlueButton } from "@/components/ui/button/BlueButton";
 import { GreenButton } from "@/components/ui/button/GreenButton";
 import { RoundButton } from "@/components/ui/button/RoundButton";
@@ -36,6 +35,10 @@ type ReportViewProps = {
     reports: Report[];
 
     todaySouvenirs: Souvenir[];
+    hasPraised: boolean;
+    isPraising: boolean;
+    praiseError?: string;
+    praiseSouvenirs: () => void;
     openSouvenirBubble: () => void;
 
     openRewardModal: boolean;
@@ -45,17 +48,6 @@ type ReportViewProps = {
 };
 
 export function ReportView({ reportInfo, pet }: ReportViewProps) {
-  const [praisedDate, setPraisedDate] = useState<string | null>(null);
-  const selectedDateKey = `${reportInfo.date.getFullYear()}-${reportInfo.date.getMonth() + 1}-${reportInfo.date.getDate()}`;
-  const hasPraised = praisedDate === selectedDateKey;
-
-  const handlePraise = () => {
-    if (reportInfo.todaySouvenirs.length === 0) return;
-
-    setPraisedDate(selectedDateKey);
-    reportInfo.openSouvenirBubble();
-  };
-
   return (
     <>
       <main className="mobile-screen bg-[url('/images/report/background.png')] bg-cover bg-center p-4">
@@ -87,10 +79,24 @@ export function ReportView({ reportInfo, pet }: ReportViewProps) {
         </div>
 
         <div className="flex mt-4.5 gap-9 mb-24 items-center">
-          {!hasPraised ? (
-            <BlueButton className="rounded-xl h-[120px]" onClick={handlePraise}>
-              ほめる！
-            </BlueButton>
+          {!reportInfo.hasPraised ? (
+            <div className="w-full">
+              <BlueButton
+                className="h-[120px] rounded-xl disabled:cursor-not-allowed disabled:opacity-60"
+                disabled={
+                  reportInfo.isPraising ||
+                  reportInfo.todaySouvenirs.length === 0
+                }
+                onClick={reportInfo.praiseSouvenirs}
+              >
+                {reportInfo.isPraising ? "ほめています…" : "ほめる！"}
+              </BlueButton>
+              {reportInfo.praiseError ? (
+                <p className="mt-2 text-xs text-red-700" role="alert">
+                  {reportInfo.praiseError}
+                </p>
+              ) : null}
+            </div>
           ) : (
             <button
               type="button"

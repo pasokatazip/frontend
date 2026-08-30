@@ -18,6 +18,7 @@ export const ReportSchema = z.object({
 });
 
 export const ReportsResponseSchema = z.object({
+  hasPraised: z.boolean(),
   reports: z.array(ReportSchema),
 });
 
