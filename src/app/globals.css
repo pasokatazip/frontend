@@ -323,3 +323,25 @@ canvas {
   cursor: pointer;
   box-shadow: 0 0 4px 0 #5bd4ec;
 }
+
+@keyframes loading-dot-hop {
+  0%,
+  30%,
+  100% {
+    transform: translateY(0);
+  }
+
+  15% {
+    transform: translateY(-0.28em);
+  }
+}
+
+.loading-dot {
+  animation: loading-dot-hop 1.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-dot {
+    animation: none;
+  }
+}
