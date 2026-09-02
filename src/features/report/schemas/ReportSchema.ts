@@ -17,9 +17,26 @@ export const ReportSchema = z.object({
   ),
 });
 
+export const PetReportSchema = z.object({
+  color: z.string(),
+  created_at: z.string(),
+  current_stage_key: z.string(),
+  current_stage_no: z.number(),
+  is_deleted: z.boolean(),
+  name: z.string(),
+  pet_id: z.string(),
+});
+
 export const ReportsResponseSchema = z.object({
   hasPraised: z.boolean(),
   reports: z.array(ReportSchema),
 });
 
+export const SubscriptionReportsResponseSchema = z.object({
+  hasPraised: z.boolean(),
+  pet: PetReportSchema,
+  reports: z.array(ReportSchema),
+});
+
 export type Report = z.infer<typeof ReportSchema>;
+export type PetReport = z.infer<typeof PetReportSchema>;
