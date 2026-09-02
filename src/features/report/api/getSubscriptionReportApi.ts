@@ -1,5 +1,5 @@
 import { apiFetch } from "@/lib/apiFetch";
-import { ReportsResponseSchema } from "../schemas/ReportSchema";
+import { SubscriptionReportsResponseSchema } from "../schemas/ReportSchema";
 
 export async function getSubscriptionReportApi(token: string, date: string) {
   const res = await apiFetch(`/subsc/report/${date}`, {
@@ -8,5 +8,5 @@ export async function getSubscriptionReportApi(token: string, date: string) {
     },
   });
 
-  return ReportsResponseSchema.parse(await res.json());
+  return SubscriptionReportsResponseSchema.parse(await res.json());
 }

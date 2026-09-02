@@ -5,9 +5,10 @@ import { ReportView } from "./ReportView";
 import type { Souvenir } from "@/types/souvenir";
 import { getReportAction } from "../actions/GetReportAction";
 import { getSubscriptionReportAction } from "../actions/GetSubscriptionReportAction";
-import { Report } from "../schemas/ReportSchema";
+import { Report, type PetReport } from "../schemas/ReportSchema";
 import { usePetSession } from "@/hooks/usePetSession";
 import { markSouvenirPraisedAction } from "../actions/MarkSouvenirPraisedAction";
+import type { PetSnapshot } from "@/types/pet";
 
 interface ReportControllerProps {
   isSubscriptionActive: boolean;
@@ -27,6 +28,19 @@ function formatDateForApi(date: Date) {
   return `${year}-${month}-${day}`;
 }
 
+function convertPetReportToSnapshot(pet: PetReport): PetSnapshot {
+  return {
+    petId: pet.pet_id,
+    petName: pet.name,
+    color: pet.color,
+    currentStageKey: pet.current_stage_key,
+    currentStageNo: pet.current_stage_no,
+    stageId: pet.current_stage_no,
+    nextStageKey: "",
+    canEvolve: false,
+  };
+}
+
 export function ReportController({
   isSubscriptionActive,
 }: ReportControllerProps) {
@@ -41,8 +55,10 @@ export function ReportController({
   const [isPraising, setIsPraising] = useState(false);
   const [praiseError, setPraiseError] = useState<string>();
 
+  const [reportPet, setReportPet] = useState<PetSnapshot | null>(null);
+
   const today = new Date();
-  const petSnapshot = usePetSession();
+  const currentPetSnapshot = usePetSession();
 
   useEffect(() => {
     let ignore = false;
@@ -58,9 +74,42 @@ export function ReportController({
       try {
         const targetDate = formatDateForApi(date);
 
-        const data = isSubscriptionActive
-          ? await getSubscriptionReportAction(targetDate)
-          : await getReportAction(targetDate);
+        if (isSubscriptionActive) {
+          const data = await getSubscriptionReportAction(targetDate);
+
+          if (ignore) return;
+
+          setReports(data.reports);
+          setHasPraised(data.hasPraised);
+
+          const nextPet = convertPetReportToSnapshot(data.pet);
+
+          setReportPet((prevPet) => {
+            if (!prevPet) {
+              return nextPet;
+            }
+
+            if (prevPet.petId === nextPet.petId) {
+              return prevPet;
+            }
+
+            return nextPet;
+          });
+
+          setTodaySouvenirs(
+            data.reports.flatMap((report) =>
+              report.souvenirs.map((souvenir) => ({
+                id: souvenir.id,
+                name: souvenir.displayName,
+                image: souvenir.imageURL || "/images/souvenir/secret.png",
+              })),
+            ),
+          );
+
+          return;
+        }
+
+        const data = await getReportAction(targetDate);
 
         if (ignore) return;
 
@@ -84,7 +133,7 @@ export function ReportController({
       }
     }
 
-    fetchReports();
+    void fetchReports();
 
     return () => {
       ignore = true;
@@ -136,6 +185,10 @@ export function ReportController({
     }
   };
 
+  const displayPet = isSubscriptionActive
+    ? (reportPet ?? currentPetSnapshot)
+    : currentPetSnapshot;
+
   const selectDate = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
 
   const isToday =
@@ -152,7 +205,7 @@ export function ReportController({
 
   const dateLabel = isToday ? "今日" : isYesterday ? "昨日" : selectDate;
 
-  const title = `${dateLabel}の${petSnapshot.petName}YO-YO`;
+  const title = `${dateLabel}の${displayPet.petName}YO-YO`;
 
   return (
     <ReportView
@@ -168,8 +221,8 @@ export function ReportController({
         openCalendarPicker: () => setOpenCalendar(true),
         closeCalendarPicker: () => setOpenCalendar(false),
 
-        onSelectDate: (date) => {
-          setDate(date);
+        onSelectDate: (selectedDate) => {
+          setDate(selectedDate);
           setOpenCalendar(false);
         },
 
@@ -195,7 +248,7 @@ export function ReportController({
           setOpenRewardModal(false);
         },
       }}
-      pet={petSnapshot}
+      pet={displayPet}
     />
   );
 }
