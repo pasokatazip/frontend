@@ -6,6 +6,7 @@ import { usePetSession } from "@/hooks/usePetSession";
 import type { PetSnapshot } from "@/types/pet";
 import { usePetEvolutions } from "../hooks/usePetEvolutions";
 import { getAllPetsAction } from "../actions/getAllPetsAction";
+import { useLatestSouvenir } from "../hooks/useLatestSouvenir";
 
 type GrowRecordControllerProps = {
   isSubscriptionActive: boolean;
@@ -50,6 +51,14 @@ export function GrowRecordController({
     }
   }, [isSubscriptionActive, pets, selectedPetId]);
 
+  const isCurrentPet = selectedPetId === sessionPet.petId;
+
+  const { souvenir } = useLatestSouvenir({
+    petId: selectedPetId,
+    isSubscribed: isSubscriptionActive,
+    isCurrentPet,
+  });
+
   const formatDate = (dateString?: string) => {
     if (!dateString) return null;
 
@@ -63,8 +72,6 @@ export function GrowRecordController({
 
     return `${y}/${m}/${d}`;
   };
-
-  const isCurrentPet = selectedPetId === sessionPet.petId;
 
   const startDate = formatDate(data?.created_at);
 
@@ -148,13 +155,17 @@ export function GrowRecordController({
       petId={data?.pet_id ?? sessionPet.petId}
       petName={petName}
       color={data?.color ?? sessionPet.color}
-      lastSouvenir={{
-        unlocked: true,
-        src: "/images/souvenir/secret.png",
-        alt: "りんご",
-        width: 60,
-        height: 60,
-      }}
+      lastSouvenir={
+        souvenir
+          ? {
+              unlocked: true,
+              image: souvenir.imageURL,
+              alt: souvenir.displayName,
+              width: 60,
+              height: 60,
+            }
+          : null
+      }
     />
   );
 }
