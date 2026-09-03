@@ -29,8 +29,8 @@ const petPositions = [
     entryTransform: "translate3d(-50%, -50%, 0)",
   },
   {
-    className: "top-[30%] left-[70%]",
-    entryTransform: "translate3d(13rem, -2rem, 0)",
+    className: "top-[36%] left-[70%]",
+    entryTransform: "translate3d(13rem, 2rem, 0)",
   },
   {
     className: "top-[54%] left-[28%]",
