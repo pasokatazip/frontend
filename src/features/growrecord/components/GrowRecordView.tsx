@@ -42,10 +42,10 @@ export function GrowRecordView({
       <main className="mobile-screen bg-[url('/images/Report/background.png')] bg-cover bg-center p-4">
         <div className="flex flex-col gap-3.5">
           <SilverButton className="max-h-10 max-w-[70%] flex text-[16px]">
-            <p className="bg-white py-2 rounded-full w-full">
+            <p className="bg-white h-8 py-1 rounded-full w-full flex items-center justify-center">
               {GrowRecordInfo.period}
             </p>
-          </SilverButton>
+          </SilverButton>{" "}
           <DateSelector
             text={GrowRecordInfo.petName}
             onPrev={GrowRecordInfo.prevPet}

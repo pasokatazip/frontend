@@ -64,28 +64,26 @@ export function GrowRecordController({
     return `${y}/${m}/${d}`;
   };
 
-  const firstCreatedAt = data?.evolutions
-    ?.map((evolution) => evolution.created_at)
-    .filter(Boolean)
-    .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())[0];
+  const isCurrentPet = selectedPetId === sessionPet.petId;
 
-  const lastEvolvedAt = data?.stages
-    ?.map((stage) => stage.evolved_at)
+  const startDate = formatDate(data?.created_at);
+
+  const lastEvolvedAt = data?.evolutions
+    ?.map((evolution) => evolution.evolved_at)
     .filter((date): date is string => Boolean(date))
     .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
     .at(-1);
 
-  const startDate = formatDate(firstCreatedAt);
-  const endDate = formatDate(lastEvolvedAt);
+  const endDate = isCurrentPet
+    ? formatDate(new Date().toISOString())
+    : formatDate(lastEvolvedAt);
 
   const period =
     startDate && endDate
       ? `${startDate} - ${endDate}`
       : startDate
         ? `${startDate} -`
-        : endDate
-          ? `- ${endDate}`
-          : "";
+        : "";
 
   const selectedPet = pets.find((pet) => pet.pet_id === selectedPetId);
 

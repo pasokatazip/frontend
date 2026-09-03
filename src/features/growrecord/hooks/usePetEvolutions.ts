@@ -6,6 +6,7 @@ import { getEvolutionsAction } from "../actions/getEvolutionsAction";
 
 type PetEvolutionsData = {
   pet_id: string;
+  created_at: string;
   color?: string;
 
   stages: {
@@ -23,6 +24,7 @@ type PetEvolutionsData = {
   evolutions: {
     created_at: string;
     stage_id: number;
+    evolved_at: string;
   }[];
 };
 
@@ -43,6 +45,7 @@ export function usePetEvolutions({
     const fetchEvolutions = async () => {
       setLoading(true);
       setError(null);
+      setData(null);
 
       try {
         if (isSubscribed && petId) {
@@ -50,6 +53,7 @@ export function usePetEvolutions({
 
           setData({
             pet_id: result.pet_id,
+            created_at: result.created_at,
             color: result.color,
             stages: result.stages,
             evolutions: result.evolutions,
@@ -59,6 +63,7 @@ export function usePetEvolutions({
 
           setData({
             pet_id: result.pet_id,
+            created_at: result.created_at,
             stages: result.stages,
             evolutions: result.evolutions,
           });

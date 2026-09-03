@@ -33,6 +33,7 @@ const StageSchema = z.object({
 
 export const PetEvolutionsResponseSchema = z.object({
   color: z.string(),
+  created_at: z.string(),
   current_stage_id: z.number(),
   evolutions: z.array(EvolutionSchema),
   experience_events: z.array(ExperienceEventSchema),
