@@ -94,7 +94,7 @@ export function GrowRecordView({
               <Image
                 src={lastSouvenir?.image ?? "/images/souvenir/secret.png"}
                 alt={lastSouvenir?.alt ?? "おみやげ未取得"}
-                className="absolute top-0 left-0 min-w-15 min-h-15"
+                className="absolute top-0 left-0 min-w-15 min-h-15 p-1.5"
                 width={60}
                 height={60}
                 unoptimized
