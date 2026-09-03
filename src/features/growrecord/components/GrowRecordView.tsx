@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { GreenButton } from "@/components/ui/button/GreenButton";
 import { RoundButton } from "@/components/ui/button/RoundButton";
 import { SilverButton } from "@/components/ui/button/SilverButton";
@@ -7,6 +10,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { GrowWay, type GrowStage } from "./GrowWay";
 import type { PetSnapshot } from "@/types/pet";
+import type { Souvenir } from "@/types/souvenir";
+import { GrowRecordRewardModal } from "./GrowRecordRewardModal";
 
 type GrowRecordViewProps = {
   GrowRecordInfo: {
@@ -21,6 +26,7 @@ type GrowRecordViewProps = {
   petName: string;
   color?: string;
   lastSouvenir: {
+    id: string;
     unlocked: boolean;
     image: string;
     alt: string;
@@ -28,6 +34,7 @@ type GrowRecordViewProps = {
     height: number;
   } | null;
 };
+
 export function GrowRecordView({
   GrowRecordInfo,
   currentPet,
@@ -36,6 +43,18 @@ export function GrowRecordView({
   color,
   lastSouvenir,
 }: GrowRecordViewProps) {
+  const [openRewardModal, setOpenRewardModal] = useState(false);
+
+  const souvenirs: Souvenir[] = lastSouvenir
+    ? [
+        {
+          id: lastSouvenir.id,
+          name: lastSouvenir.alt,
+          image: lastSouvenir.image,
+        },
+      ]
+    : [];
+
   return (
     <>
       <main className="mobile-screen bg-[url('/images/Report/background.png')] bg-cover bg-center p-4">
@@ -44,7 +63,8 @@ export function GrowRecordView({
             <p className="bg-white h-8 py-1 rounded-full w-full flex items-center justify-center">
               {GrowRecordInfo.period}
             </p>
-          </SilverButton>{" "}
+          </SilverButton>
+
           <DateSelector
             text={GrowRecordInfo.petName}
             onPrev={GrowRecordInfo.prevPet}
@@ -54,7 +74,14 @@ export function GrowRecordView({
 
         <div className="relative h-100 p-10 flex justify-center items-center">
           <GetMyPet pet={currentPet} size="lg" />
-          <div className="absolute right-0 bottom-0">
+
+          <button
+            type="button"
+            className="absolute right-0 bottom-0"
+            onClick={() => setOpenRewardModal(true)}
+            disabled={!lastSouvenir}
+            aria-label="最後のおみやげを見る"
+          >
             <div className="relative">
               <Image
                 src="/images/getBubble.png"
@@ -73,7 +100,7 @@ export function GrowRecordView({
                 unoptimized
               />
             </div>
-          </div>
+          </button>
         </div>
 
         <GrowWay
@@ -82,12 +109,19 @@ export function GrowRecordView({
           petName={petName}
           color={color}
         />
+
+        <GrowRecordRewardModal
+          open={openRewardModal}
+          onClose={() => setOpenRewardModal(false)}
+          souvenirs={souvenirs}
+        />
       </main>
 
       <footer className="fixed bottom-3 flex min-w-full gap-20 px-4">
         <Link href="/Home">
           <RoundButton image="/icons/home.svg" label="ホームへ" />
         </Link>
+
         <Link href="/Report" className="w-full">
           <GreenButton className="rounded-xl rounded-br-none max-h-15">
             レポート

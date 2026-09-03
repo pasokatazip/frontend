@@ -158,6 +158,7 @@ export function GrowRecordController({
       lastSouvenir={
         souvenir
           ? {
+              id: souvenir.id,
               unlocked: true,
               image: souvenir.imageURL,
               alt: souvenir.displayName,
