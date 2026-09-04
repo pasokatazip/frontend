@@ -1,17 +1,18 @@
 import { apiFetch } from "@/lib/apiFetch";
 
 export type EvolutionItem = {
-  id: number;
-  pet_id: string;
+  id: string;
   stage_id: number;
-  branch_key: string;
+  evolution_rule_id: number;
+  primary_status: string;
+  evolved_at: string;
   created_at: string;
 };
 
 export type EvolutionStageItem = {
-  branch_key: string;
+  branch_key?: string;
   current: boolean;
-  evolved_at: string;
+  evolved_at?: string;
   id: number;
   image_url: string;
   name: string;
@@ -21,6 +22,7 @@ export type EvolutionStageItem = {
 };
 
 export type EvolutionResponse = {
+  created_at: string;
   current_stage_id: number;
   evolutions: EvolutionItem[];
   pet_id: string;
@@ -36,5 +38,6 @@ export async function getEvolutionsApi(
       "Content-Type": "application/json",
     },
   });
+
   return res.json();
 }
