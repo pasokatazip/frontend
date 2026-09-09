@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: "ぺっとよーよー",
   },
   description: "つぶやきを聞いて成長するペット",
-  manifest: "/manifest.webmanifest",
+  manifest: "/manifest.json",
   icons: {
     apple: "/pwa/apple-touch-icon.png",
     icon: "/pwa/icon-192.png",
