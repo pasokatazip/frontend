@@ -79,6 +79,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - 画像ファイルやCSSなどの拡張子を持つ静的ファイル
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|css|js|webmanifest)).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|css|js|json|webmanifest)).*)",
   ],
 };
