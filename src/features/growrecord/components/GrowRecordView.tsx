@@ -117,7 +117,7 @@ export function GrowRecordView({
         />
       </main>
 
-      <footer className="fixed bottom-3 flex min-w-full gap-20 px-4">
+      <footer className="mobile-safe-footer fixed left-0 flex min-w-full gap-20 px-4">
         <Link href="/Home">
           <RoundButton image="/icons/home.svg" label="ホームへ" />
         </Link>

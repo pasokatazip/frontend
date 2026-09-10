@@ -31,7 +31,7 @@ export function PostView({
       />
 
       <p className="min-h-4 text-center text-xs text-red-600">{submitError}</p>
-      <div className="fixed bottom-[calc(0.25rem+var(--safe-area-bottom))] left-4">
+      <div className="mobile-safe-footer fixed left-4">
         <RoundButton
           image="/icons/home.svg"
           label="ホームへ"
