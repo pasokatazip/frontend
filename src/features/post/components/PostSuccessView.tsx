@@ -38,7 +38,7 @@ export function PostSuccessView({ onHome, onNext, pet }: PostSuccessViewProps) {
           />
         </div>
 
-        <div className="absolute bottom-[calc(0.25rem+var(--safe-area-bottom))] left-4">
+        <div className="mobile-safe-footer fixed left-4">
           <RoundButton
             image="/icons/home.svg"
             label="ホームへ"

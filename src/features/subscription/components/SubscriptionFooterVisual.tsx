@@ -16,7 +16,7 @@ export function SubscriptionFooterVisual({
 }: SubscriptionFooterVisualProps) {
   return (
     <div className="relative mt-auto min-h-[clamp(9rem,21dvh,11.5rem)] pb-1">
-      <div className="absolute bottom-0 left-0 z-10">
+      <div className="mobile-safe-footer fixed  z-10">
         <Link href="/Home">
           <RoundButton image="/icons/home.svg" label="ホームへ" />
         </Link>
