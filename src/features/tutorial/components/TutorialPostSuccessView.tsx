@@ -20,16 +20,19 @@ export function TutorialPostSuccessView({
 
       <button
         aria-label="つぎへ進む"
-        className="absolute top-[38%] left-1/2 h-[7.5rem] w-[8.5rem] -translate-x-1/2 touch-manipulation"
+        className="absolute inset-0 z-10 h-full w-full touch-manipulation"
         onClick={onNext}
         type="button"
-      >
+      />
+
+      <div className="absolute top-[38%] left-1/2 z-20 h-[7.5rem] w-[8.5rem] -translate-x-1/2">
         <GetMyPet
           pet={pet}
           size="md"
+          variant="yo"
           className="pointer-events-none h-full w-full object-contain"
         />
-      </button>
+      </div>
     </TutorialScreenLayout>
   );
 }
