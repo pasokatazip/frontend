@@ -15,7 +15,7 @@ export async function getReportAction(date?: string) {
 
     if (!petId) throw new Error("pet_idが取得できません");
 
-    return await getReportApi(petId, date);
+    return await getReportApi(token, petId, date);
   } catch (error) {
     logServerError("Get report action failed", error);
     throw error;
