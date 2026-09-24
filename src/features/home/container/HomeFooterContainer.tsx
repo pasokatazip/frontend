@@ -3,9 +3,9 @@
 
 import { useRouter } from "next/navigation";
 import { logoutAction } from "@/actions/logoutAction";
-import { Footer } from "@/components/Footer";
 import { clearPurchaseConfirmationPending } from "@/lib/purchaseConfirmationStorage";
 import { usePetProgressStore } from "@/stores/usePetProgressStore";
+import { Footer } from "../components/Footer";
 
 export function HomeFooterContainer() {
   const router = useRouter();
@@ -18,10 +18,5 @@ export function HomeFooterContainer() {
     window.location.replace("/Login");
   }
 
-  return (
-    <Footer
-      onLogout={handleLogout}
-      onPost={() => router.push("/Post")}
-    />
-  );
+  return <Footer onLogout={handleLogout} onPost={() => router.push("/Post")} />;
 }

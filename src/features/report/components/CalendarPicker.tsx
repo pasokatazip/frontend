@@ -1,3 +1,4 @@
+import { GlassCard } from "@/components/ui/card/GlassCard";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
@@ -21,8 +22,8 @@ export function CalendarPicker({
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
       onClick={onClose}
     >
-      <div
-        className="rounded-xl bg-white p-4 shadow-lg"
+      <GlassCard
+        className="rounded-xl bg-white text-black p-4 shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
         <DayPicker
@@ -33,7 +34,7 @@ export function CalendarPicker({
             onSelect(date);
           }}
         />
-      </div>
+      </GlassCard>
     </div>
   );
 }

@@ -15,16 +15,20 @@ function getScaleDisplayOptions() {
   const isStandalone =
     window.matchMedia("(display-mode: standalone)").matches ||
     iosNavigator.standalone === true;
+  const isMobileSafari =
+    /iP(?:hone|ad|od)/.test(navigator.userAgent) &&
+    /Safari/.test(navigator.userAgent) &&
+    !/CriOS|FxiOS|EdgiOS|OPiOS/.test(navigator.userAgent);
   const isDesktop = window.matchMedia(
     "(min-width: 48rem) and (pointer: fine)",
   ).matches;
 
-  if (!isStandalone && !isDesktop) {
+  if (!isStandalone && !isMobileSafari && !isDesktop) {
     return null;
   }
 
   return {
-    ignoreHeightOnlyResize: isStandalone && !isDesktop,
+    ignoreHeightOnlyResize: (isStandalone || isMobileSafari) && !isDesktop,
   };
 }
 
