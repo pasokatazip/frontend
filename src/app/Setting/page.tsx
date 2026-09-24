@@ -1,4 +1,4 @@
-import { SettingContainer } from "@/features/setting/components/SettingContainer";
+import { SettingContainer } from "@/features/setting/container/SettingContainer";
 
 export default function Page() {
   return <SettingContainer />;

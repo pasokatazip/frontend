@@ -4,9 +4,9 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { usePetProgressStore } from "@/stores/usePetProgressStore";
 import { usePetProgressHydration } from "@/hooks/usePetProgressHydration";
-import { GrowCompleteView } from "./GrowCompleteView";
+import { GrowView } from "../components/GrowView";
 
-export function GrowCompleteContainer() {
+export function GrowContainer() {
   const router = useRouter();
   const isLeavingRef = useRef(false);
   const hasHydrated = usePetProgressHydration();
@@ -16,32 +16,39 @@ export function GrowCompleteContainer() {
   );
   const snapshot = usePetProgressStore((state) => state.snapshot);
   const petName = snapshot?.petName ?? "YO-YO";
-  const stageKey = evolutionFlow?.toStageKey ?? "akago";
+  const stageKey = evolutionFlow?.fromStageKey ?? "akago";
 
   useEffect(() => {
     if (
       hasHydrated &&
       !isLeavingRef.current &&
-      evolutionFlow?.step !== "complete"
+      evolutionFlow?.step !== "grow"
     ) {
       router.replace("/Home");
     }
   }, [evolutionFlow?.step, hasHydrated, router]);
 
-  if (!hasHydrated || evolutionFlow?.step !== "complete") {
+  if (!hasHydrated || evolutionFlow?.step !== "grow") {
     return null;
   }
 
   function handleNext() {
+    if (!evolutionFlow) {
+      return;
+    }
+
     isLeavingRef.current = true;
-    setEvolutionFlow();
-    router.push("/Home");
+    setEvolutionFlow({
+      ...evolutionFlow,
+      step: "complete",
+    });
+    router.push("/GrowComplete");
   }
 
   return (
-    <GrowCompleteView
+    <GrowView
       dialogue={{
-        message: "ナイスYO-YO！",
+        message: `おや...${petName}のようすが...？`,
         speaker: "Dr.YOはかせ",
       }}
       doctorImage={{
@@ -50,7 +57,6 @@ export function GrowCompleteContainer() {
         src: "/images/subscription/doctor.png",
         width: 512,
       }}
-      growthMessage={`${petName}が成長した！`}
       onNext={handleNext}
       stageKey={stageKey}
     />

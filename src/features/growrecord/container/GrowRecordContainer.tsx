@@ -1,6 +1,6 @@
 "use client";
 
-import { GrowRecordView } from "./GrowRecordView";
+import { GrowRecordView } from "../components/GrowRecordView";
 import { usePetSession } from "@/hooks/usePetSession";
 import type { PetSnapshot } from "@/types/pet";
 import { usePetEvolutions } from "../hooks/usePetEvolutions";

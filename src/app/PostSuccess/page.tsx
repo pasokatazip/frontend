@@ -1,4 +1,4 @@
-import { PostSuccessContainer } from "@/features/post/components/PostSuccessContainer";
+import { PostSuccessContainer } from "@/features/post/container/PostSuccessContainer";
 
 export default function PostSuccessPage() {
   return <PostSuccessContainer />;

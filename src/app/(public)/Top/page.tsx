@@ -1,4 +1,4 @@
-import { TopContainer } from "@/features/top/components/TopContainer";
+import { TopContainer } from "@/features/top/container/TopContainer";
 
 export default function Page() {
   return <TopContainer />;

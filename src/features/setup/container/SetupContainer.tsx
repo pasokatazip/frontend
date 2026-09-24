@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createPetAction } from "@/features/setup/actions/CreatePetAction";
-import { SetupView } from "./SetupView";
+import { SetupView } from "../components/SetupView";
 
 export function SetupContainer() {
   const router = useRouter();

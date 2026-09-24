@@ -1,5 +1,6 @@
 "use client";
 
+
 import { useRouter } from "next/navigation";
 import { logoutAction } from "@/actions/logoutAction";
 import { Footer } from "@/components/Footer";

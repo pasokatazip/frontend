@@ -1,4 +1,4 @@
-import { GrowContainer } from "@/features/grow/components/GrowContainer";
+import { GrowContainer } from "@/features/grow/container/GrowContainer";
 
 export default function GrowPage() {
   return <GrowContainer />;

@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { PostView } from "./PostView";
+import { PostView } from "../components/PostView";
 import { createPostAction } from "../actions/createPostAction";
 import { usePetSession } from "@/hooks/usePetSession";
 

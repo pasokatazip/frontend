@@ -6,7 +6,7 @@ import type { PetSnapshot } from "@/types/pet";
 import {
   type GatheringPetState,
   TutorialPetGatheringView,
-} from "./TutorialPetGatheringView";
+} from "../components/TutorialPetGatheringView";
 
 type TutorialPetGatheringContainerProps = {
   doctorImage: StaticImageData;

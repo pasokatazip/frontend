@@ -9,7 +9,7 @@ import {
   signupSchema,
   type SignupFormValues,
 } from "@/features/auth/schemas/signupSchema";
-import { SignupView } from "./SignupView";
+import { SignupView } from "../components/SignupView";
 
 export function SignupContainer() {
   const router = useRouter();

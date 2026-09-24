@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ReportView } from "./ReportView";
+import { ReportView } from "../components/ReportView";
 import type { Souvenir } from "@/types/souvenir";
 import { getReportAction } from "../actions/GetReportAction";
 import { Report } from "../schemas/ReportSchema";

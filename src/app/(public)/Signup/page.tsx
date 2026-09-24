@@ -1,4 +1,4 @@
-import { SignupContainer } from "@/features/auth/components/SignupContainer";
+import { SignupContainer } from "@/features/auth/container/SignupContainer";
 
 export default function Page() {
   return <SignupContainer />;
