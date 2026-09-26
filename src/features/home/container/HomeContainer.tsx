@@ -1,7 +1,7 @@
 import { getCurrentPetAction } from "@/features/home/actions/GetCurrentPetAction";
 import { getEvolutionStatusAction } from "@/features/home/actions/GetEvolutionStatusAction";
 import { mockPets } from "@/features/home/mock/mockPets";
-import { HomeView } from "./HomeView";
+import { HomeView } from "../components/HomeView";
 
 export async function HomeContainer() {
   const [petResult, evolutionResult] = await Promise.all([

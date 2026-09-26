@@ -14,13 +14,13 @@ import {
   type TutorialDestination,
   type TutorialStep,
 } from "../config/tutorialSteps";
-import { TutorialDialogueView } from "./TutorialDialogueView";
-import { TutorialLessonView } from "./TutorialLessonView";
+import { TutorialDialogueView } from "../components/TutorialDialogueView";
+import { TutorialLessonView } from "../components/TutorialLessonView";
 import { TutorialPetGatheringContainer } from "./TutorialPetGatheringContainer";
 import { TutorialPostContainer } from "./TutorialPostContainer";
-import { TutorialPostFeedbackView } from "./TutorialPostFeedbackView";
-import { TutorialPostSuccessView } from "./TutorialPostSuccessView";
-import { TutorialTouchView } from "./TutorialTouchView";
+import { TutorialPostFeedbackView } from "../components/TutorialPostFeedbackView";
+import { TutorialPostSuccessView } from "../components/TutorialPostSuccessView";
+import { TutorialTouchView } from "../components/TutorialTouchView";
 import { PetSnapshot } from "@/types/pet";
 import { grantSetupAccessAction } from "@/features/tutorial/actions/GrantSetupAccessAction";
 

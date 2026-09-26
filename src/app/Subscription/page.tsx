@@ -1,4 +1,4 @@
-import { SubscriptionContainer } from "@/features/subscription/components/SubscriptionContainer";
+import { SubscriptionContainer } from "@/features/subscription/container/SubscriptionContainer";
 
 export default function Page() {
   return <SubscriptionContainer />;

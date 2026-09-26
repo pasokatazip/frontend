@@ -1,4 +1,4 @@
-import { PostContainer } from "@/features/post/components/PostContainer";
+import { PostContainer } from "@/features/post/container/PostContainer";
 
 export default function PostPage() {
   return <PostContainer />;

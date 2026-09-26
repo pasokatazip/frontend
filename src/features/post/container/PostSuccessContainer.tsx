@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { PostSuccessView } from "./PostSuccessView";
+import { PostSuccessView } from "../components/PostSuccessView";
 import { usePetSession } from "@/hooks/usePetSession";
 
 export function PostSuccessContainer() {

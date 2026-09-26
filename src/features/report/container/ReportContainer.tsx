@@ -1,5 +1,5 @@
 import { getSubscriptionStatusAction } from "@/actions/getSubscriptionStatusAction";
-import { ReportController } from "./ReportController";
+import { ReportController } from "../components/ReportController";
 
 export async function ReportContainer() {
   const subscriptionResult = await getSubscriptionStatusAction();

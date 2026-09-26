@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { TutorialPostView } from "./TutorialPostView";
+import { TutorialPostView } from "../components/TutorialPostView";
 import { PetSnapshot } from "@/types/pet";
 
 type TutorialPostContainerProps = {

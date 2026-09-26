@@ -9,7 +9,7 @@ import {
   loginSchema,
   type LoginFormValues,
 } from "@/features/auth/schemas/loginSchema";
-import { LoginView } from "./LoginView";
+import { LoginView } from "../components/LoginView";
 
 export function LoginContainer() {
   const router = useRouter();

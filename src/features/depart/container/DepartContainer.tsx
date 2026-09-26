@@ -4,7 +4,7 @@ import { getCurrentPetAction } from "@/features/home/actions/GetCurrentPetAction
 import { getEvolutionStatusAction } from "@/features/home/actions/GetEvolutionStatusAction";
 import { getAuthTokenCookie } from "@/lib/authCookie";
 import { getPetIdFromToken } from "@/lib/authToken";
-import { DepartController } from "./DepartController";
+import { DepartController } from "../components/DepartController";
 
 export async function DepartContainer() {
   const token = await getAuthTokenCookie();

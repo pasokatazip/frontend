@@ -1,4 +1,4 @@
-import { HelpContainer } from "@/features/help/components/HelpContainer";
+import { HelpContainer } from "@/features/help/container/HelpContainer";
 
 export default function Page() {
   return <HelpContainer />;

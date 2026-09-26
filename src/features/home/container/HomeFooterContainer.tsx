@@ -1,10 +1,11 @@
 "use client";
 
+
 import { useRouter } from "next/navigation";
 import { logoutAction } from "@/actions/logoutAction";
 import { clearPurchaseConfirmationPending } from "@/lib/purchaseConfirmationStorage";
 import { usePetProgressStore } from "@/stores/usePetProgressStore";
-import { Footer } from "./Footer";
+import { Footer } from "../components/Footer";
 
 export function HomeFooterContainer() {
   const router = useRouter();

@@ -1,7 +1,7 @@
 import { getSubscriptionStatusAction } from "@/actions/getSubscriptionStatusAction";
 import { getCurrentPetAction } from "@/features/home/actions/GetCurrentPetAction";
 import { getNotificationSettingsAction } from "@/features/setting/actions/GetNotificationSettingsAction";
-import { SettingController } from "./SettingController";
+import { SettingController } from "../components/SettingController";
 
 export async function SettingContainer() {
   const [petResult, subscriptionResult, notificationResult] = await Promise.all([

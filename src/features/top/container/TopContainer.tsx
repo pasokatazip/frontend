@@ -1,4 +1,4 @@
-import { TopView } from "./TopView";
+import { TopView } from "../components/TopView";
 
 export function TopContainer() {
   return (

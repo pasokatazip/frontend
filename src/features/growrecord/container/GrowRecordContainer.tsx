@@ -1,5 +1,5 @@
 import { getSubscriptionStatusAction } from "@/actions/getSubscriptionStatusAction";
-import { GrowRecordController } from "./GrowRecordController";
+import { GrowRecordController } from "../components/GrowRecordController";
 
 export async function GrowRecordContainer() {
   const subscriptionResult = await getSubscriptionStatusAction();

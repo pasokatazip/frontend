@@ -9,7 +9,7 @@ import {
   hasPurchaseConfirmationPending,
   markPurchaseConfirmationPending,
 } from "@/lib/purchaseConfirmationStorage";
-import { SubscriptionView } from "./SubscriptionView";
+import { SubscriptionView } from "../components/SubscriptionView";
 import { usePetSession } from "@/hooks/usePetSession";
 
 export function SubscriptionContainer() {
