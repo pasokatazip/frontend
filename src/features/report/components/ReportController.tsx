@@ -45,6 +45,8 @@ export function ReportController({
   isSubscriptionActive,
 }: ReportControllerProps) {
   const [date, setDate] = useState(getYesterday);
+  const [mounted, setMounted] = useState(false);
+
   const [openCalendar, setOpenCalendar] = useState(false);
   const [openRewardModal, setOpenRewardModal] = useState(false);
 
@@ -57,10 +59,17 @@ export function ReportController({
 
   const [reportPet, setReportPet] = useState<PetSnapshot | null>(null);
 
-  const today = new Date();
   const currentPetSnapshot = usePetSession();
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) {
+      return;
+    }
+
     let ignore = false;
 
     setTodaySouvenirs([]);
@@ -138,7 +147,7 @@ export function ReportController({
     return () => {
       ignore = true;
     };
-  }, [date, isSubscriptionActive]);
+  }, [date, isSubscriptionActive, mounted]);
 
   const prevDay = () => {
     setDate((prev) => {
@@ -185,9 +194,15 @@ export function ReportController({
     }
   };
 
+  if (!mounted) {
+    return null;
+  }
+
   const displayPet = isSubscriptionActive
     ? (reportPet ?? currentPetSnapshot)
     : currentPetSnapshot;
+
+  const today = new Date();
 
   const selectDate = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
 
