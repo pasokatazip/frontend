@@ -12,12 +12,13 @@ import type { PetSnapshot } from "@/types/pet";
 
 interface ReportControllerProps {
   isSubscriptionActive: boolean;
+  initialDate: string;
 }
 
-function getYesterday() {
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  return yesterday;
+function parseDate(dateString: string) {
+  const [year, month, day] = dateString.split("-").map(Number);
+
+  return new Date(year, month - 1, day);
 }
 
 function formatDateForApi(date: Date) {
@@ -43,8 +44,10 @@ function convertPetReportToSnapshot(pet: PetReport): PetSnapshot {
 
 export function ReportController({
   isSubscriptionActive,
+  initialDate,
 }: ReportControllerProps) {
-  const [date, setDate] = useState(getYesterday);
+  const [date, setDate] = useState(() => parseDate(initialDate));
+
   const [openCalendar, setOpenCalendar] = useState(false);
   const [openRewardModal, setOpenRewardModal] = useState(false);
 
@@ -57,7 +60,6 @@ export function ReportController({
 
   const [reportPet, setReportPet] = useState<PetSnapshot | null>(null);
 
-  const today = new Date();
   const currentPetSnapshot = usePetSession();
 
   useEffect(() => {
@@ -189,6 +191,8 @@ export function ReportController({
     ? (reportPet ?? currentPetSnapshot)
     : currentPetSnapshot;
 
+  const today = new Date();
+
   const selectDate = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
 
   const isToday =
@@ -196,7 +200,8 @@ export function ReportController({
     date.getMonth() === today.getMonth() &&
     date.getDate() === today.getDate();
 
-  const yesterday = getYesterday();
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
 
   const isYesterday =
     date.getFullYear() === yesterday.getFullYear() &&
@@ -242,11 +247,11 @@ export function ReportController({
           setOpenRewardModal(true);
         },
 
-        openRewardModal,
-
         closeRewardModal: () => {
           setOpenRewardModal(false);
         },
+
+        openRewardModal,
       }}
       pet={displayPet}
     />
