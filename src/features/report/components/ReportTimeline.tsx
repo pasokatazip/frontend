@@ -21,17 +21,17 @@ export function ReportTimeline({ reports }: Props) {
             おはYO
           </p> */}
           {reports.length === 0 ? (
-            <div className="flex h-full items-center justify-center text-gray-500">
+            <div className="flex h-full text-[14px] items-center justify-center text-gray-500">
               まだこの日の記録はないYO！
             </div>
           ) : (
             <div className="flex flex-col gap-4">
               {reports.map((report) => (
                 <div key={report.id}>
-                  <p className="flex gap-2 text-[12px] [text-shadow:0_0_2px_#5BD4EC]">
+                  <p className="flex gap-2 text-[16px] [text-shadow:0_0_2px_#5BD4EC]">
                     <span
                       className="
-                      block w-5 h-5
+                      block w-10 h-10
                       bg-[url('/icons/bubble.svg')]
                       bg-contain bg-no-repeat
                     "
@@ -42,7 +42,7 @@ export function ReportTimeline({ reports }: Props) {
                     </span>
                   </p>
 
-                  <div className="ml-7">
+                  <div className="ml-7 text-[14px]">
                     <p className="text-gray-600">群れのウワサ</p>
 
                     <ul className="list-disc list-inside">

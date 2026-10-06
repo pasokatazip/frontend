@@ -9,7 +9,7 @@ type Props = {
 
 export function SouvenirBox({ souvenirs }: Props) {
   return (
-    <GlassCard className="w-full rounded-xl bg-white/30 p-5 text-[10px] text-[#4C4F5E]">
+    <GlassCard className="w-full rounded-xl bg-white/30 p-5 text-[14px] text-[#4C4F5E]">
       <p>おみやげ</p>
       <div className="mt-2 grid grid-cols-3">
         {souvenirs.map((souvenir, index) => (
